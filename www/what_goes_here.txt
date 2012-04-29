@@ -1,2 +1,0 @@
-This is a directory for the web server software.
-Feel free to delete this file once there's content in this directory.
