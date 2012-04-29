@@ -1,4 +1,9 @@
-# Django settings for www project.
+# Django settings for AIVS project.
+import os
+
+BASEDIR=os.path.dirname(os.path.abspath(__file__))
+ROOTDIR = os.path.abspath(os.path.join(BASEDIR, '..'))
+TOPDIR = os.path.abspath(os.path.join(ROOTDIR, '..'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -59,7 +64,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = ROOTDIR + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -106,9 +111,7 @@ ROOT_URLCONF = 'aivs.urls'
 WSGI_APPLICATION = 'aivs.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/aivs/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    BASEDIR + '/templates',
 )
 
 INSTALLED_APPS = (
@@ -119,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'aivs',
     'gunicorn',
 )
 
