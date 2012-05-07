@@ -1,6 +1,9 @@
 *.py[co]
 *~
 
+# Secret information that shouldn't be checked in
+local_settings.py
+
 # Packages
 *.egg
 *.egg-info
