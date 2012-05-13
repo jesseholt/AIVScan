@@ -5,7 +5,6 @@ AIVS_HOME=/home/aivs
 
 PYTHONPATH=/home/aivs/AIVScan/www
 AIVS_SETTINGS_PATH=aivs.settings
-#$PYTHONPATH/www/aivs/settings.py
 USER=aivs
 GROUP=aivs
 NUM_WORKERS=2

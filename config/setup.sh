@@ -23,3 +23,14 @@ ln -s /etc/nginx/sites-available/nginx_aivs.conf /etc/nginx/sites-enabled/nginx_
 # act as a WSGI server to run our Python process.
 cp $AIVS_CONFIG/gunicorn_aivs.conf /etc/init/gunicorn_aivs.conf
 ln -s /lib/init/upstart-job /etc/init.d/gunicorn_aivs
+
+# set up your MySQL db using the following MySQL commands
+
+# mysql -u root -p
+# create database aivs;
+# alter database aivs character set utf8;
+# create user 'aivs'@'localhost' identified by 'mypassword';
+# grant all on aivs.* to 'aivs'@'localhost';
+# flush privileges;
+# exit;
+
