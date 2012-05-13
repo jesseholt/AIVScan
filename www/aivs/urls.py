@@ -6,6 +6,8 @@ from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('',
                        url(r'^$', direct_to_template, { 'template': 'index.html' }),
-                       url(r'^index$', direct_to_template, { 'template': 'index.html' }),
+                       url(r'^about$', direct_to_template, { 'template': 'about.html' }),
+                       url(r'^contact$', direct_to_template, { 'template': 'contact.html' }),
+                       url(r'^.*$', direct_to_template, { 'template': 'index.html' }), #fallback
 #    url(r'^admin/', include(admin.site.urls)),
 )

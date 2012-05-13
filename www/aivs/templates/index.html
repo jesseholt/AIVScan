@@ -1,9 +1,27 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> <head>
-<title>Am I Vulnerable? Scan</title>
-</head>
+{% extends "base.html" %}
 
-<body>
-<h1>AIVScan</h1>
-<img src="{{ STATIC_URL }}img/aivscan_logo.jpg"/>
-</body> </html>
+{% block head %}
+<style>
+.mainlogo {
+   margin-bottom: 2em;
+   margin-top: 1em;
+}
+</style>
+{% endblock %}
+
+{% block container %}
+<img class="mainlogo" src="{{ STATIC_URL }}img/aivscan_logo.jpg"/>
+<h1>Welcome to AIVScan</h1>
+
+<p>What is AIVScan?! Click <a href="about">here</a> to find out.</p>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<h2>Using AIVScan</h2>
+
+<p>Click <a href="#">here</a> to get started. </p>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
