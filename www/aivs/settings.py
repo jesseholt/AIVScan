@@ -88,6 +88,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'aivs.urls'
+APPEND_SLASH = True
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'aivs.wsgi.application'
@@ -106,7 +107,16 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'aivs',
     'gunicorn',
+    'djcelery',
+    'kombu.transport.django',
 )
+
+# This section sets up for Celery.  We're just using the database for the broker for the prototype,
+# via the kombu.transport.django module.
+import djcelery
+djcelery.setup_loader()
+
+BROKER_URL = 'django://'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
