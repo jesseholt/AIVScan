@@ -109,7 +109,14 @@ INSTALLED_APPS = (
     'gunicorn',
     'djcelery',
     'kombu.transport.django',
+    'bootstrap',
+    'registration',
 )
+
+# This section has paramaters for the third-party library "django-registration"
+# See local_settings for all email related settings
+ACCOUNT_ACTIVATION_DAYS = 3
+
 
 # This section sets up for Celery.  We're just using the database for the broker for the prototype,
 # via the kombu.transport.django module.

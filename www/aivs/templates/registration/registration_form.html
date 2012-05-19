@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block head %}{% endblock %}
+
+{% block container %}
+<form id="register-form" action="/register">
+    {% csrf_token %}
+    {{ form }}
+</form>
+{% endblock %}
