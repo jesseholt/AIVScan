@@ -4,7 +4,7 @@ from bootstrap.forms import BootstrapForm, Fieldset
 
 class ScanRequestForm(BootstrapForm):
     '''
-    A form for creating and editing a bug report.
+    A form for creating and editing a scan request.
     '''
     class Meta:
         layout = (

@@ -6,14 +6,12 @@ from registration.views import activate
 from registration.views import register
 
 import aivs
-from aivs import views
+from aivs import views, aivs_registration
 
 '''
 This module performs the routing of URLs to the appropriate views.  The django-registration
 URL configuration has been reimplemented here so that we can override the URLs, forms, and
 templates with ones of our choosing.
-TODO: we may want to swap out the default backend so that we can replace the views entirely with
-our own validation logic... need to look at this in more detail.
 
 Validation note from django-registration:
 Activation keys get matched by \w+ instead of the more specific [a-fA-F0-9]{40} because a bad
@@ -35,11 +33,11 @@ urlpatterns = patterns('',
                            name='registration_activation_complete'),
                        url(r'^activate/(?P<activation_key>\w+)/$',
                            activate,
-                           {'backend': 'registration.backends.default.DefaultBackend'},
+                           {'backend': 'aivs_registration.AivsBackend'},
                            name='registration_activate'),
                        url(r'^register/$',
                            register,
-                           {'backend': 'registration.backends.default.DefaultBackend',
+                           {'backend': 'aivs_registration.AivsBackend',
                             'form_class': 'aivs.registration_form',
                             'template': 'submit_scan_form.html'},
                            name='registration_register'),
@@ -52,5 +50,4 @@ urlpatterns = patterns('',
                            {'template': 'registration/registration_closed.html'},
                            name='registration_disallowed'),
                        url(r'', include('registration.auth_urls')),
-                       url(r'^.*$', direct_to_template, { 'template': 'index.html' }), #fallback
 )

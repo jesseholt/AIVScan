@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.contib.auth.models import User
+from django.contrib.auth.models import User
 
 import simplejson
 
@@ -53,7 +53,7 @@ def get_or_create_user(user_data):
         user = User.objects.get_or_404(email=user_data[0])
     except:
         user = User()
-        user.username = user_data[0] #TODO: monkeypatch User model to allow long usernames
+        user.username = user_data[0]
         user.email = user_data[0]
         user.first_name = user_data[1]
         user.last_name = user_data[2]

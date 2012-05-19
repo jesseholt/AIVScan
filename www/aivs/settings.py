@@ -83,8 +83,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'aivs.urls'
@@ -98,6 +97,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'monkey_patch', # this has to be first to override auth
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
