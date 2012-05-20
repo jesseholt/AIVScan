@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'kombu.transport.django',
     'bootstrap',
     'registration',
+    'registration_backend',
 )
 
 # This section has paramaters for the third-party library "django-registration"

@@ -2,9 +2,9 @@ from django import forms
 from bootstrap.forms import BootstrapForm, Fieldset
 
 
-class ScanRequestForm(BootstrapForm):
+class RegistrationForm(BootstrapForm):
     '''
-    A form for creating and editing a scan request.
+    A form to initiate the registration workflow.
     '''
     class Meta:
         layout = (
