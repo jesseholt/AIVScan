@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+.help-block {
+   color: #C0C0C0;
+}
+</style>{% endblock %}
+
+{% block container %}
+<form method="post" id="auth-form" action="{% url django.contrib.auth.views.login }">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}">
+</form>
+{% endblock %}

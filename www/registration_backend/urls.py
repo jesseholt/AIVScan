@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
 from django.views.generic.simple import direct_to_template
+from django.contrib.auth import views as auth_views
 
 from registration.views import activate, register
 import registration_backend
@@ -46,4 +47,13 @@ urlpatterns = patterns('',
                            direct_to_template,
                            {'template': 'closed.html'},
                            name='registration_disallowed'),
+                       url(r'^login/$',
+                           auth_views.login,
+                           {'template_name': 'login.html',
+                            'authentication_form':forms.AuthenticationForm},
+                           name='auth_login'),
+                       url(r'^logout/$',
+                           auth_views.logout,
+                           {'next_page': '/'},
+                           name='auth_logout'),
 )

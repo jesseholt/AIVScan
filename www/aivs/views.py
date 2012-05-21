@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 import simplejson
 
@@ -10,18 +11,14 @@ This module contains the main logic of the web application.  Although the module
 in the Django convention, this module takes the role of Controller in the classic MVC pattern.
 '''
 
+@login_required
 def request_scan(request):
     if request.method == 'POST':
         # we bind a form to the POST data
         form = ScanRequestForm(request.POST)
         if form.is_valid():
             # form.cleaned_data now contains only valid data
-            user_data = (
-                form.cleaned_data['email_address'],
-                form.cleaned_data['first_name'],
-                form.cleaned_data['last_name'],
-                )
-            user = get_or_create_user(user_data)
+            user = request.user
             ip = get_client_ip(request)
             tasks.run_scan.delay(user, ip)
             return HttpResponseRedirect('/success/')
@@ -31,6 +28,7 @@ def request_scan(request):
     return render_to_response('submit_scan_form.html', {'form': form})
 
 '''
+TODO: Ajaxify the above
 def scan(request):
     form = ScanRequestForm(request.POST)
     if form.is_valid():
@@ -44,22 +42,6 @@ def scan(request):
     response = simplejson.dumps(d)
     return HttpResponse(response, mimetype='application/json')
 '''
-
-def get_or_create_user(user_data):
-    '''
-    Queries the database for an existing user or creates a new one with the parameters provided.
-    '''
-    try:
-        user = User.objects.get_or_404(email=user_data[0])
-    except:
-        user = User()
-        user.username = user_data[0]
-        user.email = user_data[0]
-        user.first_name = user_data[1]
-        user.last_name = user_data[2]
-        user.save()
-    return user
-
 
 def get_client_ip(request):
     '''

@@ -97,7 +97,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'monkey_patch', # this has to be first to override auth
+    'monkey_patch', # this has to be first to override the auth model
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -113,6 +113,11 @@ INSTALLED_APPS = (
     'registration',
     'registration_backend',
 )
+
+# Authentication settings
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/accounts/profile/' #TODO: this is the default
+
 
 # This section has paramaters for the third-party library "django-registration"
 # See local_settings for all email related settings
