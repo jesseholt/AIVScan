@@ -9,6 +9,7 @@ http://stackoverflow.com/questions/2610088/can-djangos-auth-user-username-be-var
 To modify the table:
 django-admin.py dbshell
 alter table auth_user modify column username varchar(200);
+alter table auth_user modify column email varchar(200);
 '''
 
 NEW_USERNAME_LENGTH = 200
@@ -19,5 +20,12 @@ def monkey_patch_username():
     for v in username.validators:
         if isinstance(v, MaxLengthValidator):
             v.limit_value = NEW_USERNAME_LENGTH
+
+    email = User._meta.get_field('email')
+    email.max_length = NEW_USERNAME_LENGTH
+    for v in email.validators:
+        if isinstance(v, MaxLengthValidator):
+            v.limit_value = NEW_USERNAME_LENGTH
+
 
 monkey_patch_username()
