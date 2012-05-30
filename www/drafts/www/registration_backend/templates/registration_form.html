@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+.help-block {
+   color: #C0C0C0;
+}
+</style>{% endblock %}
+
+{% block container %}
+<form id="register-form" action="/register">
+    {% csrf_token %}
+    {{ form }}
+</form>
+{% endblock %}
