@@ -2,10 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>AIVScan | Register</title>
+    <title>AIVScan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+
+
 
     <!-- Le styles -->
     <link href="bootstrap.css" rel="stylesheet">
@@ -50,7 +52,7 @@
 
             <ul class="nav pull-right">
               <li><a href="login.html">Login</a></li>
-              <li class="active"><a href="register.html">Register</a></li><!-- shows link as active -->
+              <li><a href="register.html">Register</a></li>
             </ul>
 
           </div><!--/.nav-collapse -->
@@ -58,61 +60,24 @@
       </div>
     </div>
 
+
     <div class="container">
 
-    <div class="row">
-     <div class="span2"
-       <p><img src="img/AIVScan Logo.png" height="150px" width="175px" /></p>
-      </div><!-- span 2 -->
-     <div class="span8">
-        <h1>Register</h1>
-         <p>Before using AIVScan, you first need to register. This helps us ensure that AIVScan is not being used for malicious purposes. It's super quick and relatively painless. Just fill out the form below and you'll be on your way to a safer, happier existence. Promise!</p>
+<!-- 
+===================================================================================================
+This little bit of JavaScript was obtained from stackoverflow at http://bit.ly/KxMb57 simply to have
+some little dialogue box pop up with a client IP address in it for kicks. :-)
+==================================================================================================== 
+-->
+<script type="application/javascript">
+    function getip(json){
+      alert(json.ip); // alerts the ip address
+    }
+</script>
 
-        <!-- Begin registration form -->
-	<form class="form-horizontal">
-          <fieldset>
-            <legend></legend>
-              <div class="control-group">
-  	        <label class="control-label" for="input01">First name</label>
-                  <div class="controls">
-  	   	    <input type="text" class="input-large" id="input01" placeholder="First name">
-                  </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="input01">Last name</label>
-                  <div class="controls">
-	            <input type="text" class="input-large" id="input01" placeholder="Last name">
-                  </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label" for="input01">Password</label>
-                  <div class="controls">
-                    <input type="password" class="input-large" id="input01" placeholder="Password">
-                  </div>
-              </div>
-              <div class="control-group">                  
-                <label class="control-label" for="input01">Confirm password</label>
-                  <div class="controls">
-                    <input type="password" class="input-large" id="input01" placeholder="Confirm password">
-                  </div>
-              </div>
-              <div class="control-group">
-  	        <label class="checkbox">
-    	          <input type="checkbox" id="optionsCheckbox" value="mandatory">
-                     <strong>I have read and accept AIVScan <a href="terms.html">terms</a>.</strong>
-                </label>
-              </div>
-              <div class="form-actions">       
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button class="btn"><a href="index.html">Cancel</a></button>
-              </div>
-          </fieldset>
-        </form>
-        <!-- End Registration Form -->
-        <p class="help-block">NOTE: You will have the option to change profile settings later.</p>
-      </div><!-- Span 8 -->
-    </div><!-- Row -->
-
+<script type="application/javascript" src="http://jsonip.appspot.com/?callback=getip"></script>
+<!-- End script -->
+    
 <hr />
 
       <footer>
