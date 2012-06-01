@@ -30,7 +30,8 @@
   </head>
 
   <body>
-
+    <!-- Begin the navbar
+    ===================================== -->
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -49,7 +50,7 @@
 
             <ul class="nav pull-right">
               <li><a href="login.html">Login</a></li>
-              <li class="active"><a href="register.html">Register</a></li>
+              <li class="active"><a href="register.html">Register</a></li><!-- shows link as active -->
             </ul>
 
           </div><!--/.nav-collapse -->
@@ -59,10 +60,32 @@
 
     <div class="container">
 
-      <h1>Register</h1>
-      <p>Before using AIVScan, you first need to register. This helps us ensure that AIVScan is not being used for malicious purposes. It's super quick and relatively painless. Just fill out the form below and you'll be on your way to a safer, happier existence. Promise!</p>
+    <div class="row">
+     <div class="span2"
+       <p><img src="img/AIVScan Logo.png" height="150px" width="175px" /></p>
+      </div><!-- span 2 -->
+     <div class="span8">
+        <h1>Register</h1>
+         <p>Before using AIVScan, you first need to register. This helps us ensure that AIVScan is not being used for malicious purposes. It's super quick and relatively painless. Just fill out the form below and you'll be on your way to a safer, happier existence. Promise!</p>
 
-      <hr>
+<hr />
+        <!-- Begin registration form -->
+	<form class="well">
+  	  <label>Please enter an email address</label>
+  	  <input type="text" class="span3" placeholder="Email address…">
+          <label>Confirm email</label>
+	  <input type="text" class="span3" placeholder="Confirm email">
+  	  <label class="checkbox">
+    	    <input type="checkbox"> <strong>I have read and accept AIVScan <a href="#">terms</a>.</strong>
+  	  </label>
+          <span class="help-block">NOTE: Here we will say something about user accounts and saving scan records, etc.</span>
+          <button type="submit" class="btn">Submit</button>
+        </form>
+        <!-- End Registration Form -->
+      </div><!-- Span 8 -->
+    </div><!-- Row -->
+
+<hr />
 
       <footer>
         <p>&copy; Pwn Stars 2012</p>
