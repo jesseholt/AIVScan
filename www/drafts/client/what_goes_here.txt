@@ -1,2 +1,0 @@
-This is a directory for any rich client we end up developing.
-Feel free to delete this file once there's content in this directory.

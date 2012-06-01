@@ -1,1 +1,0 @@
-AIVScan: you have {{ expiration_days }} days to authorize your scan!
