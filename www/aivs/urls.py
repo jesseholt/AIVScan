@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 from django.contrib import admin
 
 from aivs import views
@@ -13,7 +13,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^$', direct_to_template, { 'template': 'home.html' }, name='home'),
-                       url(r'^home/$', direct_to_template, { 'template': 'home.html' }, name='home'),
+                       url(r'^home/$', redirect_to, { 'url': '/' }),
                        url(r'^about/$', direct_to_template, { 'template': 'about.html' }, name='about'),
                        url(r'^contact/$', views.contact, name='contact'),
                        url(r'^scan/$', views.request_scan),
