@@ -1,10 +1,43 @@
 {% extends "base.html" %}
 
-{% block head %}{% endblock %}
+{% block head %}
+<style>
+.help-block {
+   color: #C0C0C0;
+}
+</style>{% endblock %}
 
 {% block container %}
-      <h1>Contact Us</h1>
-      <p>Do we want to have a form for sending emails, or just a standard mailto: link that opens the user's email client?</p>
-{% endblock %}
+<h1>Contact Pwn Stars</h1>
 
-{% block scripts %}{% endblock %}
+<form id="register-form" method="post" action="/register" class="form-horizontal">
+<legend>Fill out and submit this handy form to contact us!</legend>
+{% csrf_token %}
+{{ form.non_field_errors }}
+<div class="control-group">
+  {{ form.email_address.errors }}
+  <label for="id_email_address" class="regfields">Email Address</label>
+  <div class="controls">{{ form.email_address }}</div>
+</div>
+<div class="control-group">
+  {{ form.email_verify.errors }}
+  <label for="id_email_address_verify" class="regfields">Confirm Email</label>
+  <div class="controls">{{ form.email_verify }}</div>
+</div>
+<div class="control-group">
+  {{ form.message.errors }}
+  <label for="id_message" class="regfields">Message</label>
+  <div class="controls">{{ form.message }}</div>
+</div>
+<div  class="form-actions">
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <button class="btn"><a href="/">Cancel</a></button>
+</div>
+</form>
+
+{% endblock %}
+{% block scripts %}
+<script>
+$("label.regfields").addClass("control-label");
+</script>
+{% endblock %}

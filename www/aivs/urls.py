@@ -12,9 +12,9 @@ URL configuration file.  It routes by inclusion to the registration and admin UR
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^$', direct_to_template, { 'template': 'index.html' }, name='home'),
+                       url(r'^$', direct_to_template, { 'template': 'home.html' }, name='home'),
                        url(r'^about$', direct_to_template, { 'template': 'about.html' }, name='about'),
-                       url(r'^contact$', direct_to_template, { 'template': 'contact.html' }, name='contact'),
+                       url(r'^contact$', views.contact, name='contact'),
                        url(r'^scan$', views.request_scan),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'', include('registration_backend.urls')),

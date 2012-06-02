@@ -8,8 +8,66 @@
 </style>{% endblock %}
 
 {% block container %}
-<form id="register-form" action="/register">
-    {% csrf_token %}
-    {{ form }}
+<h1>Register</h1>
+<p>Before using AIVScan, you first need to register. This helps us ensure that AIVScan is not being used for malicious purposes. It's super quick and relatively painless. Just fill out the form below and you'll be on your way to a safer, happier existence. Promise!</p>
+<hr>
+
+<form id="register-form" method="post" action="/register" class="form-horizontal">
+{% csrf_token %}
+{{ form.non_field_errors }}
+<div class="control-group">
+  {{ form.first_name.errors }}
+  <label for="id_first_name" class="regfields">First Name</label>
+  <div class="controls">{{ form.first_name }}</div>
+</div>
+<div class="control-group">
+  {{ form.last_name.errors }}
+  <label for="id_last_name" class="regfields">Last Name</label>
+  <div class="controls">{{ form.last_name }}</div>
+</div>
+<div class="control-group">
+  {{ form.email_address.errors }}
+  <label for="id_email_address" class="regfields">Email Address</label>
+  <div class="controls">{{ form.email_address }}</div>
+</div>
+<div class="control-group">
+  {{ form.password.errors }}
+  <label for="id_password" class="regfields">Password</label>
+  <div class="controls">{{ form.password }}</div>
+</div>
+<div class="control-group">
+  {{ form.password_verify.errors }}
+  <label for="id_password_verify" class="regfields">Confirm Password</label>
+  <div class="controls">{{ form.password_verify }}</div>
+</div>
+<div class="control-group">
+  {{ form.accepts_terms.errors }}
+  <label class="checkbox">
+  {{ form.accepts_terms }}
+  <strong>I have read and accept AIVScan <a data-toggle="modal" href="#terms-modal">terms</a>.</strong>
+  </label>
+</div>
+<div  class="form-actions">
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <button class="btn"><a href="/">Cancel</a></button>
+</div>
 </form>
+  <p class="help-block">NOTE: You will have the option to change profile settings later.</p>
+
+<!-- terms and conditions modal -->
+<div class="modal hide" id="terms-modal">
+  <div class="modal-body">
+{% include "terms_and_conditions.html" %}
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+ </div>
+<!-- end terms and conditions modal -->
+
+{% endblock %}
+{% block scripts %}
+<script>
+$("label.regfields").addClass("control-label");
+</script>
 {% endblock %}

@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 import simplejson
 
 from aivs import tasks
-
+from aivs.forms import ContactForm, ScanRequestForm
 '''
 This module contains the main logic of the web application.  Although the module is called views
 in the Django convention, this module takes the role of Controller in the classic MVC pattern.
@@ -27,21 +29,22 @@ def request_scan(request):
         form = ScanRequestForm()
     return render_to_response('submit_scan_form.html', {'form': form})
 
-'''
-TODO: Ajaxify the above
-def scan(request):
-    form = ScanRequestForm(request.POST)
-    if form.is_valid():
-        form.save()
-        d = {'error': 0, 'message': 'success'}
+def contact(request):
+    if request.method == 'POST':
+        # bind a form to the POST data
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # form.cleaned_data now contains only valid data
+            user_email = form.cleaned_data['email_address']
+            message = form.cleaned_data['message']
+            tasks.send_admin_email(user_email, message)
+            return HttpResponseRedirect('/')
     else:
-        d = {'error': 1}
-        form_html = render_to_string('submit_scan_form.html',
-                                     context_instance=RequestContext(request))
-        d['message'] = form_html
-    response = simplejson.dumps(d)
-    return HttpResponse(response, mimetype='application/json')
-'''
+        # the form has not been submitted, so prepare an unbound form
+        form = ContactForm()
+    return render_to_response('contact.html',
+                              {'form': form},
+                              context_instance=RequestContext(request))
 
 def get_client_ip(request):
     '''
