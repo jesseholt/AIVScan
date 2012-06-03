@@ -11,6 +11,10 @@ DATABASES = {
     }
 }
 
+# ALTERNATE
+# If you would rather use a sqlite3 database for local development, use django.db.backends.sqlite3 as the ENGINE, and change NAME to the absolute file path to the database file (it will be automatically created for you.)  Leave USER, PASSWORD, HOST, and PORT blank.
+
+
 # This secret key is used as a seed for salts, etc.  Default Django values
 # are 60 bytes (i.e. 60 characters from the full ascii range).
 SECRET_KEY = 'ENTER YOUR SECRET KEY HERE'
