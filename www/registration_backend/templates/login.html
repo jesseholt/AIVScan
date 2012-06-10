@@ -10,6 +10,7 @@
 {% block container %}
 <form method="post" id="auth-form" action="{% url django.contrib.auth.views.login }">
     {% csrf_token %}
+    {{ form.non_field_errors }}
     {{ form }}
     <input type="submit" value="login" />
     <input type="hidden" name="next" value="{{ next }}">
