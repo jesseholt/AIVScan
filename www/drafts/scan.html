@@ -63,20 +63,28 @@
 
     <div class="container">
 
-<!-- 
-===================================================================================================
-This little bit of JavaScript was obtained from stackoverflow at http://bit.ly/KxMb57 simply to have
-some little dialogue box pop up with a client IP address in it for kicks. :-)
-==================================================================================================== 
--->
-<script type="application/javascript">
-    function getip(json){
-      alert(json.ip); // alerts the ip address
-    }
-</script>
-
-<script type="application/javascript" src="http://jsonip.appspot.com/?callback=getip"></script>
-<!-- End script -->
+	<div class="row">
+          <div class="span2">
+            <p><img src="img/AIVScan Logo.png" height="150px" width="175px" /></p>
+          </div><!-- Span 2 -->
+          <div class="span8">
+            <h2></h2>
+              <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; max-width: 100%;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">x</button>
+                  <h3>Begin scan?</h3>
+                </div>
+                <div class="modal-body">
+                  <p>You're all set! Your IP address is <code>69.123.43.23</code>. Click the blue button to start AIVScan.</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#" class="btn" data-bitly-type="bitly_hover_card">Cancel</a>
+                  <a href="#" class="btn btn-primary" data-bitly-type="bitly_hover_card">Initiate Scan</a>
+                </div>
+             </div><!-- Modal -->
+          </div><!-- Span 8 -->
+       </div><!-- Row -->
+           
     
 <hr />
 
