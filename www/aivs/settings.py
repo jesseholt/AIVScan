@@ -105,10 +105,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'djcelery', # celery and kombu have to be before any of our apps
+    'kombu.transport.django',
     'aivs',
     'gunicorn',
-    'djcelery',
-    'kombu.transport.django',
     'bootstrap',
     'registration',
     'registration_backend',

@@ -1,7 +1,7 @@
 from celery.task import task
 
 @task
-def run_scan(user, safe_ip_address):
+def run_scan(user, safe_ip_address, subscription_level, scan_options, scan_running):
     '''
     Executes the scan task.  If this function is called with run_scan.delay(safe_ip_address), then
     it will be placed into the Celery queue for asynchronous processing.
