@@ -8,11 +8,31 @@
 </style>{% endblock %}
 
 {% block container %}
-<form method="post" id="auth-form" action="{% url django.contrib.auth.views.login }">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    {{ form }}
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}">
+<h1>Login</h1>
+<hr>
+
+<form id="auth-form" method="post" action="{% url auth_login %}" class="form-horizontal">
+{% csrf_token %}
+{{ form.errors }}
+{{ form.non_field_errors }}
+<div class="control-group">
+  {{ form.username.errors }}
+  <label for="id_username" class="regfields">Email Address</label>
+  <div class="controls">{{ form.username }}</div>
+</div>
+<div class="control-group">
+  {{ form.password.errors }}
+  <label for="id_password" class="regfields">Password</label>
+  <div class="controls">{{ form.password }}</div>
+</div>
+<div  class="form-actions">
+  <button type="submit" class="btn btn-primary">Login</button>
+  <input type="hidden" name="next" value="/home/">
+</div>
 </form>
+{% endblock %}
+{% block scripts %}
+<script>
+$("label.regfields").addClass("control-label");
+</script>
 {% endblock %}

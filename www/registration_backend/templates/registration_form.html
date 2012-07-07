@@ -12,7 +12,7 @@
 <p>Before using AIVScan, you first need to register. This helps us ensure that AIVScan is not being used for malicious purposes. It's super quick and relatively painless. Just fill out the form below and you'll be on your way to a safer, happier existence. Promise!</p>
 <hr>
 
-<form id="register-form" method="post" action="/register" class="form-horizontal">
+<form id="register-form" method="post" action="{% url registration_register %}" class="form-horizontal">
 {% csrf_token %}
 {{ form.non_field_errors }}
 <div class="control-group">

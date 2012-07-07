@@ -17,7 +17,7 @@ class AivsBackend(DefaultBackend):
         otherwise identical to the one overriden in DefaultBackend.
         '''
         first_name, last_name = kwargs['first_name'], kwargs['last_name']
-        email, password = kwargs['email'], kwargs['password']
+        email, password = kwargs['email_address'], kwargs['password']
         user_name = email
         site = RequestSite(request)
 

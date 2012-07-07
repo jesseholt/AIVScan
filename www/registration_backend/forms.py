@@ -1,23 +1,23 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 from bootstrap.forms import BootstrapForm, Fieldset
 
-
-class AuthenticationForm(BootstrapForm):
+class AivsAuthenticationForm(AuthenticationForm, BootstrapForm):
     '''
     A form to log the user in.
     '''
     class Meta:
         layout = (
             Fieldset("Log In",
-                     'email_address',
+                     'username',
                      'password'),
             )
 
-    email_address = forms.EmailField( label = 'Email Address',
+    username = forms.EmailField( label = 'Email Address',
                                       initial = 'Enter your email address',
                                       widget = forms.Textarea(attrs = {'rows' : 1, 'class' : 'span6'}),
                                       help_text = 'Your valid email address, up to 200 characters.',
-                                      error_messages = { 'required': 'You must supply an email address.',
+                                      error_messages = { 'required': 'You must supply your email address.',
                                                          'invalid': 'That does not appear to be a valid email address.',
                                                          'max_length': 'A maximum of 200 characters, please.'},
                                       max_length=200)
@@ -26,11 +26,11 @@ class AuthenticationForm(BootstrapForm):
                                initial = 'Enter your password',
                                widget = forms.PasswordInput(attrs = {'rows' : 1, 'class' : 'span6'}),
                                help_text = 'Pick a strong password between 8 and 30 characters long.',
-                               error_messages={'required': 'You must choose a password',
+                               error_messages={'required': 'You must supply your password',
                                                'max_length':
-                                               'That is an awfully long password!  A max of 30 characters, please!',
+                                               'Incorrect password.',
                                                'min_length':
-                                               'Choose a longer password.  A minimum of 8 characters, please.'},
+                                               'Incorrect password.'},
                                min_length=8,
                                max_length=30)
 

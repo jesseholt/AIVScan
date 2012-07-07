@@ -115,8 +115,11 @@ INSTALLED_APPS = (
 )
 
 # Authentication settings
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/accounts/profile/' #TODO: this is the default
+LOGIN_URL = 'login/'
+LOGIN_REDIRECT_URL = 'accounts/profile/' #TODO: this is the default
+LOGOUT_URL = '/'
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 
 # This section has paramaters for the third-party library "django-registration"

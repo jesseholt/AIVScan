@@ -19,5 +19,4 @@ urlpatterns = patterns('',
                        url(r'^scan/$', views.request_scan),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'', include('registration_backend.urls')),
-#                       url(r'', include('registration.auth_urls')),
 )
