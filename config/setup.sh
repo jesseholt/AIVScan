@@ -34,3 +34,6 @@ ln -s /lib/init/upstart-job /etc/init.d/gunicorn_aivs
 # flush privileges;
 # exit;
 
+# celery daemon config symlink
+sudo ln -s $AIVS_CONFIG/celeryd.conf /etc/default/celeryd
+sudo ln -s $AIVS_CONFIG/celeryd-init.sh /etc/init.d/celeryd
