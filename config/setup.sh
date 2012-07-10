@@ -18,11 +18,16 @@ sudo apt-get install nginx
 ln -s $AIVS_CONFIG/nginx_aivs.conf /etc/nginx/sites-available/nginx_aivs.conf
 ln -s /etc/nginx/sites-available/nginx_aivs.conf /etc/nginx/sites-enabled/nginx_aivs.conf
 
-# upstart
+# gunicorn upstart
 # This upstart configuration will start our gunicorn process on boot. gunicorn will
 # act as a WSGI server to run our Python process.
 cp $AIVS_CONFIG/gunicorn_aivs.conf /etc/init/gunicorn_aivs.conf
 ln -s /lib/init/upstart-job /etc/init.d/gunicorn_aivs
+
+# celery daemon upstart
+sudo cp $AIVS_CONFIG/celeryd-upstart.conf /etc/init/celeryd.conf
+sudo ln -s /lib/init/upstart-job /etc/init.d/celeryd
+
 
 # set up your MySQL db using the following MySQL commands
 
@@ -33,7 +38,3 @@ ln -s /lib/init/upstart-job /etc/init.d/gunicorn_aivs
 # grant all on aivs.* to 'aivs'@'localhost';
 # flush privileges;
 # exit;
-
-# celery daemon config symlink
-sudo ln -s $AIVS_CONFIG/celeryd.conf /etc/default/celeryd
-sudo ln -s $AIVS_CONFIG/celeryd-init.sh /etc/init.d/celeryd
