@@ -16,7 +16,7 @@ urlpatterns = patterns('',
                        url(r'^home/$', redirect_to, { 'url': '/' }),
                        url(r'^about/$', direct_to_template, { 'template': 'about.html' }, name='about'),
                        url(r'^contact/$', views.contact, name='contact'),
-                       url(r'^scan/$', views.request_scan),
+                       url(r'^scan/$', views.request_scan, name='scan'),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'', include('registration_backend.urls')),
 )

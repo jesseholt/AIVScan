@@ -23,7 +23,13 @@
        <p><img src="{{ STATIC_URL }}img/aivscan_logo.png" height="150px" width="175px" class="mainlogo"/></p>
       <h1>Welcome to AIVScan!</h1>
       <p>AIVScan is a super awesome tool for blah blah blah some stuff about security! Click the pretty blue button to get started! </p>
-      <p><a class="btn btn-primary btn-large" href="{% url registration_register %}">Get Started &raquo;</a></p>
+      <p>
+      {% if user.is_authenticated %}
+      <a class="btn btn-primary btn-large" href="{% url scan %}">Get Started &raquo;</a>
+      {% else %}
+      <a class="btn btn-primary btn-large" href="{% url registration_register %}">Get Started &raquo;</a>
+      {% endif %}
+      </p>
      </div>
 
   <div class="row">
