@@ -75,8 +75,17 @@ class cSQLImporter:
 					+ "'" + session.finish_time + "')"
 			db = MySQLdb.connect(host=dbhost, user=username, passwd=password, db=dbname)
 			cursor = db.cursor()
-			cursor.execute(SQL)
-			scanid = cursor.lastrowid
+			cursor.callproc("pInsertScan", (self.userId, \
+											session.nmap_version, \
+											session.scan_args, \
+											session.start_time, \
+											session.finish_time))
+			#cursor.execute(SQL)
+			result = cursor.fetchone()
+			scanid = result[0]
+			#scanid = cursor.lastrowid
+			#scanid=db.insert_id()
+			print "** scanid: " + str(scanid)	
 			cursor.close()
 					
 			#parse hosts
@@ -96,8 +105,22 @@ class cSQLImporter:
 							+ "'" + h.lastboot + "')"
 							
 					cursor = db.cursor()
-					cursor.execute(SQL)
-					hostid = cursor.lastrowid
+					cursor.callproc("pInsertHost", (scanid, \
+													h.ipv4, \
+													h.hostname, \
+													h.status, \
+													h.macaddr, \
+													h.vendor, \
+													h.ipv6, \
+													h.distance, \
+													h.uptime, \
+													h.lastboot))
+					result = cursor.fetchone()
+					hostid = result[0]
+					print "** hostid: " + str(hostid)
+					#cursor.execute(SQL)
+					#hostid = cursor.lastrowid
+					#hostid = db.insert_id()				
 					cursor.close()
 					
 					#parse OS
@@ -174,10 +197,10 @@ class cSQLImporter:
 
 if __name__ == '__main__':
 	
-	username = 'aivscan'
+	username = 'aivs'
 	password = 'Fish dont fry in the kitchen.'
 	dbhost = 'localhost'
-	dbname = 'queue'
+	dbname = 'aivs'
 
 	cp = cSQLImporter(username, password, dbhost, dbname, 'test.xml', 1001)
 	cp.process()

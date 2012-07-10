@@ -1,4 +1,4 @@
-use queue;
+use aivs;
 
 CREATE TABLE IF NOT EXISTS scans (
     sid INT(10) NOT NULL AUTO_INCREMENT,

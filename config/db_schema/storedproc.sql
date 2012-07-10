@@ -1,4 +1,4 @@
-USE queue;
+USE aivs;
 
 DROP PROCEDURE IF EXISTS pInsertScan;
 
@@ -25,6 +25,7 @@ BEGIN
 						v_startstr, 
 						v_endstr
 					); 
+	SELECT @@identity;
 END
 |
 
@@ -66,6 +67,7 @@ BEGIN
 							v_uptime,
 							v_upstr
 						);
+	SELECT @@identity;
 END
 |
 							
