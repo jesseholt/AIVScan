@@ -1,47 +1,103 @@
+#!/usr/bin/python
+#
+# --------------------------------------------------------------------------------
+# launcher.py - Used to launch an nmap scan as part of the AIVScan system
+#
+#	USAGE:
+#		launcher.py [IPAddress] [UserID] [SubscriptionLevel]
+#
+# --------------------------------------------------------------------------------
+
+import sys
 import subprocess
 import os
 import scan_parser
 
-fError = open("/tmp/nmaperror.txt", 'w')
-fOut = open("/tmp/nmapout.txt", 'w')
 
-p = "nmap"
-#args = "-sT -sV -O -oX /tmp/nmapxmlout.xml 192.168.126.129"
-#args = "192.168.126.129"
-args1 = "-sT"
-args2 = "-P0"
-args3 = "-sV"
-args4 = "-oX"
-args5 = "/tmp/nmapxmlout.xml"
-args6 = "192.168.126.129"
-iReturn = subprocess.call([p, args1, args2, args3, args4, args5, args6], stderr=fError, stdout=fOut)
-print "subprocess.call() return: " + str(iReturn)
+def launchParser(inputXML, UserID):
+	try:
+		cp = scan_parser.cSQLImporter(inputXML, UserID)
+		cp.process()
+	except IOError as ioE:
+		print "Error parsing file: {1}".format(ioE.strerror)
+	except:
+		print "Error parsing file."
+		return 1
 
+def launchScan(ipAddr, userID, subscriptionLevel):
+	
+	try:
 
-if os.path.exists("/tmp/nmapout.txt"):
-	fOut = open("/tmp/nmapout.txt", 'r')
-if os.path.exists("/tmp/nmaperror.txt"):
-	fError = open("/tmp/nmaperror.txt", 'r')
+		# Declare the files to write to from STDERR and STDOUT
+		sErrorFile = "/tmp/nmaperror." + str(userID) + ".txt"
+		fError = open(sErrorFile, 'w')
+		sOutFile = "/tmp/nmapout." + str(userID) + ".txt"
+		fOut = open(sOutFile, 'w')
 
-sOuput = ''
-sError = ''
-if not fOut is None:
-	sOutput = fOut.read()
-if not fError is None:
-	sError = fError.read()
+		# Initialize the scan variables to pass to the subprocess call
+		command = "nmap"
+		args1 = "-sT"
+		args2 = "-sV"
+		args3 = "-P0"
+		args4 = "-oX"
+		xmlOut = "/tmp/nmapxmlout_" + userID + ".xml" # Declare the XML output file that will be used by the parser
+		# for the above we need to insert a date+time string into the file.  there could be multiple scans for a user
 
-print "STDOUT: " + sOutput
-print "Errors: " + sError
-fOut.close()
-fError.close()
-
-username = 'aivs'
-password = 'Fish dont fry in the kitchen.'
-dbhost = 'localhost'
-dbname = 'aivs'
-
-cp = scan_parser.cSQLImporter(username, password, dbhost, dbname, '/tmp/nmapxmlout.xml', 1001)
-cp.process()
+		# Launch the nmap scan with the supplied parameters
+		iReturn = subprocess.call([command, args1, args2, args3, args4, xmlOut, ipAddr], stderr=fError, stdout=fOut)
 
 
+		if os.path.exists(sOutFile):
+				fOut = open(sOutFile, 'r')
+		if os.path.exists(sErrorFile):
+				fError = open(sErrorFile, 'r')
 
+		# Initialize variables to read STDERR and STDIN
+		sOuput = ''
+		sError = ''
+		if not fOut is None:
+			sOutput = fOut.read()
+		if not fError is None:
+			sError = fError.read()
+
+		if not fOut is None:
+			fOut.close()
+		if not fError is None:
+			fError.close()
+	except:
+		print "Error launching the scan."
+		return 1
+		
+	try:
+		launchParser(xmlOut, subscriptionLevel)	
+	except:
+		print "Error parsing the XML scan results."
+		return 1
+		
+	return 0
+
+def printUsage():
+	print "AIVScan Launcher version 0.1"
+	print "\n"
+	print "Usage: "
+	print sys.argv[0] + " <IP address>" + " <userID>" + " <subscription level>\n\n"
+def main():	
+
+	# Read command line parameters
+	if len(sys.argv) == 4:
+		ipAddr = sys.argv[1]
+		userID = sys.argv[2]
+		subLevel = sys.argv[3]
+	else:
+		printUsage()
+		return 1
+	
+	#we should do some work on the above, namely sanitize the input
+
+	# Launch the nmap scan with the supplied parameters
+	launchScan(ipAddr, userID, subLevel)	
+
+	return 0
+
+if __name__ == '__main__':
+	main()

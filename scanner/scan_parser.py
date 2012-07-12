@@ -3,27 +3,20 @@
 #
 #       scan_parser.py
 #       
-#       Copyright 2012 Ketchup <ketchup@fluffybunny>
+#       Copyright 2012 Team Pwn Stars
 #       
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
-#       (at your option) any later version.
-#       
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#       GNU General Public License for more details.
-#       
-#       You should have received a copy of the GNU General Public License
-#       along with this program; if not, write to the Free Software
-#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
 #       
 #       
 
 import MySQLdb
 from lib import Parser
+
+#import local_settings.py for database creds
+import os, sys
+settings_path = os.path.abspath('../www/aivs')
+sys.path.append(settings_path)
+import local_settings
+
 
 class cQueueItem:
 	
@@ -37,19 +30,15 @@ class cQueueItem:
         
 class cSQLImporter:
 	p = None
-	db = None
-	username = ''
-	password = ''
-	dbhost = ''
-	dbname = ''
+	dbconn = None
+	username = local_settings.DATABASES['default']['USER']
+	password = local_settings.DATABASES['default']['PASSWORD']
+	dbhost = local_settings.DATABASES['default']['HOST']
+	dbname = local_settings.DATABASES['default']['NAME']
 	XMLfilename = ''
 	userId = 0
 
-	def __init__(self, username, password, dbhost, dbname, XMLfilename, userId):
-		self.username = username
-		self.password = password
-		self.dbhost = dbhost
-		self.dbnmae = dbname
+	def __init__(self, XMLfilename, userId):
 		self.XMLfilename = XMLfilename
 		self.userId = userId
 
@@ -73,8 +62,10 @@ class cSQLImporter:
 					+ "'" + session.scan_args + "', " \
 					+ "'" + session.start_time + "', " \
 					+ "'" + session.finish_time + "')"
-			db = MySQLdb.connect(host=dbhost, user=username, passwd=password, db=dbname)
-			cursor = db.cursor()
+			dbconn = MySQLdb.connect(host=self.dbhost, user=self.username, \
+									passwd=self.password, db=self.dbname)
+			cursor = dbconn.cursor()
+			#import pdb; pdb.set_trace()
 			cursor.callproc("pInsertScan", (self.userId, \
 											session.nmap_version, \
 											session.scan_args, \
@@ -104,7 +95,7 @@ class cSQLImporter:
 							+ "'" + h.uptime + "', " \
 							+ "'" + h.lastboot + "')"
 							
-					cursor = db.cursor()
+					cursor = dbconn.cursor()
 					cursor.callproc("pInsertHost", (scanid, \
 													h.ipv4, \
 													h.hostname, \
@@ -134,7 +125,7 @@ class cSQLImporter:
 								+ "'" + OS_node.vendor + "', " \
 								+ str(OS_node.accuracy) + ")" 
 
-						cursor = db.cursor()
+						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()
 										
@@ -156,7 +147,7 @@ class cSQLImporter:
 						else:
 							SQL += "'open', '', '', '', '', 'tcp')"
 						
-						cursor = db.cursor()
+						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()						
 			
@@ -177,13 +168,13 @@ class cSQLImporter:
 						else:
 							SQL += "'open', '', '', '', '', 'udp')"
 						
-						cursor = db.cursor()
+						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()	
 				except:
 					print "Error parsing host information."
 					
-			db.close()	
+			dbconn.close()	
 			return 0
 		except IOError as ioE:
 			print "Error processing file: {1}".format(ioE.strerror)
@@ -197,12 +188,10 @@ class cSQLImporter:
 
 if __name__ == '__main__':
 	
-	username = 'aivs'
-	password = 'Fish dont fry in the kitchen.'
-	dbhost = 'localhost'
-	dbname = 'aivs'
+	#import pdb; pdb.set_trace()
 
-	cp = cSQLImporter(username, password, dbhost, dbname, 'test.xml', 1001)
+
+	cp = cSQLImporter('test.xml', 1001)
 	cp.process()
 
 
