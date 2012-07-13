@@ -2,11 +2,13 @@
 '''this module used to parse nmap's xml report'''
 __author__ =  'yunshu(wustyunshu@hotmail.com)'
 __version__=  '0.2'
+__modified_by = 'ketchup'
 
 import sys
 import pprint
 import Session
 import Host
+import Script
 import xml.dom.minidom
 
 class Parser:
@@ -31,6 +33,7 @@ class Parser:
 		for host_node in self.__dom.getElementsByTagName('host'):
 			__host =  Host.Host(host_node)
 			self.__hosts[__host.ip] = __host
+
 
 	def get_session( self ):
 	
@@ -102,10 +105,9 @@ class Parser:
 
 		return __tmp_ips
 
-
 if __name__ == '__main__':
 	
-	parser = Parser( '../localscan.udp.xml' )
+	parser = Parser( '/tmp/test_pwn01.xml' )
 	
 	print '\nscan session:'
 	session = parser.get_session()
@@ -119,7 +121,7 @@ if __name__ == '__main__':
 
 	for h in parser.all_hosts():
 
-		print 'host ' +h.ip + 'is ' + h.status
+		print 'host ' +h.ip + ' is ' + h.status
 
 		for port in h.get_ports( 'tcp', 'open' ):
 			print "\tservice of tcp port " + port + ":"
@@ -134,5 +136,11 @@ if __name__ == '__main__':
 				print "\t\t" + s.version
 				print "\t\t" + s.extrainfo
 				print "\t\t" + s.fingerprint
+	
+		print "Script output:"			
+		for scr in h.get_scripts():
+			print "Script ID: " + scr.scriptId
+			print "Output: "
+			print scr.output
 	
 	pprint.pprint( parser.all_ips() )

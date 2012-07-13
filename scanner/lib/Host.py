@@ -7,6 +7,7 @@ __modified_by = 'ketchup'
 import sys
 import pprint
 import Service
+import Script
 import OS
 import xml.dom.minidom
 
@@ -67,6 +68,16 @@ class Host:
 				open_ports.append( port_node.getAttribute('portid') )
 			
 		return open_ports
+		
+	def get_scripts( self ):
+		
+		scripts = [ ]
+		
+		for script_node in self.host_node.getElementsByTagName('script'):
+			scr = Script.Script(script_node)
+			scripts.append(scr)
+		
+		return scripts	
 	
 	def get_service( self, protocol, port ):
 		'''return a Service object'''
@@ -81,7 +92,7 @@ class Host:
 
 if __name__ == '__main__':
 
-	dom = xml.dom.minidom.parse('../localscan.udp.xml')
+	dom = xml.dom.minidom.parse('/tmp/test_pwn01.xml')
 	host_nodes = dom.getElementsByTagName('host')
 
 	if len(host_nodes) == 0:
@@ -95,6 +106,12 @@ if __name__ == '__main__':
 
 	for port in h.get_ports( 'tcp', 'open' ):
 		print port + " is open"
+		
+	print "script output:"
+	for scr in h.get_scripts():
+		print "script id:" + scr.scriptId
+		print "Output:"
+		print scr.output
 
 	print "service of tcp port 80:"
 	s = h.get_service( 'tcp', '80' )
