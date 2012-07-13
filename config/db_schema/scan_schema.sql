@@ -1,5 +1,6 @@
 use aivs;
 
+DROP TABLE IF EXISTS scans;
 CREATE TABLE IF NOT EXISTS scans (
     sid INT(10) NOT NULL AUTO_INCREMENT,
     userId INT(10) NOT NULL,
@@ -16,6 +17,7 @@ CREATE TABLE IF NOT EXISTS scans (
     CONSTRAINT pk_scans_sid PRIMARY KEY (sid)
 ); 
 
+DROP TABLE IF EXISTS hosts;
 CREATE TABLE IF NOT EXISTS hosts (
     hid INT(10) NOT NULL AUTO_INCREMENT,
     sid INTEGER NOT NULL,    
@@ -35,6 +37,7 @@ CREATE TABLE IF NOT EXISTS hosts (
     CONSTRAINT fk_hosts_sid FOREIGN KEY (sid) REFERENCES scans(sid)
 );
 
+DROP TABLE IF EXISTS sequencing;
 CREATE TABLE IF NOT EXISTS sequencing (
     sqid INT(10) NOT NULL AUTO_INCREMENT,
     hid INT(10) NOT NULL,
@@ -49,6 +52,7 @@ CREATE TABLE IF NOT EXISTS sequencing (
     CONSTRAINT fk_sequencing_hid FOREIGN KEY (hid) REFERENCES hosts(hid)
 );
 
+DROP TABLE IF EXISTS ports;
 CREATE TABLE IF NOT EXISTS ports (
     pid INT(10) NOT NULL AUTO_INCREMENT,
     hid INT(10) NOT NULL,
@@ -70,6 +74,7 @@ CREATE TABLE IF NOT EXISTS ports (
     CONSTRAINT fk_ports_hid FOREIGN KEY (hid) REFERENCES hosts(hid)
 );
 
+DROP TABLE IF EXISTS os;
 CREATE TABLE IF NOT EXISTS os (
     oid INT(10) NOT NULL AUTO_INCREMENT,
     hid INT(10) NOT NULL,
@@ -82,3 +87,14 @@ CREATE TABLE IF NOT EXISTS os (
     CONSTRAINT pk_os_oid PRIMARY KEY (oid),
     CONSTRAINT fk_os_hid FOREIGN KEY (hid) REFERENCES hosts(hid) 
 );
+
+DROP TABLE IF EXISTS vulns;
+CREATE TABLE IF NOT EXISTS vulns (
+	vid INT(10) NOT NULL AUTO_INCREMENT,
+	hid INT(10) NOT NULL,
+	tvid INT(10) NOT NULL,
+	CONSTRAINT pk_vulns_vid PRIMARY KEY (vid),
+	CONSTRAINT fk_vuln_hid FOREIGN KEY (hid) REFERENCES hosts(hid),
+	CONSTRAINT fk_vuln_tvid FOREIGN KEY (tvid) REFERENCES TextVulns(tvid)
+);
+
