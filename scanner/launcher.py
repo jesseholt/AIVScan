@@ -11,7 +11,13 @@
 import sys
 import subprocess
 import os
+import socket
 import scan_parser
+from time import gmtime, strftime
+
+settings_path = os.path.abspath('../www/aivs')
+sys.path.append(settings_path)
+import local_settings
 
 
 def launchParser(inputXML, UserID):
@@ -28,10 +34,16 @@ def launchScan(ipAddr, userID, subscriptionLevel):
 	
 	try:
 
+		# get the current date & time to append to files
+		sNow = strftime("%Y%m%d_%H%M%S", gmtime())
+		
+		#get log directory from the local_settings.py file
+		sLogDir = local_settings.LOG_DIRECTORY
+
 		# Declare the files to write to from STDERR and STDOUT
-		sErrorFile = "/tmp/nmaperror." + str(userID) + ".txt"
+		sErrorFile = sLogDir + "/nmaperror." + str(userID) + "_" + sNow + ".txt"
 		fError = open(sErrorFile, 'w')
-		sOutFile = "/tmp/nmapout." + str(userID) + ".txt"
+		sOutFile = sLogDir + "/nmapout." + str(userID) + "_" + sNow + ".txt"
 		fOut = open(sOutFile, 'w')
 
 		# Initialize the scan variables to pass to the subprocess call
@@ -40,7 +52,7 @@ def launchScan(ipAddr, userID, subscriptionLevel):
 		args2 = "-sV"
 		args3 = "-P0"
 		args4 = "-oX"
-		xmlOut = "/tmp/nmapxmlout_" + userID + ".xml" # Declare the XML output file that will be used by the parser
+		xmlOut = sLogDir + "/nmapxmlout_" + userID + "_" + sNow + ".xml" # Declare the XML output file that will be used by the parser
 		# for the above we need to insert a date+time string into the file.  there could be multiple scans for a user
 
 		# Launch the nmap scan with the supplied parameters
@@ -81,6 +93,25 @@ def printUsage():
 	print "\n"
 	print "Usage: "
 	print sys.argv[0] + " <IP address>" + " <userID>" + " <subscription level>\n\n"
+	
+def verifyIP(IPAddress):
+	
+	if (IPAddress is None) or (IPAddress == ""):
+		return False
+		
+	argLength = len(IPAddress.split("."))
+
+	if argLength == 4:
+		try:
+			socket.inet_aton(IPAddress)
+			return True
+		except:
+			return False
+	else:
+		return False
+	
+	return False 
+	
 def main():	
 
 	# Read command line parameters
@@ -91,12 +122,17 @@ def main():
 	else:
 		printUsage()
 		return 1
+		
+	if verifyIP(ipAddr):
+		# Launch the nmap scan with the supplied parameters
+		if (launchScan(ipAddr, userID, subLevel) == 0):
+			return 0
+		else:
+			return 1
+	else:
+		print "Error: Invalid IP Address"
+		return 1
 	
-	#we should do some work on the above, namely sanitize the input
-
-	# Launch the nmap scan with the supplied parameters
-	launchScan(ipAddr, userID, subLevel)	
-
 	return 0
 
 if __name__ == '__main__':
