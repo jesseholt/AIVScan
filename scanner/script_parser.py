@@ -41,7 +41,8 @@ class cScriptParser:
                 MatchString = row[2] #match string
                 vulnId = row[0]
                 if MatchString in sOutput:
-                    print "found match: " + MatchString    + " for tvid: " + str(vulnId)
+                    #print "found match: " + MatchString    + " for tvid: " + str(vulnId)
+                    cursor.close()
                     return vulnId
                     break
 

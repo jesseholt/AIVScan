@@ -52,11 +52,13 @@ def launchScan(ipAddr, userID, subscriptionLevel):
         args2 = "-sV"
         args3 = "-P0"
         args4 = "-oX"
+        scr1 = "--script"
+        scr2 = "smb-check-vulns,vuln,exploit"
         xmlOut = sLogDir + "/nmapxmlout_" + userID + "_" + sNow + ".xml" # Declare the XML output file that will be used by the parser
         # for the above we need to insert a date+time string into the file.  there could be multiple scans for a user
 
         # Launch the nmap scan with the supplied parameters
-        iReturn = subprocess.call([command, args1, args2, args3, args4, xmlOut, ipAddr], stderr=fError, stdout=fOut)
+        iReturn = subprocess.call([command, args1, args2, args3, args4, xmlOut, scr1, scr2, ipAddr], stderr=fError, stdout=fOut)
 
 
         if os.path.exists(sOutFile):
