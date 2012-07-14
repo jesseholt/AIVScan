@@ -10,6 +10,7 @@
 
 import MySQLdb
 from lib import Parser
+import script_parser
 
 #import local_settings.py for database creds
 import os, sys
@@ -83,18 +84,6 @@ class cSQLImporter:
 			for h in self.p.all_hosts():
 				try:
 					print "parsing host " + h.ipv4 + "..."
-					SQL = "CALL pInsertHost(" \
-							+ str(scanid) + ", " \
-							+ "'" + h.ipv4 + "', " \
-							+ "'" + h.hostname + "', " \
-							+ "'" + h.status + "', " \
-							+ "'" + h.macaddr + "', " \
-							+ "'" + h.vendor + "', " \
-							+ "'" + h.ipv6 + "', " \
-							+ str(h.distance) + ", " \
-							+ "'" + h.uptime + "', " \
-							+ "'" + h.lastboot + "')"
-							
 					cursor = dbconn.cursor()
 					cursor.callproc("pInsertHost", (scanid, \
 													h.ipv4, \
@@ -171,6 +160,26 @@ class cSQLImporter:
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()	
+						
+					#parse script output
+					try:
+						#import pdb; pdb.set_trace()
+						sp = script_parser.cScriptParser()
+						#print "getting script contents"
+						for scr in h.get_scripts():
+							#print "matching output"
+							#import pdb; pdb.set_trace()
+							vulnId = sp.parseOutput(scr.scriptId, scr.output)
+							if vulnId > 0:
+								print "vuln id: " + str(vulnId)
+								cursor = dbconn.cursor()
+								cursor.callproc("pInsertVuln", (hostid, vulnId))
+								result = cursor.fetchone()
+								cursor.close()
+					except:
+						print "Error parsing script output"
+						e = sys.exc_info()[0]
+						print str(e)
 				except:
 					print "Error parsing host information."
 					
@@ -191,7 +200,7 @@ if __name__ == '__main__':
 	#import pdb; pdb.set_trace()
 
 
-	cp = cSQLImporter('test.xml', 1001)
+	cp = cSQLImporter('/tmp/test_pwn01.xml', 1001)
 	cp.process()
 
 

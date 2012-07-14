@@ -138,5 +138,37 @@ BEGIN
 END
 |
 
+DROP PROCEDURE IF EXISTS pInsertVuln;
+CREATE PROCEDURE pInsertVuln (
+										IN v_hid INT,
+										IN v_tvid INT
+										)
+BEGIN
+	INSERT INTO vulns	(
+							hid,
+							tvid
+						)
+			VALUES		(
+							v_hid,
+							v_tvid
+						);
+END
+|
+
+DROP PROCEDURE IF EXISTS pGetTextVulnRef_byScriptID;
+CREATE PROCEDURE pGetTextVulnRef_byScriptID	(
+									IN v_scriptID VARCHAR(100)
+								)
+BEGIN
+	SELECT							tvid,
+									ScriptID,
+									MatchString,
+									VulnString,
+									FixString
+	FROM TextVulns
+	WHERE ScriptID = v_scriptID;
+END
+|
+
 DELIMITER ; 
 	    
