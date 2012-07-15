@@ -69,5 +69,25 @@
 {% block scripts %}
 <script>
 $("label.regfields").addClass("control-label");
+
+function clearField(form) {
+   $(form).find("input.input-large, textarea").each(function() {
+       this.defaultValue = this.value;
+       $(this).click(function() {
+          if(this.value == this.defaultValue) {
+              $(this).val("");
+          }
+          return false;
+       });
+       $(this).blur(function() {
+           if(this.value == ""){
+              $(this).val(this.defaultValue);
+           }
+       });
+    });
+}
+
+$(document).ready(function() { clearField("#register-form")})
+
 </script>
 {% endblock %}

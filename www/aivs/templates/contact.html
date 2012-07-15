@@ -10,7 +10,7 @@
 {% block container %}
 <h1>Contact Pwn Stars</h1>
 
-<form id="register-form" method="post" action="/register" class="form-horizontal">
+<form id="contact-form" method="post" action="{% url contact %}" class="form-horizontal">
 <legend>Fill out and submit this handy form to contact us!</legend>
 {% csrf_token %}
 {{ form.non_field_errors }}
@@ -31,13 +31,33 @@
 </div>
 <div  class="form-actions">
   <button type="submit" class="btn btn-primary">Submit</button>
-  <button class="btn"><a href="/">Cancel</a></button>
+  <button class="btn"><a href="{% url home %}">Cancel</a></button>
 </div>
 </form>
 
 {% endblock %}
 {% block scripts %}
-<script>
+<script type="text/javascript">
 $("label.regfields").addClass("control-label");
+
+function clearField(form) {
+   $(form).find("input.input-large, textarea").each(function() {
+       this.defaultValue = this.value;
+       $(this).click(function() {
+          if(this.value == this.defaultValue) {
+              $(this).val("");
+          }
+          return false;
+       });
+       $(this).blur(function() {
+           if(this.value == ""){
+              $(this).val(this.defaultValue);
+           }
+       });
+    });
+}
+
+$(document).ready(function() { clearField("#contact-form")})
+
 </script>
 {% endblock %}
