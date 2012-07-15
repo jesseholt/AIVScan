@@ -15,7 +15,7 @@ class AivsAuthenticationForm(AuthenticationForm, BootstrapForm):
 
     username = forms.EmailField( label = 'Email Address',
                                       initial = 'Enter your email address',
-                                      widget = forms.Textarea(attrs = {'rows' : 1, 'class' : 'span6'}),
+                                      widget = forms.Textarea(attrs = {'rows' : 1, 'class' : 'span3'}),
                                       help_text = 'Your valid email address, up to 200 characters.',
                                       error_messages = { 'required': 'You must supply your email address.',
                                                          'invalid': 'That does not appear to be a valid email address.',
@@ -24,7 +24,7 @@ class AivsAuthenticationForm(AuthenticationForm, BootstrapForm):
 
     password = forms.CharField(label = 'Password',
                                initial = 'Enter your password',
-                               widget = forms.PasswordInput(attrs = {'rows' : 1, 'class' : 'span6'}),
+                               widget = forms.PasswordInput(attrs = {'rows' : 1, 'class' : 'span3'}),
                                help_text = 'Pick a strong password between 8 and 30 characters long.',
                                error_messages={'required': 'You must supply your password',
                                                'max_length':
