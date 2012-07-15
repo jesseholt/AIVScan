@@ -7,13 +7,14 @@ from django.template import RequestContext
 import simplejson
 
 from aivs import tasks
+from aivs.models import ScanResult
 from aivs.forms import ContactForm, ScanRequestForm
 '''
 This module contains the main logic of the web application.  Although the module is called views
 in the Django convention, this module takes the role of Controller in the classic MVC pattern.
 '''
 
-@login_required
+@login_required(login_url='/login/')
 def request_scan(request):
     if request.method == 'POST':
         # we bind a form to the POST data
@@ -28,6 +29,13 @@ def request_scan(request):
         # form has not been submitted, so prepare an unbound form
         form = ScanRequestForm()
     return render_to_response('submit_scan_form.html', {'form': form})
+
+@login_required(login_url='/login/')
+def profile(request):
+    user = request.user
+    scans = ScanResult.objects.filter(user=user).order_by('-completion_dt')
+    return render_to_response('profile.html', {'user':user, 'scans': scans},
+                              context_instance=RequestContext(request))
 
 def contact(request):
     if request.method == 'POST':

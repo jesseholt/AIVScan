@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- note this page is the only one that does not extend base.html -->
+<!-- note this page and the user profile are the only ones that do not extend base.html -->
 {% include "head_include.html" %}
 <style>
 .mainlogo {
@@ -48,7 +48,7 @@
          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-      <p>Click <a href="register.html">here</a> to get started. </p>
+      <p>Click <a href="{% url registration_register %}">here</a> to get started. </p>
         </div><!-- span 8 -->
       </div><!-- row -->
 </div> <!-- /container -->

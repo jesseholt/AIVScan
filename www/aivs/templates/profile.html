@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- note this page and the user profile are the only ones that do not extend base.html -->
+{% include "head_include.html" %}
+</head>
+
+<body>
+{% include "nav_include.html" %}
+
+<div class="container">
+  <div class="row">
+     <div class="span3">
+     <div class="well sidebar-nav">
+            <div class="container-fluid"><!-- Profile Pic -->
+              <img src="{{ STATIC_URL }}img/aivscan_logo.png"/>
+            </div><!-- End Profile Pic-->
+            <ul class="nav nav-list">
+              <li class="nav-header">Account Info</li>
+              <li><a href="#">{{ user.email }}</a></li>
+              <li><a href="#">Change Password</a></li>
+              <li><a href="#">Member since "insert script here"</a></li>
+            </ul>
+          </div><!--/.well -->
+     </div><!-- span3 -->
+
+     <div class="span8">
+
+     <div class="hero-unit">
+       <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+       <p>Welcome back to AIVScan! What would you like to do?</p>
+       <p><a class="btn btn-primary btn-large" href="{% url scan %}">Start a new scan &raquo;</a></p>
+     </div>
+
+     <h2>Previous Scans</h2>
+     <table class="table table-striped">
+       <thead><tr><th>Date</th><th>Results</th></tr></thead>
+       <tbody>
+         <!-- demo -->
+         <tr><td><a>2012 Jun 12</a></td><td>First eights words of the summary of results...</td></tr>
+         <tr><td><a>2012 May 12</a></td><td>First eight words of the summary of results...</td></tr>
+         <!-- end demo -->
+     {% for scan in scans %}
+       <tr><td><a>{{ scan.completion_dt|date:"Y M D" }}</a></td><td>{{ scan.results|truncatewords:8}}</td></tr>
+     {% endfor %}
+     </tbody>
+     </table>
+
+       </div><!-- span8 -->
+</div> <!-- /container -->
+
+{% include "footer_and_scripts.html" %}
+<script>
+$("label.regfields").addClass("control-label");
+</script>
+  </body>
+</html>
+
