@@ -16,10 +16,11 @@ class ScanResult(models.Model):
     '''
     Defines the results of a completed scan.  We have symmetrically-encrypted the scan results.
     Note that this only protects the database as a standalone entity (ex. if backup drives are stolen).
-    Because the application needs to be able to read-in unencrypted values, there is no way to prevent
-    someone who compromises the application from accessing the unencrypted database values.  If
-    we want to encrypt additional information, it might make more sense to override the TextField
-    model field with an EncryptedTextField to eliminate the need to create accessors for each field.
+    Because the application needs to be able to read-in unencrypted values, there is no way to
+    prevent someone who compromises the application from accessing the unencrypted database
+    values.  If we want to encrypt additional information, it might make more sense to override the
+    TextField model field with an EncryptedTextField to eliminate the need to create accessors for
+    each field.
     '''
     user = models.ForeignKey(User)
     completion_dt = models.DateTimeField()
@@ -43,3 +44,6 @@ class ScanResult(models.Model):
         self.scan_results = encrypted
 
     results = property(_get_results, _set_results)
+
+    class Meta:
+        app_label = 'aivs'
