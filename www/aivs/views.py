@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
@@ -16,19 +16,19 @@ in the Django convention, this module takes the role of Controller in the classi
 
 @login_required(login_url='/login/')
 def request_scan(request):
+    ip = get_client_ip(request)
     if request.method == 'POST':
         # we bind a form to the POST data
         form = ScanRequestForm(request.POST)
         if form.is_valid():
             # form.cleaned_data now contains only valid data
             user = request.user
-            ip = get_client_ip(request)
             tasks.run_scan.delay(user, ip)
-            return HttpResponseRedirect('/success/')
+            return HttpResponseRedirect('/profile/') # <- this should redirect to success page
     else:
         # form has not been submitted, so prepare an unbound form
         form = ScanRequestForm()
-    return render_to_response('submit_scan_form.html', {'form': form})
+    return render_to_response('scan.html', {'form': form, 'ip': ip}, context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')
 def profile(request):

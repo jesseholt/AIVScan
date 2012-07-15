@@ -4,7 +4,7 @@ from bootstrap.forms import BootstrapForm, Fieldset
 
 class ScanRequestForm(BootstrapForm):
     '''
-    A form to initiate the registration workflow.
+    A mini-form to initiate the scanner workflow.
     '''
     class Meta:
         layout = (

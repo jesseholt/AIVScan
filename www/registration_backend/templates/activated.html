@@ -4,6 +4,10 @@
 
 {% block container %}
 <h2>Account Activated!</h2>
-<p>Your account activation has succeeded.  Your scan will begin in a few moments.</p>
-
+<p>Your account activation has succeeded.  Redirecting you to the scanning page...</p>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+$(document).ready(function() { setTimeout(window.location="{% url scan %}", 2000); })
+</script>
 {% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+.help-block {
+   color: #C0C0C0;
+}
+</style>{% endblock %}
+
+{% block container %}
+<div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; max-width: 100%;">
+<div class="modal-header">
+  <h3>AIVScan is ready</h3>
+</div>
+<div class="modal-body">
+<p>You're all set! Your IP address is <code>{{ ip }}</code>. Click the blue button to start AIVScan.</p>
+  <form id="scan-form" method="post" action="{% url scan %}" class="form-horizontal">
+  {% csrf_token %}
+<div class="control-group">
+  {{ form.accepts_terms.errors }}
+  <label class="checkbox">
+  {{ form.accepts_terms }}
+  <strong>I have read and accept AIVScan <a data-toggle="modal" href="#terms-modal">terms</a>.</strong>
+  </label>
+</div>
+<div  class="modal-footer form-actions">
+  <button class="btn"><a href="{% url home %}">Cancel</a></button>
+  <button type="submit" class="btn btn-primary">Scan</button>
+</div>
+</div> <!-- modal body -->
+</div><!-- Modal -->
+
+<!-- terms and conditions modal -->
+<div class="modal hide" id="terms-modal">
+  <div class="modal-body">
+{% include "terms_and_conditions.html" %}
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+ </div>
+<!-- end terms and conditions modal -->
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+$("label.regfields").addClass("control-label");
+</script>
+{% endblock %}
