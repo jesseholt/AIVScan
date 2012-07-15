@@ -29,9 +29,10 @@
 </div>
 <div  class="form-actions">
   <button type="submit" class="btn btn-primary">Login</button>
-  <input type="hidden" name="next" value="/home/">
+  <input type="hidden" name="next" value="{% url profile %}">
 </div>
 </form>
+<a href="{% url auth_password_reset %}">Forgot password?</a>
 </div> <!-- modal body -->
 </div><!-- Modal -->
 

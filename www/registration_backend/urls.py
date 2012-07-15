@@ -56,4 +56,8 @@ urlpatterns = patterns('',
                            auth_views.logout,
                            {'next_page': '/'},
                            name='auth_logout'),
+                       url(r'password-reset/$',
+                           auth_views.password_reset,
+                           {'template_name': 'password_reset.html'},
+                           name='auth_password_reset'),
 )
