@@ -27,6 +27,15 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+
+<style>
+.mainlogo {
+   margin-bottom: 2em;
+   margin-top: 1em;
+   margin-right: 2em;
+   float: left;
+}
+</style>
   </head>
 
   <body>
@@ -43,20 +52,19 @@
           <a class="brand" href="index.html">AIVScan</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="index.html">Home</a></li>
-              <li class="active"><a href="about.html">About</a></li><!-- shows link as active -->
+              <li class="active"><a href="about.html">About</a></li>
               <li><a href="contact.html">Contact</a></li>
-            </ul>   
+            </ul>
 
             <ul class="nav pull-right">
-              <li><a href="login.html">Login</a></li>
-              <li><a href="register.html">Register</a></li>
+              <li><a href="#login-modal" data-toggle="modal">Login</a></li>
+              <li><a href="#register-modal" data-toggle="modal">Register</a></li>
             </ul>
 
           </div><!--/.nav-collapse -->
         </div>
       </div>
-    </div>
+    </div><!-- /navbar -->
 
     <div class="container">
 
@@ -76,6 +84,105 @@
       <p>The main output of AIVScan will be a security report.  Users will receive this report through an email address that they must register on 		 our website.  The document will be presented in a very user friendly and non-technical format.  Clients will be offered a summary of the 		 results, detailed findings, and our suggestions for remediation actions.  Each vulnerability discovered will be rated on a scale from 		 Critical to Low. The secondary output of AIVScan will be in the form of educational slide shows that will be displayed while a security 		 scan is in progress.  These presentations will be designed to increase the users’ awareness of security topics such as password strength, 		 avoiding phishing attacks, and others.</p>  
 
       <p>The primary goal of AIVScan is to improve the overall security profile of our users’ computers.  If our clients follow through with our 	  suggestions for improvement, they will improve their computer’s security and help protect their sensitive information.</p>
+
+<!-- Begin Login & Register Modals
+     ============================= -->
+
+	<div class="modal fade hide" id="login-modal"><!-- Begin Login Modal -->
+	   <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Login</h3>
+           </div><!-- /modal-header -->
+           <div class="modal-body">
+              <form class="well form-vertical"><!-- Begin Login Form -->
+                <fieldset>
+                  <div class="control-group">
+                    <label class="control-label">Email Address</label>
+                      <div class="controls">
+                        <input type="text" class="input-large" id="input01" placeholder="Email Address">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Password</label>
+                      <div class="controls">
+                        <input type="password" class="input-large" id="input01" placeholder="Password">
+                      </div>
+                  </div> 
+                  <div class="control-group">
+  	            <label class="checkbox"><input type="checkbox">Remember me</label>
+                  </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="close" class="btn" data-dismiss="modal">Cancel</button>
+                </fieldset>
+              </form><!-- End Login Form -->
+              <a href="password-reset.html">Forgot Password?</a>
+           </div><!-- /modal-body --> 
+        </div><!-- /login-modal -->
+
+       <!-- Register Modal 
+            ============== -->
+       <div class="modal fade hide" id="register-modal"><!-- Begin Register Modal -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Register</h3>
+          </div><!-- /modal-header -->
+          <div class="modal-body">
+            <form class="well form-horizontal">
+              <fieldset>
+                  <div class="control-group">
+  	            <label class="control-label" for="input01">First name</label>
+                      <div class="controls">
+  	   	        <input type="text" class="input-large" id="input01" placeholder="First name">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Last name</label>
+                      <div class="controls">
+	                <input type="text" class="input-large" id="input01" placeholder="Last name">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Email</label>
+                      <div class="controls">
+                        <input type="text" class="input-large" id="input01" placeholder="Email address">
+                      </div> 
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Confirm Email</label>
+                      <div class="controls">
+                        <input type="text" class="input-large" id="input01" placeholder="Confirm Email">
+                      </div> 
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Password</label>
+                      <div class="controls">
+                        <input type="password" class="input-large" id="input01" placeholder="Password">
+                      </div>
+                  </div>
+                  <div class="control-group">                  
+                    <label class="control-label" for="input01">Confirm password</label>
+                      <div class="controls">
+                        <input type="password" class="input-large" id="input01" placeholder="Confirm password">
+                      </div>
+                  </div>
+                  <div class="control-group">
+  	            <label class="checkbox">
+    	              <input type="checkbox" id="optionsCheckbox" value="mandatory">
+                         <strong>I have read and accept AIVScan <a href="terms.html">terms</a>.</strong>
+                    </label>
+                  </div>
+                  <div class="pull-right">       
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="close" class="btn" data-dismiss="modal">Cancel</a></button>
+                  </div>
+              </fieldset>
+            </form><!-- End Registration Form -->
+          </div><!-- /modal-body -->
+       </div><!-- /register-modal -->
+
+<!-- End Login and Register Modals
+     =============================  -->
+
         </div><!-- Span 8 -->
       </div><!-- Row -->
  
