@@ -40,7 +40,11 @@
 <p>AIVScan is a web-based security evaluation application. Its primary goal is to efficiently and accurately assess the security of a computer. AIVScan is designed for all types of users, home or business, regardless of technical sophistication. Our service is an automatic security scan that determines Internet-accessible services, their vendor and version, and any known vulnerabilities that can endanger the user’s computer and stored information. The product will automatically obtain much of the information necessary to conduct the security scan, including IP address, operating system, and others.</p>
  <p>The primary goal of AIVScan is to improve the overall security profile of our users’ computers. If our clients follow through with our suggestions for improvement, they will improve their computer’s security and help protect their sensitive information.</p>
 
+       {% if user.is_authenticated %}
+       <p>Click <a href="{% url scan %}">here</a> to get your next scan started.<p>
+       {% else %}
        <p>Click <a href="{% url registration_register %}">here</a> to learn more</p>
+       {% endif %}
         </div><!-- span 8 -->
       </div><!-- row -->
 </div> <!-- /container -->

@@ -5,11 +5,11 @@
         <div class="container">
 
           <a class="brand" href="{% url home %}">AIVScan</a>
-          <div class="btn-group pull-right"><!-- user dropdown menu -->
+          <div class="nav pull-right"><!-- user dropdown menu -->
             {% if user.is_authenticated %}
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="icon-user"></i>
-            {{ user.username }}
+            {{ user.first_name }} {{ user.last_name }}
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -18,20 +18,33 @@
               <li><a href="{% url auth_logout %}">Sign Out</a></li>
             </ul>
           {% else %}
-            <a class="btn dropdown-toggle" data-toggle="dropdown"
-          href="{% url auth_login %}">
-            <i class="icon-user"></i>
-            Login
-              <span class="caret"></span>
-            </a>
+            <ul class="nav">
+              <li>
+              <a href="{% url auth_login %}" class="nav-to-modal"
+              data-form="{% url auth_login %}">
+              Login
+              </a></li>
+              <li>
+              <a href="{% url registration_register %}" class="nav-to-modal"
+              data-form="{% url registration_register %}">
+              Register
+              </a></li>
+            </ul>
             {% endif %}
           </div>
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="{% url about %}">About</a></li>
-              <li><a href="{% url contact %}">Contact</a></li>
+              <li><a href="{% url contact %}" class="nav-to-modal" data-form="{% url contact %}">
+              Contact
+              </a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div><!-- End navbar -->
+
+    <noscript>
+    <div class="noscript"><strong>Seriously, no Javascript?  It's 2012, man.</strong></div>
+    </noscript>
+

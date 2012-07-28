@@ -19,7 +19,7 @@ class ScanRequestForm(BootstrapForm):
 
 class ContactForm(BootstrapForm):
     '''
-    A form to initiate the registration workflow.
+    A form to initiate the contact-us workflow.
     '''
     class Meta:
         layout = (

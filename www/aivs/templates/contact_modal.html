@@ -1,0 +1,35 @@
+<form id="modal-form" method="post" action="{% url contact %}" class="well form-vertical">
+
+<div class="modal-header">
+  <h2>Contact Pwn Stars</h2>
+</div>
+
+<div class="modal-body">
+  <p>Fill out and submit this handy form to contact us!</p>
+  <hr>
+{% csrf_token %}
+{{ form.non_field_errors }}
+<div class="control-group">
+  {{ form.email_address.errors }}
+  <label for="id_email_address" class="regfields">Email Address</label>
+  <div class="controls">{{ form.email_address }}</div>
+</div>
+<div class="control-group">
+  {{ form.email_verify.errors }}
+  <label for="id_email_address_verify" class="regfields">Confirm Email</label>
+  <div class="controls">{{ form.email_verify }}</div>
+</div>
+<div class="control-group">
+  {{ form.message.errors }}
+  <label for="id_message" class="regfields">Message</label>
+  <div class="controls">{{ form.message }}</div>
+</div>
+<div  class="form-actions">
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+</div>
+</div> <!-- end modal body -->
+
+</form>
+
+

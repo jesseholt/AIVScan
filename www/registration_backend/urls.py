@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 from registration.views import activate, register
 import registration_backend
-from registration_backend import forms
+from registration_backend import forms, views
 
 '''
 The django-registration URL configuration has been reimplemented here so that we can override
@@ -24,12 +24,7 @@ instead of a confusing 404.
 
 urlpatterns = patterns('',
                        url(r'^register/$',
-                           register,
-                           {'backend': 'registration_backend.AivsBackend',
-                            'success_url': 'registered/',
-                            'form_class': forms.RegistrationForm,
-                            'disallowed_url': 'closed/',
-                            'template_name': 'registration_form.html'},
+                           registration_backend.views.register,
                            name='registration_register'),
                        url(r'^register/registered/$',
                            direct_to_template,
@@ -48,9 +43,7 @@ urlpatterns = patterns('',
                            {'template': 'closed.html'},
                            name='registration_disallowed'),
                        url(r'^login/$',
-                           auth_views.login,
-                           {'template_name': 'login.html',
-                            'authentication_form':forms.AivsAuthenticationForm},
+                           registration_backend.views.login,
                            name='auth_login'),
                        url(r'^logout/$',
                            auth_views.logout,

@@ -2,9 +2,11 @@
     <p>&copy; Pwn Stars {% now "Y" %}</p>
 </footer>
 
+<div class="modal hide" id="navModal"></div>
+
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ STATIC_URL }}js/jquery.js"></script>
-<!--    <script src="{{ STATIC_URL }}js/bootstrap-transition.js"></script>-->
+<script src="{{ STATIC_URL }}js/bootstrap-transition.js"></script>
 <!--    <script src="{{ STATIC_URL }}js/bootstrap-alert.js"></script>-->
 <script src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap-dropdown.js"></script>
@@ -16,8 +18,37 @@
 <!--    <script src="{{ STATIC_URL }}js/bootstrap-collapse.js"></script>-->
 <!--    <script src="{{ STATIC_URL }}js/bootstrap-carousel.js"></script>-->
 <!--    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>-->
-
 <script>
-    var current_page = "#nav-" + location.pathname.slice(1)
-    $(current_page).addClass("active");
+var current_page = "#nav-" + location.pathname.slice(1)
+$(current_page).addClass("active");
+
+$("label.regfields").addClass("control-label");
+
+ function clearField(form) {
+   $(form).find("input.input-large, textarea").each(function() {
+       this.defaultValue = this.value;
+       $(this).click(function() {
+          if(this.value == this.defaultValue) {
+              $(this).val("");
+          }
+          return false;
+       });
+       $(this).blur(function() {
+           if(this.value == ""){
+              $(this).val(this.defaultValue);
+           }
+       });
+    });
+}
+
+$(".nav-to-modal").click(function(x) {
+    x.preventDefault(); // stops navigation on click
+    var url = $(this).data("form");
+    $("#navModal").load(url, function() {
+        $(this).modal('show');
+        clearField("#modal-form")
+    });
+    return false;
+})
+
 </script>

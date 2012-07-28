@@ -1,0 +1,30 @@
+<form id="modal-form" method="post" action="{% url auth_login %}" class="well form-vertical">
+
+<div class="modal-header">
+  <h2>Login</h2>
+</div>
+
+<div class="modal-body">
+{% csrf_token %}
+{{ form.errors }}
+{{ form.non_field_errors }}
+<div class="control-group">
+  {{ form.username.errors }}
+  <label for="id_username" class="regfields">Email Address</label>
+  <div class="controls">{{ form.username }}</div>
+</div>
+<div class="control-group">
+  {{ form.password.errors }}
+  <label for="id_password" class="regfields">Password</label>
+  <div class="controls">{{ form.password }}</div>
+</div>
+<div  class="form-actions">
+  <button type="submit" class="btn btn-primary">Login</button>
+  <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  <input type="hidden" name="next" value="{% url profile %}">
+</div>
+</form>
+<a href="{% url auth_password_reset %}">Forgot password?</a>
+</div> <!-- end modal body -->
+
+
