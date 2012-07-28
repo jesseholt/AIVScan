@@ -12,14 +12,18 @@
   <div class="row">
      <div class="span3">
      <div class="well sidebar-nav">
-            <div class="container-fluid"><!-- Profile Pic -->
+            <div class="container-fluid">
               <img src="{{ STATIC_URL }}img/aivscan_logo.png"/>
-            </div><!-- End Profile Pic-->
+            </div>
             <ul class="nav nav-list">
               <li class="nav-header">Account Info</li>
-              <li><a href="#">{{ user.email }}</a></li>
-              <li><a href="#">Change Password</a></li>
-              <li><a href="#">Member since {{ user.date_joined|date:"Y M d" }}</a></li>
+              <li style="padding: 3px 0px">{{ user.email }}</li>
+              <li style="padding: 3px 0px">Member since {{ user.date_joined|date:"Y M d" }}</li>
+              <li>
+              <a href="{% url password_change %}" class="nav-to-modal"
+              data-form="{% url password_change %}">
+              Change Password
+              </a>
             </ul>
           </div><!--/.well -->
      </div><!-- span3 -->

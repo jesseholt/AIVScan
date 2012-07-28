@@ -27,7 +27,7 @@
       {% if user.is_authenticated %}
       <a class="btn btn-primary btn-large" href="{% url scan %}">Get Started &raquo;</a>
       {% else %}
-      <a class="btn btn-primary btn-large" href="{% url registration_register %}">Get Started &raquo;</a>
+      <a class="btn btn-primary btn-large nav-to-modal" href="{% url registration_register %}" data-form="{% url registration_register %}">Get Started &raquo;</a>
       {% endif %}
       </p>
      </div>

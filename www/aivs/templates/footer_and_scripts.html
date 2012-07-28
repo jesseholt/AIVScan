@@ -41,14 +41,14 @@ $("label.regfields").addClass("control-label");
     });
 }
 
-$(".nav-to-modal").click(function(x) {
+$(".nav-to-modal").live("click", (function(x) {
     x.preventDefault(); // stops navigation on click
     var url = $(this).data("form");
     $("#navModal").load(url, function() {
         $(this).modal('show');
-        clearField("#modal-form")
+        clearField("#modal-form");
     });
     return false;
-})
+}))
 
 </script>
