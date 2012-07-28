@@ -24,7 +24,9 @@
   <input type="hidden" name="next" value="{% url profile %}">
 </div>
 </form>
-<a href="{% url auth_password_reset %}">Forgot password?</a>
+<a href="{% url password_reset %}" class="nav-to-modal" data-form="{% url password_reset %}">
+              Forgot password?
+</a>
 </div> <!-- end modal body -->
 
 
