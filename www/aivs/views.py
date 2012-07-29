@@ -57,7 +57,7 @@ def contact(request):
     else:
         # the form has not been submitted, so prepare an unbound form
         form = ContactForm()
-    return render_to_response('contact_modal.html', {'form': form},
+    return render_to_response('contact.html', {'form': form},
                               context_instance=RequestContext(request))
 
 
