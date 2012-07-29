@@ -8,56 +8,7 @@
 </style>{% endblock %}
 
 {% block container %}
-<h1>Contact Pwn Stars</h1>
-
-<form id="contact-form" method="post" action="{% url contact %}" class="form-horizontal">
-<legend>Fill out and submit this handy form to contact us!</legend>
-{% csrf_token %}
-{{ form.non_field_errors }}
-<div class="control-group">
-  {{ form.email_address.errors }}
-  <label for="id_email_address" class="regfields">Email Address</label>
-  <div class="controls">{{ form.email_address }}</div>
-</div>
-<div class="control-group">
-  {{ form.email_verify.errors }}
-  <label for="id_email_address_verify" class="regfields">Confirm Email</label>
-  <div class="controls">{{ form.email_verify }}</div>
-</div>
-<div class="control-group">
-  {{ form.message.errors }}
-  <label for="id_message" class="regfields">Message</label>
-  <div class="controls">{{ form.message }}</div>
-</div>
-<div  class="form-actions">
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <button class="btn"><a href="{% url home %}">Cancel</a></button>
-</div>
-</form>
-
+{% include "contact_modal.html" %}
 {% endblock %}
-{% block scripts %}
-<script type="text/javascript">
-$("label.regfields").addClass("control-label");
 
-function clearField(form) {
-   $(form).find("input.input-large, textarea").each(function() {
-       this.defaultValue = this.value;
-       $(this).click(function() {
-          if(this.value == this.defaultValue) {
-              $(this).val("");
-          }
-          return false;
-       });
-       $(this).blur(function() {
-           if(this.value == ""){
-              $(this).val(this.defaultValue);
-           }
-       });
-    });
-}
-
-$(document).ready(function() { clearField("#contact-form")})
-
-</script>
-{% endblock %}
+{% block scripts %}{% endblock %}

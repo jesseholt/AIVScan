@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 from registration.views import activate, register
 import registration_backend
-from registration_backend import forms, views
+from registration_backend import forms
 
 '''
 The django-registration URL configuration has been reimplemented here so that we can override
@@ -24,7 +24,12 @@ instead of a confusing 404.
 
 urlpatterns = patterns('',
                        url(r'^register/$',
-                           registration_backend.views.register,
+                           register,
+                           {'backend': 'registration_backend.AivsBackend',
+                            'success_url': 'registered/',
+                            'form_class': forms.RegistrationForm,
+                            'disallowed_url': 'closed/',
+                            'template_name': 'registration_modal.html'},
                            name='registration_register'),
                        url(r'^register/registered/$',
                            direct_to_template,
@@ -43,16 +48,22 @@ urlpatterns = patterns('',
                            {'template': 'closed.html'},
                            name='registration_disallowed'),
                        url(r'^login/$',
-                           registration_backend.views.login,
+                           auth_views.login,
+                           {'template_name':'login_modal.html',
+                            'authentication_form': forms.AivsAuthenticationForm},
                            name='auth_login'),
                        url(r'^logout/$',
                            auth_views.logout,
                            {'next_page': '/'},
                            name='auth_logout'),
                        url(r'forgot-password/$',
-                           registration_backend.views.forgot_password,
+                           auth_views.password_reset,
+                           {'template_name': 'forgot_password_modal.html',
+                            'post_reset_redirect': 'profile/'},
                            name='password_reset'),
                        url(r'change-password/$',
-                           registration_backend.views.change_password,
+                           auth_views.password_change,
+                           {'template_name': 'password_change_modal.html',
+                            'post_change_redirect': 'profile/'},
                            name='password_change'),
 )

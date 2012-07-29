@@ -57,12 +57,8 @@ def contact(request):
     else:
         # the form has not been submitted, so prepare an unbound form
         form = ContactForm()
-    # we navigate away if Javascript is disabled, otherwise use a modal form with Ajax
-    if request.is_ajax():
-        template = 'contact_modal.html'
-    else:
-        template = 'contact.html'
-    return render_to_response(template, {'form': form}, context_instance=RequestContext(request))
+    return render_to_response('contact_modal.html', {'form': form},
+                              context_instance=RequestContext(request))
 
 
 ip_regex_pattern = re.compile(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')

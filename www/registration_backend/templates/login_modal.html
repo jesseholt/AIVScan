@@ -1,3 +1,5 @@
+{% extends "base_modal.html" %}
+{% block modalform %}
 <form id="modal-form" method="post" action="{% url auth_login %}" class="well form-vertical">
 
 <div class="modal-header">
@@ -28,5 +30,5 @@
               Forgot password?
 </a>
 </div> <!-- end modal body -->
-
+{% endblock %}
 

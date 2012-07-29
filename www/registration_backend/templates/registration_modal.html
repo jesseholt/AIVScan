@@ -1,3 +1,5 @@
+{% extends "base_modal.html" %}
+{% block modalform %}
 <form id="modal-form" method="post" action="{% url registration_register %}" class="well form-vertical">
 
 <div class="modal-header">
@@ -61,4 +63,4 @@
  </div>
 <!-- end terms and conditions modal -->
 
-
+{% endblock %}
