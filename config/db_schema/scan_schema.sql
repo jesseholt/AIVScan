@@ -13,14 +13,17 @@ CREATE TABLE IF NOT EXISTS scans (
     startstr TEXT,
     endtime INTEGER,
     endstr TEXT,
-    numservices INTEGER, 
+    numservices INTEGER,
     CONSTRAINT pk_scans_sid PRIMARY KEY (sid)
-); 
+);
+
+ALTER TABLE `scans` ADD CONSTRAINT `userId_refs_id` FOREIGN KEY (`userId`) REFERENCES `auth_user` (`id`);
+
 
 DROP TABLE IF EXISTS hosts;
 CREATE TABLE IF NOT EXISTS hosts (
     hid INT(10) NOT NULL AUTO_INCREMENT,
-    sid INTEGER NOT NULL,    
+    sid INTEGER NOT NULL,
     ip4 TEXT,
     ip4num INTEGER,
     hostname TEXT,
@@ -32,8 +35,8 @@ CREATE TABLE IF NOT EXISTS hosts (
     ip6 TEXT,
     distance INTEGER,
     uptime TEXT,
-    upstr TEXT, 
-    CONSTRAINT pk_hosts_hid PRIMARY KEY (hid), 
+    upstr TEXT,
+    CONSTRAINT pk_hosts_hid PRIMARY KEY (hid),
     CONSTRAINT fk_hosts_sid FOREIGN KEY (sid) REFERENCES scans(sid)
 );
 
@@ -48,7 +51,7 @@ CREATE TABLE IF NOT EXISTS sequencing (
     ipvalues TEXT,
     tcptclass TEXT,
     tcptvalues TEXT,
-    CONSTRAINT pk_sequencing_sqid PRIMARY KEY (sqid), 
+    CONSTRAINT pk_sequencing_sqid PRIMARY KEY (sqid),
     CONSTRAINT fk_sequencing_hid FOREIGN KEY (hid) REFERENCES hosts(hid)
 );
 
@@ -69,7 +72,7 @@ CREATE TABLE IF NOT EXISTS ports (
     proto TEXT,
     owner TEXT,
     rpcnum TEXT,
-    fingerprint TEXT, 
+    fingerprint TEXT,
     CONSTRAINT pk_ports_pid PRIMARY KEY (pid),
     CONSTRAINT fk_ports_hid FOREIGN KEY (hid) REFERENCES hosts(hid)
 );
@@ -85,7 +88,7 @@ CREATE TABLE IF NOT EXISTS os (
     vendor TEXT,
     accuracy INTEGER,
     CONSTRAINT pk_os_oid PRIMARY KEY (oid),
-    CONSTRAINT fk_os_hid FOREIGN KEY (hid) REFERENCES hosts(hid) 
+    CONSTRAINT fk_os_hid FOREIGN KEY (hid) REFERENCES hosts(hid)
 );
 
 DROP TABLE IF EXISTS vulns;

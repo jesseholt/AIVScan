@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 '''
 This is an auto-generated Django model module, created from the scanner schema with inspectdb.
@@ -25,28 +26,9 @@ class Textvulns(models.Model):
         app_label = 'aivs'
         db_table = u'TextVulns'
 
-class Scans(models.Model):
-    sid = models.IntegerField(primary_key=True)
-    userid = models.IntegerField(db_column='userId') # Field name made lowercase.
-    subscription_level = models.IntegerField(null=True, blank=True)
-    version = models.TextField(blank=True)
-    xmlversion = models.TextField(blank=True)
-    args = models.TextField(blank=True)
-    types = models.TextField(blank=True)
-    starttime = models.IntegerField(null=True, blank=True)
-    startstr = models.TextField(blank=True)
-    endtime = models.IntegerField(null=True, blank=True)
-    endstr = models.TextField(blank=True)
-    numservices = models.IntegerField(null=True, blank=True)
-    class Meta:
-        app_label = 'aivs'
-        db_table = u'scans'
-
-
-
 class Hosts(models.Model):
     hid = models.IntegerField(primary_key=True)
-    sid = models.ForeignKey(Scans, db_column='sid')
+    sid = models.ForeignKey('Scans', db_column='sid')
     ip4 = models.TextField(blank=True)
     ip4num = models.IntegerField(null=True, blank=True)
     hostname = models.TextField(blank=True)
@@ -96,6 +78,23 @@ class Ports(models.Model):
     class Meta:
         app_label = 'aivs'
         db_table = u'ports'
+
+class Scans(models.Model):
+    sid = models.IntegerField(primary_key=True)
+    userid = models.ForeignKey(User, db_column='userId') # Field name made lowercase.
+    subscription_level = models.IntegerField(null=True, blank=True)
+    version = models.TextField(blank=True)
+    xmlversion = models.TextField(blank=True)
+    args = models.TextField(blank=True)
+    types = models.TextField(blank=True)
+    starttime = models.IntegerField(null=True, blank=True)
+    startstr = models.TextField(blank=True)
+    endtime = models.IntegerField(null=True, blank=True)
+    endstr = models.TextField(blank=True)
+    numservices = models.IntegerField(null=True, blank=True)
+    class Meta:
+        app_label = 'aivs'
+        db_table = u'scans'
 
 class Sequencing(models.Model):
     sqid = models.IntegerField(primary_key=True)
