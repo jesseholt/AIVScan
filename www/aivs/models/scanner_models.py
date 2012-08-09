@@ -87,9 +87,9 @@ class Scans(models.Model):
     xmlversion = models.TextField(blank=True)
     args = models.TextField(blank=True)
     types = models.TextField(blank=True)
-    starttime = models.IntegerField(null=True, blank=True)
+    starttime = models.IntegerField(null=True, blank=True)  # TODO: these should be datetime fields
     startstr = models.TextField(blank=True)
-    endtime = models.IntegerField(null=True, blank=True)
+    endtime = models.IntegerField(null=True, blank=True)  # TODO: these should be datetime fields
     endstr = models.TextField(blank=True)
     numservices = models.IntegerField(null=True, blank=True)
     class Meta:

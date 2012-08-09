@@ -44,6 +44,20 @@ def profile(request):
     return render_to_response('profile.html', {'user':user, 'scans': scans},
                               context_instance=RequestContext(request))
 
+
+@login_required(login_url='/login/')
+def scan_report(request, id):
+    '''
+    Queries for a scan and its related objects.
+    '''
+    user = request.user
+    try:
+        report = Scans.objects.select_related().get(pk=id, userid=user.id)
+    except DoesNotExist:
+        return render_to_response('report.html', {'user':user, 'report':report},
+                                  context_instance=RequestContext(request))
+
+
 def contact(request):
     if request.method == 'POST':
         # bind a form to the POST data

@@ -26,8 +26,8 @@ def launchParser(inputXML, UserID):
         cp.process()
     except IOError as ioE:
         print "Error parsing file: {1}".format(ioE.strerror)
-    except:
-        print "Error parsing file."
+    except Exception as ex:
+        print "Error parsing file.\n{0}".format(ex)
         return 1
 
 def launchScan(ipAddr, userID, subscriptionLevel):
@@ -56,7 +56,6 @@ def launchScan(ipAddr, userID, subscriptionLevel):
         scr2 = "smb-check-vulns,vuln,exploit"
         xmlOut = sLogDir + "/nmapxmlout_" + userID + "_" + sNow + ".xml" # Declare the XML output file that will be used by the parser
         # for the above we need to insert a date+time string into the file.  there could be multiple scans for a user
-
         # Launch the nmap scan with the supplied parameters
         iReturn = subprocess.call([command, args1, args2, args3, args4, xmlOut, scr1, scr2, ipAddr], stderr=fError, stdout=fOut)
 
@@ -78,8 +77,8 @@ def launchScan(ipAddr, userID, subscriptionLevel):
             fOut.close()
         if not fError is None:
             fError.close()
-    except:
-        print "Error launching the scan."
+    except Exception, ex:
+        print "Error launching the scan.\n{0}".format(ex)
         return 1
 
     try:

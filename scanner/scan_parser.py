@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 #
 #       scan_parser.py
-#       
+#
 #       Copyright 2012 Team Pwn Stars
-#       
-#       
-#       
+#
+#
+#
 
 import MySQLdb
 from lib import Parser
@@ -20,7 +20,7 @@ import local_settings
 
 
 class cQueueItem:
-	
+
     def __init__(self, qId, userId, ip_address, subscription_level, scan_options, scan_running):
         self.qId = qId
         self.userId = userId
@@ -28,7 +28,7 @@ class cQueueItem:
         self.subscription_level = subscription_level
         self.scan_options = scan_options
         self.scan_running = scan_running
-        
+
 class cSQLImporter:
 	p = None
 	dbconn = None
@@ -47,14 +47,14 @@ class cSQLImporter:
 		try:
 			scanid = 0
 			hostid = 0
-			
+
 			print "initializing parser..."
 			self.p = Parser.Parser(self.XMLfilename)
-			
-			#session (scan) informaiton 
+
+			#session (scan) informaiton
 			print "parsing scan information..."
 			session = self.p.get_session()
-			
+
 			if (session is None):
 				raise SessionError('Unable to read scan session')
 			SQL = "call pInsertScan(" \
@@ -67,6 +67,7 @@ class cSQLImporter:
 									passwd=self.password, db=self.dbname)
 			cursor = dbconn.cursor()
 			#import pdb; pdb.set_trace()
+			print SQL
 			cursor.callproc("pInsertScan", (self.userId, \
 											session.nmap_version, \
 											session.scan_args, \
@@ -77,9 +78,9 @@ class cSQLImporter:
 			scanid = result[0]
 			#scanid = cursor.lastrowid
 			#scanid=db.insert_id()
-			print "** scanid: " + str(scanid)	
+			print "** scanid: " + str(scanid)
 			cursor.close()
-					
+
 			#parse hosts
 			for h in self.p.all_hosts():
 				try:
@@ -100,9 +101,9 @@ class cSQLImporter:
 					print "** hostid: " + str(hostid)
 					#cursor.execute(SQL)
 					#hostid = cursor.lastrowid
-					#hostid = db.insert_id()				
+					#hostid = db.insert_id()
 					cursor.close()
-					
+
 					#parse OS
 					for OS_node in h.get_OS():
 						SQL = "CALL pInsertOS(" \
@@ -112,12 +113,12 @@ class cSQLImporter:
 								+ "'" + OS_node.generation + "', " \
 								+ "'" + OS_node.os_type + "', " \
 								+ "'" + OS_node.vendor + "', " \
-								+ str(OS_node.accuracy) + ")" 
-
+								+ str(OS_node.accuracy) + ")"
+						print SQL
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()
-										
+
 					#parse tcp ports
 					print "number of open tcp ports: " + str(len(h.get_ports('tcp', 'open')))
 
@@ -135,11 +136,11 @@ class cSQLImporter:
 									+ "'tcp')"
 						else:
 							SQL += "'open', '', '', '', '', 'tcp')"
-						
+						print SQL
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
-						cursor.close()						
-			
+						cursor.close()
+
 					#parse udp ports
 					print "number of open udp ports: " + str(len(h.get_ports('udp', 'open')))
 					for port in h.get_ports('udp', 'open'):
@@ -156,11 +157,11 @@ class cSQLImporter:
 									+ "'udp')"
 						else:
 							SQL += "'open', '', '', '', '', 'udp')"
-						
+						print SQL
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
-						cursor.close()	
-						
+						cursor.close()
+
 					#parse script output
 					try:
 						#import pdb; pdb.set_trace()
@@ -176,19 +177,19 @@ class cSQLImporter:
 								cursor.callproc("pInsertVuln", (hostid, vulnId))
 								result = cursor.fetchone()
 								cursor.close()
-					except:
-						print "Error parsing script output"
+					except Exception as ex:
+						print "Error parsing script output:\n{0}".format(ex)
 						e = sys.exc_info()[0]
 						print str(e)
 				except:
 					print "Error parsing host information."
-					
-			dbconn.close()	
+
+			dbconn.close()
 			return 0
 		except IOError as ioE:
 			print "Error processing file: {1}".format(ioE.strerror)
-		except:
-			print "Error processing file."
+		except Exception as ex:
+			print "Error processing file:\n{0}".format(ex)
 			return 1
 
 
@@ -196,7 +197,7 @@ class cSQLImporter:
 
 
 if __name__ == '__main__':
-	
+
 	#import pdb; pdb.set_trace()
 
 

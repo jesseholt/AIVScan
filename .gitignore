@@ -3,6 +3,7 @@
 
 # Secret information that shouldn't be checked in
 local_settings.py
+run/
 
 # Packages
 *.egg
