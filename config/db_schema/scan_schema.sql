@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS scans (
     xmlversion TEXT,
     args TEXT,
     types TEXT,
-    starttime INTEGER,
+    starttime DATETIME,
     startstr TEXT,
-    endtime INTEGER,
+    endtime DATETIME,
     endstr TEXT,
     numservices INTEGER,
     CONSTRAINT pk_scans_sid PRIMARY KEY (sid)
