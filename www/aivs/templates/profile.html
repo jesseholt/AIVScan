@@ -45,7 +45,7 @@
          <tr><td><a>2012 May 12</a></td><td>First eight words of the summary of results...</td></tr>
          <!-- end demo -->
      {% for scan in scans %}
-       <tr><td><a>{{ scan.completion_dt|date:"Y M d" }}</a></td><td>{{ scan.results|truncatewords:8}}</td></tr>
+       <tr><td><a>{{ scan.endtime|date:"Y M d" }}</a></td><td>{{ scan.results|truncatewords:8}}</td></tr>
      {% endfor %}
      </tbody>
      </table>

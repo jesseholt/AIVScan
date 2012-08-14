@@ -9,7 +9,7 @@ import re
 import simplejson
 
 from aivs import tasks
-from aivs.models import ScanResult
+from aivs.models import ScanResult, Scans
 from aivs.forms import ContactForm, ScanRequestForm
 '''
 This module contains the main logic of the web application.  Although the module is called views
@@ -40,7 +40,7 @@ def request_scan(request):
 @login_required(login_url='/login/')
 def profile(request):
     user = request.user
-    scans = ScanResult.objects.filter(user=user).order_by('-completion_dt')
+    scans = Scans.objects.filter(userid=user).order_by('-endtime')
     return render_to_response('profile.html', {'user':user, 'scans': scans},
                               context_instance=RequestContext(request))
 
