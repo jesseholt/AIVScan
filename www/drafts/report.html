@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Apparently email clients don't like external style sheets or JavaScript
+     So it's all embedded and inline styles in here. May God forgive me. -->
+
+	<head>
+		<title>Email Report</title>
+
+                <style type="text/css">
+           
+                   body {
+                                                            background-color:#ffffff;
+                                                            font-family:Arial, Helvetica, sans-serif;
+                                                            color:black;
+                     }
+                   .bubble {
+                                                            background-color:#eeeeee;
+                                                            width:600px;
+                                                            padding:10px;
+                                                            margin-bottom:30px;
+                                                           -webkit-border-radius:6px;
+                                                           -moz-border-radius:6px;
+                                                            border-radius:6px;
+                     }
+                   table {
+                                                            max-width:100%;
+                                                            background-color:transparent;
+                                                            border-collapse:collapse;
+                                                            border-spacing:0;
+                     }
+                   #output {
+                                                            width:600px;
+                                                            border-collapse:collapse;
+                                                            background-color:#ffffff;
+                     }
+                   #output td, #output th {
+                                                            border:1px solid black;
+                                                            padding:3px,3px,3px,3px;
+                                                            background-color:#ffffff;
+                     }
+                   #output th {
+                                                            font-size:1em;
+			                                    text-align:justify;
+			                                    padding-top:3px;
+			                                    padding-bottom:3px;
+                                                            padding-left:3px;
+			                                    background-color:#025036;
+			                                    color:#ffffff;
+                     }
+                   #output tr, #output td {
+                                                            background-color:#ffffff;
+                                                            padding-top:3px;
+                                                            padding-bottom:3px;
+                                                            padding-left:3px;
+                                                            padding-right:3px;
+                    }
+                   #output td {
+                                                            font-size:12px;
+                                                            text-align:left;
+                                                            border:solid 1px black;
+                    }
+                </style>
+	</head>
+
+	<body>
+ 
+           <!-- Table wrapper
+           ===================== -->
+	   <table width="100%" align="center">
+	      <tr>
+	         <td>
+                      <table align="center"><!-- Border of Email -->
+                         <tr>
+                            <td>
+
+                                 <!-- bubble1 
+                                 ============== -->
+                                 <table class="bubble">
+                                       <tr>
+                                          <td><!-- Logo Img -->
+                                             <a href="#"><img src="img/aivscan_logo_hero.png" alt="aivscan"></a>
+                                          </td>
+                                          <td>
+                                             <p style="font-size:30px; font-weight:bold;">Scan Complete!</p><!-- Header -->
+                                          </td>
+                                       </tr> 
+                                 </table><!-- /bubble1 -->
+
+                                             <!-- Table for Output
+                                             =============================== -->
+                                             <table id="output">
+                                             <caption>Results of scan for host at IP address <span style="color:red">69.123.43.23</span></caption> 
+                                                <thead>
+                                                   <tr>   
+                                                      <th>Vulnerability</th>
+                                                      <th>ID</th>
+                                                      <th>Description</th>
+                                                      <th>Remediation</th>
+                                                      <th>Risk Level</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr><!-- Row 1 -->
+                                                     <td>smb-check-vulns</td>
+                                                     <td>MS08-067</td>
+                                                     <td>AIVScan identified a very serious issue with your computer.  Attackers can gain access to your PC remotely and potentially access sensitive information.  For more informaiton, please see: http://technet.microsoft.com/en-us/security/bulletin/ms08-067</td>
+                                                     <td>The easiest way to fix this issue is to let your copy of Windows automatically update itself. You can do this by running Windows Update from your Start menu. To apply the update manually, please follow the article below: 
+http://technet.microsoft.com/en-us/security/bulletin/ms08-067</td>
+                                                     <td>3</td>
+                                                  </tr>
+                                                  <tr><!-- Row 2 -->
+                                                     <td>smb-check-vulns</td>
+                                                     <td>SMBv2 DoS CVE-2009-3103</td>
+                                                     <td>Your computer is missing security patches that could enable intruders to gain complete control of your PC.</td>
+                                                     <td>The easiest way to fix this issue is to let your copy of Windows automatically update itself. You can do this by running Windows Update from your Start menu. To apply the update manually, please follow the article below: http://technet.microsoft.com/en-us/security/advisory/975497</td>
+                                                     <td>2</td>
+                                                  </tr>
+                                                  <tr><!-- Row 3 -->
+                                                     <td>smb-check-vulns</td>
+                                                     <td>MS06-025</td>
+                                                     <td>Your computer is is missing security patches that could enable intruders to gain complete control of your PC.</td>
+                                                     <td>The easiest way to fix this issue is to let your copy of Windows automatically update itself. You can do this by running Windows Update from your Start menu. To apply the update manually, please follow the article below: http://technet.microsoft.com/en-us/security/bulletin/ms06-025</td>
+                                                     <td>2</td>
+                                                  </tr>
+                                                  <tr><!-- Row 4 -->
+                                                     <td>smb-check-vulns</td>
+                                                     <td>SMBv2 DoS CVE-2009-3103</td>
+                                                     <td>Your computer is missing security patches that could enable intruders to gain complete control of your PC.</td>
+                                                     <td>The easiest way to fix this issue is to let your copy of Windows automatically update itself. You can do this by running Windows Update from your Start menu. To apply the update manually, please follow the article below: http://technet.microsoft.com/en-us/security/advisory/975497</td>
+                                                     <td>2</td>
+                                                  </tr>
+                                                  <tr><!-- Row 5 -->
+                                                     <td>Another thing</td>
+                                                     <td>0004</td>
+                                                     <td>Blah, blah, blah dangerous threat</td>
+                                                     <td>Blah, blah, blah fix it like this</td>
+                                                     <td>3</td>
+                                                  </tr>
+                                                  <tr><!-- Row 6 -->
+                                                     <td>Another thing</td>
+                                                     <td>0005</td>
+                                                     <td>Blah, blah, blah dangerous threat</td>
+                                                     <td>Blah, blah, blah fix it like this</td>
+                                                     <td>3</td>
+                                                  </tr>
+                                                  <tr><!-- Row 7 -->
+                                                     <td>Another thing</td>
+                                                     <td>0006</td>
+                                                     <td>Blah, blah, blah dangerous threat</td>
+                                                     <td>Blah, blah, blah fix it like this</td>
+                                                     <td>3</td>
+                                                  </tr>
+                                                </tbody>
+                                             </table><!-- /output table -->
+<br />
+<br />
+                                  <!-- footer
+                                  ================== -->
+                                  <table align="center">
+                                     <tr align="center" style="font-size:12px;">
+                                        <td><a href="#">View report in browser</a> &nbsp;|&nbsp;
+                                            <a href="#">Go to the site</a> &nbsp;|&nbsp;
+                                            <a href="http://www.ic3.gov/default.aspx">Report us to the authorities</a>
+                                        </td>  
+                                     </tr>
+                                  </table>
+                                  <p align="center" style="font-size:12px;">&copy Pwn Stars 2012</p><!-- /footer -->        
+                            </td>
+                         </tr>
+		      </table><!-- /Border of Email -->
+		 </td>
+	      </tr>
+	   </table><!-- /Table wrapper -->
+	</body>
+</html>
+
+
+
