@@ -7,6 +7,7 @@
 #
 
 import MySQLdb
+import logging
 import sys, os
 
 #import local_settings.py for database creds
@@ -48,7 +49,7 @@ class cScriptParser:
 
         except:
             e = sys.exc_info()[0]
-            print str(e)
+            logging.error('Error parsing script output: %s',  str(e))
             return 0
 
         return 0

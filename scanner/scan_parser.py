@@ -9,6 +9,7 @@
 #
 
 import MySQLdb
+import logging
 from lib import Parser
 import script_parser
 
@@ -48,11 +49,11 @@ class cSQLImporter:
 			scanid = 0
 			hostid = 0
 
-			print "initializing parser..."
+			logging.info('initializing parser...')
 			self.p = Parser.Parser(self.XMLfilename)
 
 			#session (scan) informaiton
-			print "parsing scan information..."
+			logging.info('parsing scan information...')
 			session = self.p.get_session()
 
 			if (session is None):
@@ -67,7 +68,7 @@ class cSQLImporter:
 									passwd=self.password, db=self.dbname)
 			cursor = dbconn.cursor()
 			#import pdb; pdb.set_trace()
-			print SQL
+			logging.info('SQL Statement:\n %s', SQL)
 			cursor.callproc("pInsertScan", (self.userId, \
 											session.nmap_version, \
 											session.scan_args, \
@@ -78,13 +79,13 @@ class cSQLImporter:
 			scanid = result[0]
 			#scanid = cursor.lastrowid
 			#scanid=db.insert_id()
-			print "** scanid: " + str(scanid)
+			logging.info('** scanid: %s', str(scanid))
 			cursor.close()
 
 			#parse hosts
 			for h in self.p.all_hosts():
 				try:
-					print "parsing host " + h.ipv4 + "..."
+					logging.info('parsing host %s ...', h.ipv4)
 					cursor = dbconn.cursor()
 					cursor.callproc("pInsertHost", (scanid, \
 													h.ipv4, \
@@ -98,7 +99,7 @@ class cSQLImporter:
 													h.lastboot))
 					result = cursor.fetchone()
 					hostid = result[0]
-					print "** hostid: " + str(hostid)
+					logging.info('** hostid: %s', str(hostid))
 					#cursor.execute(SQL)
 					#hostid = cursor.lastrowid
 					#hostid = db.insert_id()
@@ -114,13 +115,13 @@ class cSQLImporter:
 								+ "'" + OS_node.os_type + "', " \
 								+ "'" + OS_node.vendor + "', " \
 								+ str(OS_node.accuracy) + ")"
-						print SQL
+						logging.info('SQL Statement:\n %s', SQL)
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()
 
 					#parse tcp ports
-					print "number of open tcp ports: " + str(len(h.get_ports('tcp', 'open')))
+					logging.info('number of open tcp ports: %s', str(len(h.get_ports('tcp', 'open'))))
 
 					for port in h.get_ports('tcp', 'open'):
 						SQL = "CALL pInsertPort(" \
@@ -136,13 +137,13 @@ class cSQLImporter:
 									+ "'tcp')"
 						else:
 							SQL += "'open', '', '', '', '', 'tcp')"
-						print SQL
+						logging.info('SQL Statement:\n %s', SQL)
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()
 
 					#parse udp ports
-					print "number of open udp ports: " + str(len(h.get_ports('udp', 'open')))
+					logging.info('number of open udp ports: %s', str(len(h.get_ports('udp', 'open'))))
 					for port in h.get_ports('udp', 'open'):
 						SQL = "CALL pInsertPort(" \
 								+ str(hostid) + ", " \
@@ -157,7 +158,7 @@ class cSQLImporter:
 									+ "'udp')"
 						else:
 							SQL += "'open', '', '', '', '', 'udp')"
-						print SQL
+						plogging.info('SQL Statement:\n %s', SQL)
 						cursor = dbconn.cursor()
 						cursor.execute(SQL)
 						cursor.close()
@@ -172,24 +173,24 @@ class cSQLImporter:
 							#import pdb; pdb.set_trace()
 							vulnId = sp.parseOutput(scr.scriptId, scr.output)
 							if vulnId > 0:
-								print "vuln id: " + str(vulnId)
+								logging.info('vuln id: %s', str(vulnId))
 								cursor = dbconn.cursor()
 								cursor.callproc("pInsertVuln", (hostid, vulnId))
 								result = cursor.fetchone()
 								cursor.close()
 					except Exception as ex:
-						print "Error parsing script output:\n{0}".format(ex)
+						logging.error('Error parsing script output:\n %s', ex)
 						e = sys.exc_info()[0]
-						print str(e)
+						logging.error('%s', str(e))
 				except:
-					print "Error parsing host information."
+					logging.error('Error parsing host information.')
 
 			dbconn.close()
 			return 0
 		except IOError as ioE:
-			print "Error processing file: {1}".format(ioE.strerror)
+			logging.error('Error processing file: %s', ioE.strerror)
 		except Exception as ex:
-			print "Error processing file:\n{0}".format(ex)
+			logging.error('Error processing file:\n %s', ex)
 			return 1
 
 

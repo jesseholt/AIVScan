@@ -13,6 +13,7 @@ import subprocess
 import os
 import socket
 import scan_parser
+import logging
 from time import gmtime, strftime
 
 settings_path = os.path.abspath('../www/aivs')
@@ -25,9 +26,11 @@ def launchParser(inputXML, UserID):
         cp = scan_parser.cSQLImporter(inputXML, UserID)
         cp.process()
     except IOError as ioE:
-        print "Error parsing file: {1}".format(ioE.strerror)
+        #print "Error parsing file: {1}".format(ioE.strerror)
+        logging.error('Error parsing file: %s', ioE.strerror)
     except Exception as ex:
-        print "Error parsing file.\n{0}".format(ex)
+        #print "Error parsing file.\n{0}".format(ex)
+        logging.error('Error parsing file.\n%s', ex)
         return 1
 
 def launchScan(ipAddr, userID, subscriptionLevel):
@@ -78,13 +81,14 @@ def launchScan(ipAddr, userID, subscriptionLevel):
         if not fError is None:
             fError.close()
     except Exception, ex:
-        print "Error launching the scan.\n{0}".format(ex)
-        return 1
+		#print "Error launching the scan.\n{0}".format(ex)
+		logging.error('Error launching the scan.\n %s', ex)
+		return 1
 
     try:
         launchParser(xmlOut, subscriptionLevel)
     except:
-        print "Error parsing the XML scan results."
+        logging.error('Error parsing the XML scan results.')
         return 1
 
     return 0
@@ -115,26 +119,33 @@ def verifyIP(IPAddress):
 
 def main():
 
+	#set logging
+	logging.basicConfig(level=logging.INFO)
+	logging.info('Launcher.py Started')
+    
     # Read command line parameters
-    if len(sys.argv) == 4:
-        ipAddr = sys.argv[1]
-        userID = sys.argv[2]
-        subLevel = sys.argv[3]
-    else:
-        printUsage()
-        return 1
+	if len(sys.argv) == 4:
+		ipAddr = sys.argv[1]
+		userID = sys.argv[2]
+		subLevel = sys.argv[3]
+	else:
+		printUsage()
+		return 1
 
-    if verifyIP(ipAddr):
-        # Launch the nmap scan with the supplied parameters
-        if (launchScan(ipAddr, userID, subLevel) == 0):
-            return 0
-        else:
-            return 1
-    else:
-        print "Error: Invalid IP Address"
-        return 1
+	if verifyIP(ipAddr):
+		# Launch the nmap scan with the supplied parameters
+		if (launchScan(ipAddr, userID, subLevel) == 0):
+			logging.info('Launcher.py finished.')
+			return 0
+		else:
+			logging.warn('Launcher.py did not complete successfully.')
+			return 1
+	else:
+		logging.error('Error: Invalid IP Address')
+		logging.warn('Launcher.py did not complete successfully.')
+		return 1
 
-    return 0
+	return 0
 
 if __name__ == '__main__':
     main()
