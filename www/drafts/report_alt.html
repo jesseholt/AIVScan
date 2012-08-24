@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AIVScan | Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */   
+           }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+
+<style>
+.mainlogo {
+           float: left;
+         }
+</style>
+
+  </head>
+
+  <body>
+    <!-- Begin the navbar
+    ===================================== -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">AIVScan</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <ul class="nav pull-right">
+              <li><a href="#login-modal" data-toggle="modal">Login</a></li>
+              <li><a href="#register-modal" data-toggle="modal">Register</a></li>
+            </ul>
+
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div><!-- /navbar -->
+
+
+    <div class="container">
+
+  <!--Borrwed this portion from the hero.html bootstrap template -->
+    <div class="hero-unit" style="width:850px; height:100px;">   
+      <img src="img/aivscan_logo_hero.png" class="mainlogo" alt="AIVScan" />
+<br />
+<br />
+      <h1 align="center">Scan Complete!</h1>
+    </div><!-- hero-unit -->
+    
+  <div class="row">
+     <div class="span10">
+      <h2>Here's what we found...</h2>
+<hr />
+
+<!-- Begin Report
+     ============ -->
+
+<h3>Host Information</h3>
+<table class="table table-striped">
+	  <tr>
+	    <td>Start time:</td>
+	    <td>THU AUG 23 2012 09:29:37</td>
+	  </tr>
+          <tr>
+	    <td>End time:</td>
+	    <td>THU AUG 23 2012 09:39:15</td>
+          </tr>
+	  <tr>
+	    <td>IP address:</td>
+	    <td>69.123.43.23</td>
+          </tr>
+	  <tr>
+	    <td>MAC Address:</td>
+            <td>00:0c:29:f7:55:ea</td>
+	  </tr>
+	  <tr>
+	    <td>Operating System:</td>
+	    <td>Windows 7 SP 2</td>
+	  </tr>
+</table>
+
+<h3>Threat Report</h3>
+<table class="table table-striped table-bordered">
+	<thead>
+	  <tr>
+            <th>Vulnerability</th>
+	    <th>Risk Level</th>
+            <th>Description</th>
+            <th>Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+	  <tr>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+          </tr>
+	  <tr>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+          </tr>
+	  <tr>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+          </tr>
+	  <tr>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+	    <td>...</td>
+          </tr>
+	</tbody>
+</table>
+
+<hr />
+
+<h3>Port Vulnerabilities</h3>
+
+<table class="table table-striped table-bordered table-condensed">
+	<thead>
+          <tr>
+            <th>Port</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+	  <tr>
+	    <td>1</td>
+	    <td>TCP Port Service Multiplexer (TCPMUX)</td>
+	    <td>Open</td>
+	    <td>...</td>
+	  </tr>
+	  <tr>
+	    <td>2</td>
+	    <td>CompressNET[2] Management Utility[3]</td>
+	    <td>Open</td>
+	    <td>...</td>
+	  </tr>
+	  <tr>
+	    <td>3</td>
+	    <td>CompressNET[2] Compression Process[4]</td>
+	    <td>Open</td>
+	    <td>...</td>
+	  </tr>
+	  <tr>
+	    <td>4</td>
+	    <td>Unassigned</td>
+	    <td>Closed</td>
+	    <td>...</td>
+	  </tr>
+	  <tr>
+	    <td>21</td>
+	    <td>File Transfer Protocol</td>
+	    <td>Open</td>
+	    <td>Caution: AIVScan identified that your computer may be running a File Transfer Protocol (FTP) program. FTP is commonly used to exchange files between computers. It is also considered an insecure protocol because it sends data, usernames, and passwords without encrypting them.</td>
+	  </tr>
+
+        </tbody>
+</table>
+        </div><!-- /span10 -->
+      </div><!-- /row -->
+        
+<!-- Begin Login & Register Modals
+     ============================= -->
+	<div class="modal fade hide" id="login-modal"><!-- Begin Login Modal -->
+	   <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Login</h3>
+           </div><!-- /modal-header -->
+           <div class="modal-body">
+              <form class="well form-vertical"><!-- Begin Login Form -->
+                <fieldset>
+                  <div class="control-group">
+                    <label class="control-label">Email Address</label>
+                      <div class="controls">
+                        <input type="text" class="input-large" id="input01" placeholder="Email Address">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Password</label>
+                      <div class="controls">
+                        <input type="password" class="input-large" id="input01" placeholder="Password">
+                      </div>
+                  </div> 
+                  <div class="control-group">
+  	            <label class="checkbox"><input type="checkbox">Remember me</label>
+                  </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="close" class="btn" data-dismiss="modal">Cancel</button>
+                </fieldset>
+              </form><!-- End Login Form -->
+              <a href="password-reset.html">Forgot Password?</a>
+           </div><!-- /modal-body --> 
+        </div><!-- /login-modal -->
+
+       <!-- Register Modal 
+            ============== -->
+       <div class="modal fade hide" id="register-modal"><!-- Begin Register Modal -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Register</h3>
+          </div><!-- /modal-header -->
+          <div class="modal-body">
+            <form class="well form-horizontal">
+              <fieldset>
+                  <div class="control-group">
+  	            <label class="control-label" for="input01">First name</label>
+                      <div class="controls">
+  	   	        <input type="text" class="input-large" id="input01" placeholder="First name">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Last name</label>
+                      <div class="controls">
+	                <input type="text" class="input-large" id="input01" placeholder="Last name">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Email</label>
+                      <div class="controls">
+                        <input type="text" class="input-large" id="input01" placeholder="Email address">
+                      </div> 
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Confirm Email</label>
+                      <div class="controls">
+                        <input type="text" class="input-large" id="input01" placeholder="Confirm Email">
+                      </div> 
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input01">Password</label>
+                      <div class="controls">
+                        <input type="password" class="input-large" id="input01" placeholder="Password">
+                      </div>
+                  </div>
+                  <div class="control-group">                  
+                    <label class="control-label" for="input01">Confirm password</label>
+                      <div class="controls">
+                        <input type="password" class="input-large" id="input01" placeholder="Confirm password">
+                      </div>
+                  </div>
+                  <div class="control-group">
+  	            <label class="checkbox">
+    	              <input type="checkbox" id="optionsCheckbox" value="mandatory">
+                         <strong>I have read and accept AIVScan <a href="terms.html">terms</a>.</strong>
+                    </label>
+                  </div>
+                  <div class="pull-right">       
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="close" class="btn" data-dismiss="modal">Cancel</a></button>
+                  </div>
+              </fieldset>
+            </form><!-- End Registration Form -->
+          </div><!-- /modal-body -->
+       </div><!-- /register-modal -->
+
+<!-- End Login and Register Modals
+     =============================  -->
+	   
+
+<hr />
+
+    
+      <footer>
+        <p>&copy; Pwn Stars 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-alert.js"></script>
+    <script src="js/bootstrap-modal.js"></script>
+    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="js/bootstrap-scrollspy.js"></script>
+    <script src="js/bootstrap-tab.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script src="js/bootstrap-popover.js"></script>
+    <script src="js/bootstrap-button.js"></script>
+    <script src="js/bootstrap-collapse.js"></script>
+    <script src="js/bootstrap-carousel.js"></script>
+    <script src="js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
