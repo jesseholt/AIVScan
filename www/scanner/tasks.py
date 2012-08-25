@@ -4,7 +4,7 @@ from django.conf import settings
 import logging
 from celery.task import task
 
-import scan_parser
+from scanner.scan_parser import ScanImporter
 
 
 @task
@@ -29,7 +29,7 @@ def run_scan(user, safe_ip_address, subscription_level=0):
         # by using check_call we can get the stdout from nmap and then pipe that as a string
         # directly into the scan_parsing module without having to do file I/O
         xml_results = subprocess.check_call(nmap_args)
-        cp = scan_parser.cSQLImporter(xml_results, user.id)
-        cp.process()
+        si = ScanImporter(xml_results, user.id)
+        si.process()
     except Exception as ex:
         logging.error(ex)

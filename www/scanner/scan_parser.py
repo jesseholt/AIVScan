@@ -7,11 +7,10 @@ import logging
 from django.conf.settings import settings
 
 from scanner.lib import Parser
-import scanner.script_parser
+from scanner.script_parser import NmapScriptParser
 from scanner.models import *
 
-
-class cSQLImporter:
+class ScanImporter:
 
 	def __init__(self, xml_results, user_id):
 		self.xml_results = xml_results
@@ -93,7 +92,7 @@ class cSQLImporter:
 
 					#parse script output
 					try:
-						nsp = script_parser.NmapScriptParser()
+						nsp = NmapScriptParser()
 						for scr in h.get_scripts():
 							vulnId = nsp.parse_output(scr.scriptId, scr.output, host.id)
 					except Exception as ex:
