@@ -1,176 +1,139 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-#       scan_parser.py
-#
-#       Copyright 2012 Team Pwn Stars
-#
-#
-#
+# Copyright 2012 Team Pwn Stars
 
-import MySQLdb
-import logging
-from lib import Parser
-import script_parser
-
-#import local_settings.py for database creds
 import os, sys
-settings_path = os.path.abspath('../www/aivs')
-sys.path.append(settings_path)
-import local_settings
+import logging
+from django.conf.settings import settings
 
+from scanner.lib import Parser
+import scanner.script_parser
+from scanner.models import *
 
-class cQueueItem:
-
-    def __init__(self, qId, userId, ip_address, subscription_level, scan_options, scan_running):
-        self.qId = qId
-        self.userId = userId
-        self.ip_address = ip_address
-        self.subscription_level = subscription_level
-        self.scan_options = scan_options
-        self.scan_running = scan_running
 
 class cSQLImporter:
-	p = None
-	dbconn = None
-	username = local_settings.DATABASES['default']['USER']
-	password = local_settings.DATABASES['default']['PASSWORD']
-	dbhost = local_settings.DATABASES['default']['HOST']
-	dbname = local_settings.DATABASES['default']['NAME']
-	XMLfilename = ''
-	userId = 0
 
-	def __init__(self, XMLfilename, userId):
-		self.XMLfilename = XMLfilename
-		self.userId = userId
+	def __init__(self, xml_results, user_id):
+		self.xml_results = xml_results
+		self.user_id = user_id
 
 	def process(self):
 		try:
-			scanid = 0
-			hostid = 0
-
-			logging.info('initializing parser...')
-			self.p = Parser.Parser(self.XMLfilename)
-
-			#session (scan) informaiton
-			logging.info('parsing scan information...')
-			session = self.p.get_session()
-
-			if (session is None):
+            logging.debug('parsing scan results...')
+			self.results = Parser.Parser(self.xml_results)
+			session = self.results.get_session()
+			if session is None:
 				raise SessionError('Unable to read scan session')
-			SQL = "call pInsertScan(" \
-					+ str(self.userId) + ", " \
-					+ "'" + session.nmap_version + "', " \
-					+ "'" + session.scan_args + "', " \
-					+ "'" + session.start_time + "', " \
-					+ "'" + session.finish_time + "')"
-			dbconn = MySQLdb.connect(host=self.dbhost, user=self.username, \
-									passwd=self.password, db=self.dbname)
-			cursor = dbconn.cursor()
-			#import pdb; pdb.set_trace()
-			logging.info('SQL Statement:\n %s', SQL)
-			cursor.callproc("pInsertScan", (self.userId, \
-											session.nmap_version, \
-											session.scan_args, \
-											session.start_time, \
-											session.finish_time))
-			#cursor.execute(SQL)
-			result = cursor.fetchone()
-			scanid = result[0]
-			#scanid = cursor.lastrowid
-			#scanid=db.insert_id()
-			logging.info('** scanid: %s', str(scanid))
-			cursor.close()
 
-			#parse hosts
-			for h in self.p.all_hosts():
-				try:
-					logging.info('parsing host %s ...', h.ipv4)
-					cursor = dbconn.cursor()
-					cursor.callproc("pInsertHost", (scanid, \
-													h.ipv4, \
-													h.hostname, \
-													h.status, \
-													h.macaddr, \
-													h.vendor, \
-													h.ipv6, \
-													h.distance, \
-													h.uptime, \
-													h.lastboot))
-					result = cursor.fetchone()
-					hostid = result[0]
-					logging.info('** hostid: %s', str(hostid))
-					#cursor.execute(SQL)
-					#hostid = cursor.lastrowid
-					#hostid = db.insert_id()
-					cursor.close()
+            ''' taken from pInsertScan sproc:
+            CREATE PROCEDURE pInsertScan(IN v_userid INT, IN v_version TEXT, IN v_args TEXT,
+                 IN v_startstr TEXT, IN v_endstr TEXT)
+            BEGIN
+            INSERT INTO scans (userId, version, args, startstr, endstr)
+                        values ( v_userid, v_version, v_args, v_startstr, v_endstr );
+            SELECT @@identity;
+            END'''
+            logging.debug('building scan object')
+            scan = Scans()
+            scan.userid = User.objects.get(pk=int(user_id))
+            scan.subscription_level = 0
+            scan.version = session.nmap_version
+            scan.args = session.scan_args
+            scan.starttime = session.start_time
+            scan.endtime = session.finish_time
+            scan.save()
+            logging.debug('scanid is {0}'.format(scan.id))
 
-					#parse OS
-					for OS_node in h.get_OS():
-						SQL = "CALL pInsertOS(" \
-								+ str(hostid) + ", " \
-								+ "'" + OS_node.name + "', " \
-								+ "'" + OS_node.family + "', " \
-								+ "'" + OS_node.generation + "', " \
-								+ "'" + OS_node.os_type + "', " \
-								+ "'" + OS_node.vendor + "', " \
-								+ str(OS_node.accuracy) + ")"
-						logging.info('SQL Statement:\n %s', SQL)
-						cursor = dbconn.cursor()
-						cursor.execute(SQL)
-						cursor.close()
+            # save host information
+            for h in self.results.all_hosts():
+                try:
+                    ''' taken from pInsertHost sproc:
+                    CREATE PROCEDURE pInsertHost(, IN v_sid INT, IN v_ip4 TEXT, IN v_hostname TEXT,
+                        IN v_status TEXT, IN v_mac TEXT, IN v_vendor TEXT, IN v_ip6 TEXT, IN v_distance INT,
+                        IN v_uptime TEXT, IN v_upstr TEXT)
+                    BEGIN
+                    INSERT INTO hosts ( sid, ip4, hostname, status, mac, vendor, ip6, distance, uptime,
+                    upstr) VALUES ( v_sid, v_ip4, v_hostname, v_status, v_mac, v_vendor, v_ip6, v_distance,
+                    v_uptime, v_upstr);
+                    SELECT @@identity;
+                    END '''
+                    logging.debug('parsing host {0}'.format(h.ipv4))
+                    host = Hosts()
+                    host.sid = scan
+                    host.ip4 = h.ipv4
+                    host.hostname = h.hostname
+                    host.status = h.status
+                    host.mac = h.macaddr
+                    host.ip6 = h.ipv6
+                    host.distance = h.distance
+                    host.uptime = h.uptime
+                    host.upstr = h.lastboot
+                    host.save()
+                    logging.debug('hostid is {0}'.format(host.id))
 
-					#parse tcp ports
-					logging.info('number of open tcp ports: %s', str(len(h.get_ports('tcp', 'open'))))
+                    for os_node in h.get_OS():
+                        ''' taken from pInsertOS sproc:
+                        CREATE PROCEDURE pInsertOS (IN v_hid INT, IN v_name TEXT, IN v_family TEXT,
+                            IN v_generation TEXT, IN v_type TEXT, IN v_vendor TEXT, IN v_accuracy INT)
+                        BEGIN
+                        INSERT INTO os (hid, name, family, generation, type, vendor, accuracy)
+                        VALUES ( v_hid, v_name, v_family, v_generation, v_type, v_vendor, v_accuracy);
+                        END '''
+                        os = Os()
+                        os.hid = host
+                        os.name = os_node.name
+                        os.family = os_node.family
+                        os.generation = os_node.generation
+                        os.os_type = os_node.os_type
+                        os.vendor = os_node.vendor
 
+					#parse TCP ports
+					logging.debug('number of open TCP ports: %s', str(len(h.get_ports('tcp', 'open'))))
 					for port in h.get_ports('tcp', 'open'):
-						SQL = "CALL pInsertPort(" \
-								+ str(hostid) + ", " \
-								+ str(port) + ", "
-						service = h.get_service('tcp', port)
-						if not (service is None):
-							SQL += "'open', " \
-									+ "'" + service.name + "', " \
-									+ "'" + service.product + "', " \
-									+ "'" + service.version + "', " \
-									+ "'" + service.fingerprint + "', " \
-									+ "'tcp')"
-						else:
-							SQL += "'open', '', '', '', '', 'tcp')"
-						logging.info('SQL Statement:\n %s', SQL)
-						cursor = dbconn.cursor()
-						cursor.execute(SQL)
-						cursor.close()
+                        ''' taken from pInsertPort sproc:
+                        CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT,
+                            IN v_name TEXT, IN v_product TEXT, IN v_version TEXT, IN v_fingerprint TEXT,
+                            IN v_proto TEXT)
+                        BEGIN
+                        INSERT INTO ports (hid, port, state, name, product, version, fingerprint, proto )
+                        VALUES (v_hid, v_port, v_state, v_name, v_product, v_version, v_fingerprint, v_proto);
+                        END '''
+                        service = h.get_service('tcp', port)
+                        tcp_port = Ports()
+                        tcp_port.state = 'open'
+                        tcp_port.proto = 'tcp'
+                        if service:
+                            tcp_port.name = service.name
+                            tcp_port.product = service.product
+                            tcp_port.version = service.version
+                            tcp_port.fingerprint = service.fingerprint
+                        tcp_port.save()
 
-					#parse udp ports
-					logging.info('number of open udp ports: %s', str(len(h.get_ports('udp', 'open'))))
+                    # parse UDP ports
+					logging.debug('number of open UDP ports: %s', str(len(h.get_ports('udp', 'open'))))
 					for port in h.get_ports('udp', 'open'):
-						SQL = "CALL pInsertPort(" \
-								+ str(hostid) + ", " \
-								+ str(port) + ", "
-						service = h.get_service('udp', port)
-						if not (service is None):
-							SQL += "'open', " \
-									+ "'" + service.name + "', " \
-									+ "'" + service.product + "', " \
-									+ "'" + service.version + "', " \
-									+ "'" + service.fingerprint + "', " \
-									+ "'udp')"
-						else:
-							SQL += "'open', '', '', '', '', 'udp')"
-						plogging.info('SQL Statement:\n %s', SQL)
-						cursor = dbconn.cursor()
-						cursor.execute(SQL)
-						cursor.close()
+                        ''' taken from pInsertPort sproc:
+                        CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT,
+                            IN v_name TEXT, IN v_product TEXT, IN v_version TEXT, IN v_fingerprint TEXT,
+                            IN v_proto TEXT)
+                        BEGIN
+                        INSERT INTO ports (hid, port, state, name, product, version, fingerprint, proto )
+                        VALUES (v_hid, v_port, v_state, v_name, v_product, v_version, v_fingerprint, v_proto);
+                        END '''
+                        service = h.get_service('udp', port)
+                        udp_port = Ports()
+                        udp_port.state = 'open'
+                        udp_port.proto = 'udp'
+                        if service:
+                            udp_port.name = service.name
+                            udp_port.product = service.product
+                            udp_port.version = service.version
+                            udp_port.fingerprint = service.fingerprint
+                        udp_port.save()
 
 					#parse script output
 					try:
-						#import pdb; pdb.set_trace()
 						sp = script_parser.cScriptParser()
-						#print "getting script contents"
 						for scr in h.get_scripts():
-							#print "matching output"
-							#import pdb; pdb.set_trace()
 							vulnId = sp.parseOutput(scr.scriptId, scr.output)
 							if vulnId > 0:
 								logging.info('vuln id: %s', str(vulnId))
@@ -179,29 +142,17 @@ class cSQLImporter:
 								result = cursor.fetchone()
 								cursor.close()
 					except Exception as ex:
-						logging.error('Error parsing script output:\n %s', ex)
-						e = sys.exc_info()[0]
-						logging.error('%s', str(e))
-				except:
-					logging.error('Error parsing host information.')
+						logging.error('Error parsing script output:\n{0}'.format(ex))
 
-			dbconn.close()
-			return 0
-		except IOError as ioE:
-			logging.error('Error processing file: %s', ioE.strerror)
+                except Exception as ex:
+					logging.error('Error parsing host information.\n{0}'.format(ex))
+
 		except Exception as ex:
-			logging.error('Error processing file:\n %s', ex)
-			return 1
-
-
+			logging.error('Error processing results:\n{0}'.format(ex))
 
 
 
 if __name__ == '__main__':
-
-	#import pdb; pdb.set_trace()
-
-
 	cp = cSQLImporter('/tmp/test_pwn01.xml', 1001)
 	cp.process()
 

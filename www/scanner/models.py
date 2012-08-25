@@ -51,7 +51,7 @@ class Os(models.Model):
     name = models.TextField(blank=True)
     family = models.TextField(blank=True)
     generation = models.TextField(blank=True)
-    type = models.TextField(blank=True)
+    os_type = models.TextField(blank=True, db_column='type')
     vendor = models.TextField(blank=True)
     accuracy = models.IntegerField(null=True, blank=True)
     class Meta:
@@ -62,7 +62,7 @@ class Ports(models.Model):
     pid = models.IntegerField(primary_key=True)
     hid = models.ForeignKey(Hosts, db_column='hid')
     port = models.IntegerField(null=True, blank=True)
-    type = models.TextField(blank=True)
+    port_type = models.TextField(blank=True, db_column='type')
     state = models.TextField(blank=True)
     name = models.TextField(blank=True)
     tunnel = models.TextField(blank=True)
