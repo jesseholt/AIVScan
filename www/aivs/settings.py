@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'bootstrap',
     'registration',
     'registration_backend',
+    'scanner',
 )
 
 # Authentication settings
