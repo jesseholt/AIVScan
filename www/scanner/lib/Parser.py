@@ -6,38 +6,31 @@ __modified_by = 'ketchup'
 
 import sys
 import pprint
-import Session
-import Host
-import Script
+import scanner.lib.Session
+import scanner.lib.Host
+import scanner.lib.Script
 import xml.dom.minidom
 
 class Parser:
 
     '''Parser class, parse a xml format nmap report'''
 
-    def __init__( self, FileName ):
+    def __init__( self, xml_input ):
 
         '''constructor function, need a xml file name as the argument'''
         try:
-            self.__dom = xml.dom.minidom.parse(FileName)
-        except IOError:
-            print "IO error, open " +FileName+ " error"
-            sys.exit()
-        except:
-            print "parse " +FileName+ " error"
-            sys.exit()
-
-        self.__session = None
-
-        self.__hosts = { }
-        for host_node in self.__dom.getElementsByTagName('host'):
-            __host =  Host.Host(host_node)
+            self.__dom = xml.dom.minidom.parseString(xml_input)
+            self.__session = None
+            self.__hosts = { }
+            for host_node in self.__dom.getElementsByTagName('host'):
+                __host =  Host.Host(host_node)
             self.__hosts[__host.ip] = __host
-
+        except Exception as ex:
+            logging.error(ex)
 
     def get_session( self ):
 
-        '''get this scan's information, return a Session object'''
+        '''get this scans information, return a Session object'''
 
         run_node = self.__dom.getElementsByTagName('nmaprun')[0]
         hosts_node = self.__dom.getElementsByTagName('hosts')[0]
