@@ -8,7 +8,7 @@ from django.template import RequestContext
 import re
 import simplejson
 
-from aivs import tasks
+from scanner import tasks
 from aivs.models import ScanResult, Scans
 from aivs.forms import ContactForm, ScanRequestForm
 '''
