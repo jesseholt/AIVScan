@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# Copyright 2012 Team Pwn Stars
+
 from django.test import TestCase
 
 from scanner.script_parser import NmapScriptParser
