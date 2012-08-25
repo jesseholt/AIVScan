@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright 2012 Team Pwn Stars
 
@@ -33,13 +32,4 @@ class NmapScriptParser:
         except Exception as ex:
             logging.error('Error parsing script output\n{0}'.format(ex))
             return None
-
-
-if __name__ == '__main__':
-
-    script_id = 'smb-check-vulns'
-    script_output = 'bla bla MS08-067: VULNERABLE bla bla'
-
-    sp = cScriptParser()
-    sp.parseOutput(script_id, script_output)
 

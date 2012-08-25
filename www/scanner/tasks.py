@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Copyright 2012 Team Pwn Stars
+
 import os
 import subprocess
 from django.conf import settings

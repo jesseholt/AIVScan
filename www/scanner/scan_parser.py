@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright 2012 Team Pwn Stars
 
@@ -128,10 +127,6 @@ class ScanImporter:
                 port.fingerprint = service.fingerprint
                 port.save()
 
-
-if __name__ == '__main__':
-	cp = cSQLImporter('/tmp/test_pwn01.xml', 1001)
-	cp.process()
 
 
 
