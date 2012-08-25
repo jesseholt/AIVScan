@@ -8,9 +8,9 @@ from django.conf.settings import settings
 
 class NmapScriptParser:
 
-    #returns vulnId if matched, 0 if not matched
     def parse_output(self, script_id, script_output, host_id):
         '''
+        Returns a Vulns object if there is a match on the script output.
         taken from pGetTextVulnRef sproc
         CREATE PROCEDURE pGetTextVulnRef_byScriptID (IN v_scriptID VARCHAR(100))
         BEGIN
@@ -26,7 +26,8 @@ class NmapScriptParser:
                         logging.debug('vuln id: {0}'.format(vulnId))
                         vuln = Vulns()
                         vuln.hid = host_id
-                        vuln.tvid = TextVulns.get(pk=int(vulnId))
+                        vuln.tvid = vulnerability.id
+                        vuln.save()
                         return vuln
             return None             # either no listing or no matchstring
         except Exception as ex:

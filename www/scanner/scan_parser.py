@@ -87,49 +87,9 @@ class cSQLImporter:
                         os.os_type = os_node.os_type
                         os.vendor = os_node.vendor
 
-					#parse TCP ports
-					logging.debug('number of open TCP ports: %s', str(len(h.get_ports('tcp', 'open'))))
-					for port in h.get_ports('tcp', 'open'):
-                        ''' taken from pInsertPort sproc:
-                        CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT,
-                            IN v_name TEXT, IN v_product TEXT, IN v_version TEXT, IN v_fingerprint TEXT,
-                            IN v_proto TEXT)
-                        BEGIN
-                        INSERT INTO ports (hid, port, state, name, product, version, fingerprint, proto )
-                        VALUES (v_hid, v_port, v_state, v_name, v_product, v_version, v_fingerprint, v_proto);
-                        END '''
-                        service = h.get_service('tcp', port)
-                        tcp_port = Ports()
-                        tcp_port.state = 'open'
-                        tcp_port.proto = 'tcp'
-                        if service:
-                            tcp_port.name = service.name
-                            tcp_port.product = service.product
-                            tcp_port.version = service.version
-                            tcp_port.fingerprint = service.fingerprint
-                        tcp_port.save()
-
-                    # parse UDP ports
-					logging.debug('number of open UDP ports: %s', str(len(h.get_ports('udp', 'open'))))
-					for port in h.get_ports('udp', 'open'):
-                        ''' taken from pInsertPort sproc:
-                        CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT,
-                            IN v_name TEXT, IN v_product TEXT, IN v_version TEXT, IN v_fingerprint TEXT,
-                            IN v_proto TEXT)
-                        BEGIN
-                        INSERT INTO ports (hid, port, state, name, product, version, fingerprint, proto )
-                        VALUES (v_hid, v_port, v_state, v_name, v_product, v_version, v_fingerprint, v_proto);
-                        END '''
-                        service = h.get_service('udp', port)
-                        udp_port = Ports()
-                        udp_port.state = 'open'
-                        udp_port.proto = 'udp'
-                        if service:
-                            udp_port.name = service.name
-                            udp_port.product = service.product
-                            udp_port.version = service.version
-                            udp_port.fingerprint = service.fingerprint
-                        udp_port.save()
+                    # parse TCP and UDP ports
+                    self.parse_ports(host, proto='tcp')
+                    self.parse_ports(host, proto='udp')
 
 					#parse script output
 					try:
@@ -144,6 +104,31 @@ class cSQLImporter:
 
 		except Exception as ex:
 			logging.error('Error processing results:\n{0}'.format(ex))
+
+
+    def parse_ports(self, host, proto='tcp'):
+        '''
+        taken from pInsertPort sproc:
+        CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT, IN v_name TEXT,
+           IN v_product TEXT, IN v_version TEXT, IN v_fingerprint TEXT, IN v_proto TEXT)
+        BEGIN
+        INSERT INTO ports (hid, port, state, name, product, version, fingerprint, proto )
+        VALUES (v_hid, v_port, v_state, v_name, v_product, v_version, v_fingerprint, v_proto);
+        END '''
+        logging.debug('number of open {0} ports {1}'.format(proto.upper(),
+                                                            len(h.get_ports(proto, 'open'))))
+        for port in host.get_ports(proto, 'open'):
+            service = host.get_service(proto, port)
+            port = Ports()
+            port.state = 'open'
+            port.proto = proto
+            if service:
+                port.name = service.name
+                port.product = service.product
+                port.version = service.version
+                port.fingerprint = service.fingerprint
+                port.save()
+
 
 if __name__ == '__main__':
 	cp = cSQLImporter('/tmp/test_pwn01.xml', 1001)
