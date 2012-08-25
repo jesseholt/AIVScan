@@ -1,7 +1,7 @@
 # Django settings for AIVS project.
+import os
 
 LOGDIR = os.path.abspath('/path/to/log/files')
-SCANDIR = os.path.abspath('/path/to/scan/files')
 
 DATABASES = {
     'default': {

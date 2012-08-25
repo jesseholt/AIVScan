@@ -6,7 +6,6 @@ ROOTDIR = os.path.abspath(os.path.join(BASEDIR, '..'))
 
 # sloppy hack for now, override these locally in local_settings.py
 LOGDIR = os.path.abspath('/home/aivs/var/logs')
-SCANDIR = os.path.abspath('/home/aiv/var/scans')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -149,6 +148,11 @@ djcelery.setup_loader()
 
 BROKER_URL = 'django://'
 
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -187,8 +191,3 @@ LOGGING = {
             }
     }
 }
-
-try:
-    from local_settings import *
-except ImportError:
-    pass
