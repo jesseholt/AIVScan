@@ -1,65 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-#       untitled.py
-#
-#       Copyright 2012 Team Pwn Stars
-#
+# Copyright 2012 Team Pwn Stars
 
-import MySQLdb
-import logging
-import sys, os
-
-#import local_settings.py for database creds
 import os, sys
-settings_path = os.path.abspath('../www/aivs')
-sys.path.append(settings_path)
-import local_settings
+import logging
+from django.conf.settings import settings
 
-class cScriptParser:
-
-    dbconn = None
-    username = local_settings.DATABASES['default']['USER']
-    password = local_settings.DATABASES['default']['PASSWORD']
-    dbhost = local_settings.DATABASES['default']['HOST']
-    dbname = local_settings.DATABASES['default']['NAME']
-
-    def __init__(self):
-        self.dbconn = None
+class NmapScriptParser:
 
     #returns vulnId if matched, 0 if not matched
-    def parseOutput(self, scriptID, sOutput):
+    def parse_output(self, script_id, script_output, host_id):
+        '''
+        taken from pGetTextVulnRef sproc
+        CREATE PROCEDURE pGetTextVulnRef_byScriptID (IN v_scriptID VARCHAR(100))
+        BEGIN
+        SELECT tvid, ScriptID, MatchString, VulnString, FixString FROM TextVulns
+        WHERE ScriptID = v_scriptID;
+        END
+        '''
         try:
-            #init DB connection
-            dbconn = MySQLdb.connect(host=self.dbhost, user=self.username, \
-                        passwd=self.password, db=self.dbname)
-            cursor = dbconn.cursor()
-
-            cursor.callproc("pGetTextVulnRef_byScriptID", ([scriptID]))
-
-            rows = cursor.fetchall()
-            for row in rows:
-                MatchString = row[2] #match string
-                vulnId = row[0]
-                if MatchString in sOutput:
-                    #print "found match: " + MatchString    + " for tvid: " + str(vulnId)
-                    cursor.close()
-                    return vulnId
-                    break
-
-        except:
-            e = sys.exc_info()[0]
-            logging.error('Error parsing script output: %s',  str(e))
-            return 0
-
-        return 0
+            vulnerabilities = Textvulns.filter(scriptid=script_id)
+            if vulnerabilities:
+                for vulnerability in vulnerabilities:
+                    if vulnerability.matchstring in script_output:
+                        logging.debug('vuln id: {0}'.format(vulnId))
+                        vuln = Vulns()
+                        vuln.hid = host_id
+                        vuln.tvid = TextVulns.get(pk=int(vulnId))
+                        return vuln
+            return None             # either no listing or no matchstring
+        except Exception as ex:
+            logging.error('Error parsing script output\n{0}'.format(ex))
+            return None
 
 
 if __name__ == '__main__':
 
-    scriptID = 'smb-check-vulns'
-    sOutput = 'bla bla MS08-067: VULNERABLE bla bla'
+    script_id = 'smb-check-vulns'
+    script_output = 'bla bla MS08-067: VULNERABLE bla bla'
 
     sp = cScriptParser()
-    sp.parseOutput(scriptID, sOutput)
+    sp.parseOutput(script_id, script_output)
 

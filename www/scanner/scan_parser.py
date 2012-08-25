@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright 2012 Team Pwn Stars
 
@@ -132,15 +133,9 @@ class cSQLImporter:
 
 					#parse script output
 					try:
-						sp = script_parser.cScriptParser()
+						nsp = script_parser.NmapScriptParser()
 						for scr in h.get_scripts():
-							vulnId = sp.parseOutput(scr.scriptId, scr.output)
-							if vulnId > 0:
-								logging.info('vuln id: %s', str(vulnId))
-								cursor = dbconn.cursor()
-								cursor.callproc("pInsertVuln", (hostid, vulnId))
-								result = cursor.fetchone()
-								cursor.close()
+							vulnId = nsp.parse_output(scr.scriptId, scr.output, host.id)
 					except Exception as ex:
 						logging.error('Error parsing script output:\n{0}'.format(ex))
 
@@ -149,8 +144,6 @@ class cSQLImporter:
 
 		except Exception as ex:
 			logging.error('Error processing results:\n{0}'.format(ex))
-
-
 
 if __name__ == '__main__':
 	cp = cSQLImporter('/tmp/test_pwn01.xml', 1001)
