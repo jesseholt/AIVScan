@@ -13,7 +13,7 @@ class Portvulns(models.Model):
     vulnstring = models.TextField(db_column='VulnString', blank=True) # Field name made lowercase.
     fixstring = models.TextField(db_column='FixString', blank=True) # Field name made lowercase.
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'PortVulns'
 
 class Textvulns(models.Model):
@@ -23,7 +23,7 @@ class Textvulns(models.Model):
     vulnstring = models.TextField(db_column='VulnString', blank=True) # Field name made lowercase.
     fixstring = models.TextField(db_column='FixString', blank=True) # Field name made lowercase.
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'TextVulns'
 
 class Hosts(models.Model):
@@ -42,7 +42,7 @@ class Hosts(models.Model):
     uptime = models.TextField(blank=True)
     upstr = models.TextField(blank=True)
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'hosts'
 
 class Os(models.Model):
@@ -55,7 +55,7 @@ class Os(models.Model):
     vendor = models.TextField(blank=True)
     accuracy = models.IntegerField(null=True, blank=True)
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'os'
 
 class Ports(models.Model):
@@ -76,7 +76,7 @@ class Ports(models.Model):
     rpcnum = models.TextField(blank=True)
     fingerprint = models.TextField(blank=True)
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'ports'
 
 class Scans(models.Model):
@@ -93,7 +93,7 @@ class Scans(models.Model):
     endstr = models.TextField(blank=True)
     numservices = models.IntegerField(null=True, blank=True)
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'scans'
 
 class Sequencing(models.Model):
@@ -107,7 +107,7 @@ class Sequencing(models.Model):
     tcptclass = models.TextField(blank=True)
     tcptvalues = models.TextField(blank=True)
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'sequencing'
 
 class Vulns(models.Model):
@@ -115,5 +115,5 @@ class Vulns(models.Model):
     hid = models.ForeignKey(Hosts, db_column='hid')
     tvid = models.ForeignKey(Textvulns, db_column='tvid')
     class Meta:
-        app_label = 'aivs'
+        app_label = 'scanner'
         db_table = u'vulns'
