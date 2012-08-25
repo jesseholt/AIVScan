@@ -4,6 +4,10 @@ import os
 BASEDIR=os.path.dirname(os.path.abspath(__file__))
 ROOTDIR = os.path.abspath(os.path.join(BASEDIR, '..'))
 
+# sloppy hack for now, override these locally in local_settings.py
+LOGDIR = os.path.abspath('/home/aivs/var/logs')
+SCANDIR = os.path.abspath('/home/aiv/var/scans')
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -163,7 +167,13 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'log_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGDIR, 'aivs_django.log'),
+            'maxBytes': '16777216', # 16 MB
+            },
     },
     'loggers': {
         'django.request': {
@@ -171,6 +181,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+       'file': {
+            'handlers': ['log_file'],
+            'level': 'INFO',
+            }
     }
 }
 

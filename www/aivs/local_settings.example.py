@@ -1,5 +1,8 @@
 # Django settings for AIVS project.
 
+LOGDIR = os.path.abspath('/path/to/log/files')
+SCANDIR = os.path.abspath('/path/to/scan/files')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
