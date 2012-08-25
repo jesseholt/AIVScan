@@ -3,44 +3,47 @@
 
 import os, sys
 import logging
-from django.conf.settings import settings
+from datetime import datetime
 
 from scanner.lib import Parser
 from scanner.script_parser import NmapScriptParser
 from scanner.models import *
 
+class SessionError(Exception):
+    pass
+
 class ScanImporter:
 
-	def __init__(self, xml_results, user_id):
-		self.xml_results = xml_results
-		self.user_id = user_id
+    def __init__(self, xml_results, user_id):
+        self.xml_results = xml_results
+        self.user_id = user_id
 
-	def process(self):
-		try:
+    def process(self):
+        try:
             logging.debug('parsing scan results...')
-			self.results = Parser.Parser(self.xml_results)
-			session = self.results.get_session()
-			if session is None:
-				raise SessionError('Unable to read scan session')
+            self.results = Parser.Parser(self.xml_results)
+            session = self.results.get_session()
+            if session is None:
+                raise SessionError('Unable to read scan session')
 
             ''' taken from pInsertScan sproc:
             CREATE PROCEDURE pInsertScan(IN v_userid INT, IN v_version TEXT, IN v_args TEXT,
-                 IN v_startstr TEXT, IN v_endstr TEXT)
+               IN v_startstr TEXT, IN v_endstr TEXT)
             BEGIN
             INSERT INTO scans (userId, version, args, startstr, endstr)
-                        values ( v_userid, v_version, v_args, v_startstr, v_endstr );
+            values ( v_userid, v_version, v_args, v_startstr, v_endstr );
             SELECT @@identity;
-            END'''
+            END '''
             logging.debug('building scan object')
             scan = Scans()
-            scan.userid = User.objects.get(pk=int(user_id))
+            scan.userid = User.objects.get(pk=int(self.user_id))
             scan.subscription_level = 0
             scan.version = session.nmap_version
             scan.args = session.scan_args
-            scan.starttime = session.start_time
-            scan.endtime = session.finish_time
+            scan.starttime = datetime.strptime(session.start_time, '%a %b %d %H:%M:%S %Y')
+            scan.endtime = datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')
             scan.save()
-            logging.debug('scanid is {0}'.format(scan.id))
+            logging.debug('scanid is {0}'.format(scan.sid))
 
             # save host information
             for h in self.results.all_hosts():
@@ -67,9 +70,11 @@ class ScanImporter:
                     host.uptime = h.uptime
                     host.upstr = h.lastboot
                     host.save()
-                    logging.debug('hostid is {0}'.format(host.id))
+                    print(host)
+                    logging.debug('hostid is {0}'.format(host.hid))
 
                     for os_node in h.get_OS():
+                        print 'OS: '.format(os_node)
                         ''' taken from pInsertOS sproc:
                         CREATE PROCEDURE pInsertOS (IN v_hid INT, IN v_name TEXT, IN v_family TEXT,
                             IN v_generation TEXT, IN v_type TEXT, IN v_vendor TEXT, IN v_accuracy INT)
@@ -86,25 +91,25 @@ class ScanImporter:
                         os.vendor = os_node.vendor
 
                     # parse TCP and UDP ports
-                    self.parse_ports(host, proto='tcp')
-                    self.parse_ports(host, proto='udp')
+                    self.parse_ports(h, host, proto='tcp')
+                    self.parse_ports(h, host, proto='udp')
 
-					#parse script output
-					try:
-						nsp = NmapScriptParser()
-						for scr in h.get_scripts():
-							vulnId = nsp.parse_output(scr.scriptId, scr.output, host.id)
-					except Exception as ex:
-						logging.error('Error parsing script output:\n{0}'.format(ex))
+                    #parse script output
+                    try:
+                        nsp = NmapScriptParser()
+                        for scr in h.get_scripts():
+                            vulnId = nsp.parse_output(scr.scriptId, scr.output, host.hid)
+                    except Exception as ex:
+                        logging.error('Error parsing script output:\n{0}'.format(ex))
 
                 except Exception as ex:
-					logging.error('Error parsing host information.\n{0}'.format(ex))
+                    logging.error('Error parsing host information.\n{0}'.format(ex))
 
-		except Exception as ex:
-			logging.error('Error processing results:\n{0}'.format(ex))
+        except Exception as ex:
+            logging.error('Error processing results:\n{0}'.format(ex))
 
 
-    def parse_ports(self, host, proto='tcp'):
+    def parse_ports(self, h, host, proto='tcp'):
         '''
         taken from pInsertPort sproc:
         CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT, IN v_name TEXT,
@@ -115,9 +120,10 @@ class ScanImporter:
         END '''
         logging.debug('number of open {0} ports {1}'.format(proto.upper(),
                                                             len(h.get_ports(proto, 'open'))))
-        for port in host.get_ports(proto, 'open'):
-            service = host.get_service(proto, port)
+        for port in h.get_ports(proto, 'open'):
+            service = h.get_service(proto, port)
             port = Ports()
+            port.hid = host
             port.state = 'open'
             port.proto = proto
             if service:

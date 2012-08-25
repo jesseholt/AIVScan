@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2012 Team Pwn Stars
 
-import os
+import tempfile
 import subprocess
 from django.conf import settings
 import logging
@@ -19,20 +19,24 @@ def run_scan(user, safe_ip_address, subscription_level=0):
     '''
     # Initialize the scan variables to pass to the subprocess call
     nmap_args = [
-        'nmap'
+        'nmap',
         '-sT',
         '-sV',
         '-P0',
         '-oX',
+        '-', # output the XML to stdout rather than a real file so we can capture it
         '--script',
         'smb-check-vulns,vuln,exploit', # run these nse scripts
         safe_ip_address
         ]
-    try:
-        # by using check_call we can get the stdout from nmap and then pipe that as a string
-        # directly into the scan_parsing module without having to do file I/O
-        xml_results = subprocess.check_call(nmap_args)
+    #try:
+    std_out = tempfile.mkstemp() # generates a secure temp file with no race conditions
+    success = subprocess.check_call(nmap_args, stdout=std_out[0])
+    if success == 0:
+        f = open(std_out[1], 'r') # read the file-like back into memory.
+        xml_results = f.read()
+        f.close()
         si = ScanImporter(xml_results, user.id)
         si.process()
-    except Exception as ex:
-        logging.error(ex)
+    #except Exception as ex:
+    #    logging.error('Task failed to initiate\n'.format(ex))

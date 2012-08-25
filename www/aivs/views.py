@@ -8,9 +8,9 @@ from django.template import RequestContext
 import re
 import simplejson
 
-from scanner import tasks
-from aivs.models import ScanResult, Scans
 from aivs.forms import ContactForm, ScanRequestForm
+from scanner import tasks
+from scanner.models import Scans
 '''
 This module contains the main logic of the web application.  Although the module is called views
 in the Django convention, this module takes the role of Controller in the classic MVC pattern.

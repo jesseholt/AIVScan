@@ -1,14 +1,13 @@
 #!/usr/bin/python
-'''this module used to parse nmap's xml report'''
+'''this module used to parse nmap xml report'''
 __author__ =  'yunshu(wustyunshu@hotmail.com)'
 __version__=  '0.2'
 __modified_by = 'ketchup'
 
 import sys
 import pprint
-import scanner.lib.Session
-import scanner.lib.Host
-import scanner.lib.Script
+import logging
+from scanner.lib import Session, Host, Script
 import xml.dom.minidom
 
 class Parser:

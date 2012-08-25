@@ -3,7 +3,7 @@
 
 import os, sys
 import logging
-from django.conf.settings import settings
+from scanner.models import *
 
 class NmapScriptParser:
 
@@ -18,7 +18,7 @@ class NmapScriptParser:
         END
         '''
         try:
-            vulnerabilities = Textvulns.filter(scriptid=script_id)
+            vulnerabilities = Textvulns.objects.filter(scriptid=script_id)
             if vulnerabilities:
                 for vulnerability in vulnerabilities:
                     if vulnerability.matchstring in script_output:
