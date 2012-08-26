@@ -15,7 +15,8 @@
      <div class="hero-unit">
        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
        <p>Welcome back to AIVScan! What would you like to do?</p>
-       <p><a class="btn btn-primary btn-large" href="{% url scan %}">Start a new scan &raquo;</a></p>
+       <p><a class="btn btn-primary btn-large" href="{% url scan %}">
+       Start a new scan &raquo;</a></p>
      </div>
 
      <h2>Previous Scans</h2>
@@ -25,7 +26,7 @@
      {% for scan in scans %}
      <tr>
        <td class="span3">
-         <a href="{% url scan_report scan.sid %}">{{ scan.end_time|date:"Y M d" }}</a>
+         <a href="{% url scan_report scan.pk %}">{{ scan.end_time|date:"Y M d" }}</a>
        </td>
        <td>{{scan.ip}} {{scan.hostname}}</td>
      </tr>
