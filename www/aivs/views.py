@@ -40,9 +40,9 @@ def request_scan(request):
 @login_required(login_url='/login/')
 def profile(request):
     user = request.user
-    scans = list(Scans.objects.filter(userid=user).order_by('-endtime'))
+    scans = list(Scan.objects.filter(user_id=user).order_by('-endtime'))
     for scan in scans:
-        host = Hosts.objects.get(sid=scan.sid)
+        host = Host.objects.get(sid=scan.pk)
         scan.ip = host.ip4
         scan.hostname = host.hostname
     return render_to_response('profile.html', {'user':user, 'scans': scans},
@@ -56,27 +56,28 @@ def scan_report(request, id):
     '''
     user = request.user
     try:
-        report = Scans.objects.get(pk=id, userid=user.id)
-        host = Hosts.objects.get(sid=report.sid)
+        report = Scan.objects.get(pk=id, user_id=user.id)
+        host = Host.objects.get(scan=report.pk)
         try:
-            OS = Os.objects.get(hid=host.hid)
+            OS = OperatingSystem.objects.get(hid=host.pk)
         except:
             OS = MockModel()
             OS.name = 'No OS information detected.'
-        ports = Ports.objects.filter(hid=host.hid)
-        vulns = Textvulns.objects.filter(vulns__hid=host.hid)
+        ports = Port.objects.filter(host=host.pk)
+        vulns = KnownVulnerability.objects.filter(foundvulnerability__host=host.pk)
 
         return render_to_response('report.html',
-                                  {'user':user,
-                                   'report':report,
-                                   'host':host,
-                                   'OS':OS,
-                                   'ports':ports,
-                                   'vulns':vulns,
+                                  {'user': user,
+                                   'report': report,
+                                   'host': host,
+                                   'OS': OS,
+                                   'ports': ports,
+                                   'vulns': vulns,
                                    },
                                   context_instance=RequestContext(request))
-    except Scans.DoesNotExist:
-        pass # TODO: do some kind of proper error handling here
+    except Scan.DoesNotExist:
+        return HttpResponseRedirect('/profile/') # TODO: do some kind of proper error handling here
+
 
 def contact(request):
     if request.method == 'POST':

@@ -35,15 +35,15 @@ class ScanImporter:
             SELECT @@identity;
             END '''
             logging.debug('building scan object')
-            scan = Scans()
-            scan.userid = User.objects.get(pk=int(self.user_id))
+            scan = Scan()
+            scan.user_id = User.objects.get(pk=int(self.user_id))
             scan.subscription_level = 0
             scan.version = session.nmap_version
-            scan.args = session.scan_args
-            scan.starttime = datetime.strptime(session.start_time, '%a %b %d %H:%M:%S %Y')
-            scan.endtime = datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')
+            scan.nmap_args = session.scan_args
+            scan.start_time = datetime.strptime(session.start_time, '%a %b %d %H:%M:%S %Y')
+            scan.end_time = datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')
             scan.save()
-            logging.debug('scanid is {0}'.format(scan.sid))
+            logging.debug('scanid is {0}'.format(scan.pk))
 
             # save host information
             for h in self.results.all_hosts():
@@ -59,22 +59,20 @@ class ScanImporter:
                     SELECT @@identity;
                     END '''
                     logging.debug('parsing host {0}'.format(h.ipv4))
-                    host = Hosts()
-                    host.sid = scan
+                    host = Host()
+                    host.scan = scan
                     host.ip4 = h.ipv4
                     host.hostname = h.hostname
                     host.status = h.status
                     host.mac = h.macaddr
-                    host.ip6 = h.ipv6
+                    # host.ip6 = h.ipv6
                     host.distance = h.distance
                     host.uptime = h.uptime
-                    host.upstr = h.lastboot
+                    host.last_boot = h.lastboot
                     host.save()
-                    print(host)
                     logging.debug('hostid is {0}'.format(host.hid))
 
                     for os_node in h.get_OS():
-                        print 'OS: '.format(os_node)
                         ''' taken from pInsertOS sproc:
                         CREATE PROCEDURE pInsertOS (IN v_hid INT, IN v_name TEXT, IN v_family TEXT,
                             IN v_generation TEXT, IN v_type TEXT, IN v_vendor TEXT, IN v_accuracy INT)
@@ -82,8 +80,8 @@ class ScanImporter:
                         INSERT INTO os (hid, name, family, generation, type, vendor, accuracy)
                         VALUES ( v_hid, v_name, v_family, v_generation, v_type, v_vendor, v_accuracy);
                         END '''
-                        os = Os()
-                        os.hid = host
+                        os = OperatingSystem()
+                        os.host = host
                         os.name = os_node.name
                         os.family = os_node.family
                         os.generation = os_node.generation
@@ -122,13 +120,13 @@ class ScanImporter:
                                                             len(h.get_ports(proto, 'open'))))
         for p in h.get_ports(proto, 'open'):
             service = h.get_service(proto, p)
-            port = Ports()
-            port.hid = host
+            port = Port()
+            port.host = host
             port.state = 'open'
             port.proto = proto
-            port.port = p.port
+            port.port_number = p.port
             if service:
-                port.name = service.name
+                port.service_name = service.name
                 port.product = service.product
                 port.version = service.version
                 port.fingerprint = service.fingerprint

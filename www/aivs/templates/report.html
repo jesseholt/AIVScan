@@ -22,8 +22,8 @@
 
 <h3>Host Information</h3>
 <table class="table table-striped">
-	  <tr><td>Start time:</td><td>{{ report.starttime }}</td></tr>
-      <tr><td>End time:</td><td>{{ report.endtime }}</td></tr>
+	  <tr><td>Start time:</td><td>{{ report.start_time }}</td></tr>
+      <tr><td>End time:</td><td>{{ report.end_time }}</td></tr>
 	  <tr><td>IP address:</td><td>{{ host.ip4 }}</td></tr>
 	  <tr><td>MAC Address:</td><td>{{ host.mac }}</td></tr>
 	  <tr><td>Operating System:</td><td>{{ OS.name }}</td></tr>
@@ -41,7 +41,7 @@
 <tbody>
 {% for vuln in vulns %}
 <tr>
-  <td class="span3">{{ vuln.risklevel }}</td>
+  <td class="span3">{{ vuln.risk_level }}</td>
   <td>{{ vuln.description }}</td>
   <td>{{ vuln.mitigation }}</td>
 </tr>
@@ -64,15 +64,15 @@
 <tbody>
 {% for port in ports %}
 <tr>
-  <td class="span2">{{ port.proto }} / {{ port.port }}</td>
+  <td class="span2">{{ port.proto }} / {{ port.port_number }}</td>
   <td class="span2">{{ port.state }}</td>
   <td>
     {% if port.product %} {{ port.product }} {{ product.version }}
     {% else %}
-    {{ port.name }}
+    {{ port.service_name }}
     {% endif %}
   </td>
-  <td>{{ port.extra }}</td>
+  <td>{{ port.description }}</td>
 </tr>
 {% endfor %}
 

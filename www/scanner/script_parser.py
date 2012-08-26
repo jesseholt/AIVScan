@@ -18,14 +18,14 @@ class NmapScriptParser:
         END
         '''
         try:
-            vulnerabilities = Textvulns.objects.filter(scriptid=script_id)
+            vulnerabilities = KnownVulnerability.objects.filter(script_id=script_id)
             if vulnerabilities:
                 for vulnerability in vulnerabilities:
-                    if vulnerability.matchstring in script_output:
-                        logging.debug('vuln id: {0}'.format(vulnId))
-                        vuln = Vulns()
-                        vuln.hid = host_id
-                        vuln.tvid = vulnerability.id
+                    if vulnerability.match_string in script_output:
+                        logging.debug('vuln id: {0}'.format(vulnerability.pk))
+                        vuln = FoundVulnerability()
+                        vuln.host = host_id
+                        vuln.known_vuln = vulnerability.pk
                         vuln.save()
                         return vuln
             return None             # either no listing or no matchstring
