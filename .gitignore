@@ -1,5 +1,7 @@
 *.py[co]
 *~
+*.swo
+*.swp
 
 # Secret information that shouldn't be checked in
 local_settings.py
