@@ -107,6 +107,9 @@ class Vulns(models.Model):
         app_label = 'scanner'
         db_table = u'vulns'
 
+class MockModel():
+    pass
+
 admin.site.register(Vulns)
 admin.site.register(Scans)
 admin.site.register(Ports)

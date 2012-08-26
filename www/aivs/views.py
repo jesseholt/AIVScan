@@ -10,7 +10,7 @@ import simplejson
 
 from aivs.forms import ContactForm, ScanRequestForm
 from scanner import tasks
-from scanner.models import Scans
+from scanner.models import *
 '''
 This module contains the main logic of the web application.  Although the module is called views
 in the Django convention, this module takes the role of Controller in the classic MVC pattern.
@@ -40,7 +40,11 @@ def request_scan(request):
 @login_required(login_url='/login/')
 def profile(request):
     user = request.user
-    scans = Scans.objects.filter(userid=user).order_by('-endtime')
+    scans = list(Scans.objects.filter(userid=user).order_by('-endtime'))
+    for scan in scans:
+        host = Hosts.objects.get(sid=scan.sid)
+        scan.ip = host.ip4
+        scan.hostname = host.hostname
     return render_to_response('profile.html', {'user':user, 'scans': scans},
                               context_instance=RequestContext(request))
 
@@ -52,11 +56,27 @@ def scan_report(request, id):
     '''
     user = request.user
     try:
-        report = Scans.objects.select_related().get(pk=id, userid=user.id)
-    except DoesNotExist:
-        return render_to_response('report.html', {'user':user, 'report':report},
-                                  context_instance=RequestContext(request))
+        report = Scans.objects.get(pk=id, userid=user.id)
+        host = Hosts.objects.get(sid=report.sid)
+        try:
+            OS = Os.objects.get(hid=host.hid)
+        except:
+            OS = MockModel()
+            OS.name = 'No OS information detected.'
+        ports = Ports.objects.filter(hid=host.hid)
+        vulns = Textvulns.objects.filter(vulns__hid=host.hid)
 
+        return render_to_response('report.html',
+                                  {'user':user,
+                                   'report':report,
+                                   'host':host,
+                                   'OS':OS,
+                                   'ports':ports,
+                                   'vulns':vulns,
+                                   },
+                                  context_instance=RequestContext(request))
+    except Scans.DoesNotExist:
+        pass # TODO: do some kind of proper error handling here
 
 def contact(request):
     if request.method == 'POST':

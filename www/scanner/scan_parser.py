@@ -120,12 +120,13 @@ class ScanImporter:
         END '''
         logging.debug('number of open {0} ports {1}'.format(proto.upper(),
                                                             len(h.get_ports(proto, 'open'))))
-        for port in h.get_ports(proto, 'open'):
-            service = h.get_service(proto, port)
+        for p in h.get_ports(proto, 'open'):
+            service = h.get_service(proto, p)
             port = Ports()
             port.hid = host
             port.state = 'open'
             port.proto = proto
+            port.port = p.port
             if service:
                 port.name = service.name
                 port.product = service.product

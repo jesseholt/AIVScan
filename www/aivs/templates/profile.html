@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- note this page and the user profile are the only ones that do not extend base.html -->
+<!-- note this page does not and the user profile are the only ones that do not extend base.html -->
 {% include "head_include.html" %}
 </head>
 
@@ -9,25 +9,7 @@
 {% include "nav_include.html" %}
 
 <div class="container">
-  <div class="row">
-     <div class="span3">
-     <div class="well sidebar-nav">
-            <div class="container-fluid">
-              <img src="{{ STATIC_URL }}img/aivscan_logo.png"/>
-            </div>
-            <ul class="nav nav-list">
-              <li class="nav-header">Account Info</li>
-              <li style="padding: 3px 0px">{{ user.email }}</li>
-              <li style="padding: 3px 0px">Member since {{ user.date_joined|date:"Y M d" }}</li>
-              <li>
-              <a href="{% url password_change %}" class="nav-to-modal"
-              data-form="{% url password_change %}">
-              Change Password
-              </a>
-            </ul>
-          </div><!--/.well -->
-     </div><!-- span3 -->
-
+     {% include "user_sidebar.html" %}
      <div class="span8">
 
      <div class="hero-unit">
@@ -38,14 +20,15 @@
 
      <h2>Previous Scans</h2>
      <table class="table table-striped">
-       <thead><tr><th>Date</th><th>Results</th></tr></thead>
+       <thead><tr><th>Date</th><th>Host</th></tr></thead>
        <tbody>
-         <!-- demo -->
-         <tr><td><a>2012 Jun 12</a></td><td>First eights words of the summary of results...</td></tr>
-         <tr><td><a>2012 May 12</a></td><td>First eight words of the summary of results...</td></tr>
-         <!-- end demo -->
      {% for scan in scans %}
-       <tr><td><a>{{ scan.endtime|date:"Y M d" }}</a></td><td>{{ scan.results|truncatewords:8}}</td></tr>
+     <tr>
+       <td class="span3">
+         <a href="{% url scan_report scan.sid %}">{{ scan.endtime|date:"Y M d" }}</a>
+       </td>
+       <td>{{scan.ip}} {{scan.hostname}}</td>
+     </tr>
      {% endfor %}
      </tbody>
      </table>
@@ -54,9 +37,7 @@
 </div> <!-- /container -->
 
 {% include "footer_and_scripts.html" %}
-<script>
-$("label.regfields").addClass("control-label");
-</script>
+
   </body>
 </html>
 
