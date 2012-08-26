@@ -40,9 +40,9 @@ def request_scan(request):
 @login_required(login_url='/login/')
 def profile(request):
     user = request.user
-    scans = list(Scan.objects.filter(user_id=user).order_by('-endtime'))
+    scans = list(Scan.objects.filter(user_id=user).order_by('-end_time'))
     for scan in scans:
-        host = Host.objects.get(sid=scan.pk)
+        host = Host.objects.get(scan=scan.pk)
         scan.ip = host.ip4
         scan.hostname = host.hostname
     return render_to_response('profile.html', {'user':user, 'scans': scans},

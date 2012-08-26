@@ -25,7 +25,7 @@
      {% for scan in scans %}
      <tr>
        <td class="span3">
-         <a href="{% url scan_report scan.sid %}">{{ scan.endtime|date:"Y M d" }}</a>
+         <a href="{% url scan_report scan.sid %}">{{ scan.end_time|date:"Y M d" }}</a>
        </td>
        <td>{{scan.ip}} {{scan.hostname}}</td>
      </tr>
