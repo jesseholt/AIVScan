@@ -23,10 +23,12 @@ class VulnerablePort(models.Model):
 
 class KnownVulnerability(models.Model):
     tvid = models.AutoField(primary_key=True)
-    script_id = models.CharField(max_length=300, db_column='ScriptID')
+    script_id = models.CharField(max_length=300, db_column='ScriptID', db_index=True)
+    public_id = models.CharField(max_length=20, blank=True)
     match_string = models.CharField(max_length=600, db_column='MatchString')
     description = models.TextField(db_column='VulnString', blank=True)
     mitigation = models.TextField(db_column='FixString', blank=True)
+    risk_level = models.SmallPositiveIntegerField()
 
     class Meta:
         app_label = 'scanner'

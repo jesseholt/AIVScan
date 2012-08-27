@@ -42,6 +42,7 @@
 {% for vuln in vulns %}
 <tr>
   <td class="span3">{{ vuln.risk_level }}</td>
+  <td>{{ vuln.script_id }}</td>
   <td>{{ vuln.description }}</td>
   <td>{{ vuln.mitigation }}</td>
 </tr>

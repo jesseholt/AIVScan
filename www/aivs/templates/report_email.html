@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Apparently email clients don't like external style sheets or JavaScript
+     So it's all embedded and inline styles in here. May God forgive me. -->
+<head>
+<title>Email Report</title>
+<style type="text/css">
+body {
+    background-color:#ffffff;
+    font-family:Arial, Helvetica, sans-serif;
+    color:black;
+}
+.bubble {
+    background-color:#eeeeee;
+    width:600px;
+    padding:10px;
+    margin-bottom:30px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    border-radius:6px;
+}
+table {
+    max-width:100%;
+    background-color:transparent;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+#output {
+    width:600px;
+    border-collapse:collapse;
+    background-color:#ffffff;
+}
+#output td, #output th {
+    border:1px solid black;
+    padding:3px,3px,3px,3px;
+    background-color:#ffffff;
+}
+#output th {
+    font-size:1em;
+    text-align:justify;
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:3px;
+    background-color:#025036;
+    color:#ffffff;
+}
+#output tr, #output td {
+    background-color:#ffffff;
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:3px;
+    padding-right:3px;
+}
+#output td {
+    font-size:12px;
+    text-align:left;
+    border:solid 1px black;
+}
+</style>
+</head>
+<body>
+
+<!-- Table wrapper ---------------------------- -->
+<table width="100%" align="center">
+  <tr>
+    <td>
+      <table align="center"><!-- Border of Email -->
+        <tr>
+          <td>
+            <!-- bubble1 ------------------->
+            <table class="bubble">
+              <tr>
+                <td><!-- Logo Img -->
+                  <a href="#"><img src="img/aivscan_logo_hero.png" alt="aivscan"></a>
+                </td>
+                <td>
+                  <p style="font-size:30px; font-weight:bold;">Scan Complete!</p><!-- Header -->
+                </td>
+              </tr>
+            </table><!-- /bubble1 -->
+
+            <!-- Table for Output --------------------------->
+            <table id="output">
+              <caption>Results of scan for host at IP address <span style="color:red">{{ host.ip4 }}</span></caption>
+              <thead>
+                <tr>
+                  <th>Vulnerability</th>
+                  <th>ID</th>
+                  <th>Description</th>
+                  <th>Remediation</th>
+                  <th>Risk Level</th>
+                </tr>
+                </thead>
+              <tbody>
+                {% for vuln in vulns %}
+                <tr>
+                  <td>{{ vuln.script_id }}</td>
+                  <td>{{ vuln.public_id }}</td>
+                  <td>{{ vuln.description }}</td>
+                  <td>{{ vuln.mitigation }}</td>
+                  <td>{{ vuln.risk_level }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table><!-- /output table -->
+<br />
+<br />
+            <!-- footer --------------------------------->
+            <table align="center">
+              <tr align="center" style="font-size:12px;">
+                <td><a href="#">View report in browser</a> &nbsp;|&nbsp;
+                  <a href="#">Go to the site</a> &nbsp;|&nbsp;
+                  <a href="http://www.ic3.gov/default.aspx">Report us to the authorities</a>
+                </td>
+              </tr>
+            </table>
+            <p align="center" style="font-size:12px;">&copy Pwn Stars 2012</p><!-- /footer -->
+          </td>
+        </tr>
+      </table><!-- /Border of Email -->
+    </td>
+  </tr>
+</table><!-- /Table wrapper -->
+</body>
+</html>
+
+
+
