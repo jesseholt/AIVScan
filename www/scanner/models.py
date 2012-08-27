@@ -28,7 +28,7 @@ class KnownVulnerability(models.Model):
     match_string = models.CharField(max_length=600, db_column='MatchString')
     description = models.TextField(db_column='VulnString', blank=True)
     mitigation = models.TextField(db_column='FixString', blank=True)
-    risk_level = models.SmallPositiveIntegerField()
+    risk_level = models.PositiveSmallIntegerField()
 
     class Meta:
         app_label = 'scanner'
