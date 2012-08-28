@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright 2012 Team Pwn Stars
 
-import os, sys
 import logging
-from scanner.models import *
+from scanner.models import KnownVulnerability, FoundVulnerability
 
 class NmapScriptParser:
 
     def parse_output(self, script_id, script_output, host_id):
         '''
         Returns a Vulns object if there is a match on the script output.
-        taken from pGetTextVulnRef sproc
+        taken from the original pGetTextVulnRef sproc
         CREATE PROCEDURE pGetTextVulnRef_byScriptID (IN v_scriptID VARCHAR(100))
         BEGIN
         SELECT tvid, ScriptID, MatchString, VulnString, FixString FROM TextVulns

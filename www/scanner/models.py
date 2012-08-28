@@ -27,6 +27,13 @@ class KnownPort(models.Model):
     description = models.TextField(blank=True)
     mitigation = models.TextField(blank=True)
 
+    def __unicode__(self):
+        return u'{0}/{1}'.format(self.protocol, self.port_number)
+
+    class Meta:
+        ordering = ['protocol', 'port_number']
+
+
 
 class KnownVulnerability(models.Model):
     '''
@@ -39,7 +46,11 @@ class KnownVulnerability(models.Model):
     mitigation = models.TextField(blank=True)
     risk_level = models.PositiveSmallIntegerField()
 
+    def __unicode__(self):
+        return u'{0}/{1}'.format(self.script_id, self.public_id)
+
     class Meta:
+        ordering = ['script_id','public_id']
         verbose_name_plural = 'known vulnerabilities'
 
 
@@ -57,6 +68,8 @@ class OperatingSystem(models.Model):
     # these fields are not used in this version of AIVScan
     # accuracy = models.IntegerField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['name']
 
 class Host(models.Model):
     '''
@@ -67,18 +80,24 @@ class Host(models.Model):
     hostname = models.CharField(max_length=200, blank=True)
     operating_system = models.ForeignKey(OperatingSystem, null=True)
     mac = models.CharField(max_length=18, blank=True)
-    uptime = models.CharField(max_length=200, blank=True)
-    last_boot = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=50, blank=True)
+    uptime = models.CharField(max_length=50, blank=True)
+    last_boot = models.CharField(max_length=50, blank=True)
+    distance = models.IntegerField(null=True, blank=True)
 
     # these fields were part of the initial schema but are not used in this version of AIVScan
-    # unused fields
-    # status = models.CharField(max_length=200, blank=True)
-    # distance = models.IntegerField(null=True, blank=True)
-    # tcpcount = models.IntegerField(null=True, blank=True)
-    # udpcount = models.IntegerField(null=True, blank=True)
     # ip4num = models.IntegerField(null=True, blank=True)
     # vendor = models.CharField(max_length=200, blank=True)
     # ip6 = models.CharField(max_length=200, blank=True)
+
+    def tcp_count(self):
+        return FoundPort.objects.filter(protocol=FoundPort.TCP).filter(host=self).count()
+
+    def udp_count(self):
+        return FoundPort.objects.filter(protocol=FoundPort.UDP).filter(host=self).count()
+
+    class Meta:
+        ordering = ['hostname']
 
 
 class FoundPort(models.Model):
@@ -87,15 +106,7 @@ class FoundPort(models.Model):
     host.
     '''
     host = models.ForeignKey(Host)
-
-    # these members restrict the choices available to insert in the protocol field.  Although having
-    # these defined both here and in the PortVulnerabilites class breaks the DRY principal, this is
-    # outweighed by the convenience of class-attribute access like Port.TCP
-    TCP= 'tcp'
-    UDP='udp'
-    ICMP='icmp'
-    PROTOCOLS = ((TCP,'tcp'), (UDP,'udp'),(ICMP,'icmp'))
-    protocol = models.CharField(max_length=4, choices=PROTOCOLS, blank=True)
+    known_port = models.ForeignKey(KnownPort)
 
     # these members restrict the choices available to insert in the state field, and are the 6
     # states recognized by nmap.
@@ -109,12 +120,11 @@ class FoundPort(models.Model):
               (OPENFILTERED,OPENFILTERED),(CLOSEDFILTERED,CLOSEDFILTERED))
     state = models.TextField(max_length=16, choices=STATES, blank=True)
 
-    port_number = models.IntegerField(null=True, blank=True)
     service_name = models.CharField(max_length=200, blank=True)
     product = models.CharField(max_length=200, blank=True)
     version = models.CharField(max_length=200, blank=True)
     description = models.CharField(max_length=200, blank=True)
-    fingerprint = models.CharField(max_length=200, blank=True)
+    fingerprint = models.TextField(blank=True)
 
     # these fields were part of the initial schema but are not used in this version of AIVScan
     # owner = models.CharField(max_length=200, blank=True)
@@ -145,6 +155,9 @@ class Scan(models.Model):
     '''
     user_id = models.ForeignKey(User, db_index=True)
     nmap_args = models.TextField()
+    nmap_version = models.CharField(max_length=50, blank=True)
+
+    # we set start_time to instantiation so we can have pending scans
     start_time = models.DateTimeField(default=datetime.datetime.now())
     end_time = models.DateTimeField(null=True, blank=True)
 
@@ -156,13 +169,14 @@ class Scan(models.Model):
 
     # these fields were part of the initial schema but are not used in this version of AIVScan
     # subscription_level = models.IntegerField(null=True, blank=True)
-    # version = models.CharField(max_length=200, blank=True)
     # xml_version = models.CharField(max_length=200, blank=True)
     # types = models.CharField(max_length=200, blank=True)
     # start_str = models.CharField(max_length=200, blank=True)
     # end_str = models.CharField(max_length=200, blank=True)
     # num_services = models.IntegerField(null=True, blank=True)
 
+    def __unicode__(self):
+        return u'Scan at: {0}'.format(self.start_time.isoformat())
 
 class MockModel():
     '''

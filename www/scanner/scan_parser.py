@@ -14,8 +14,9 @@ class SessionError(Exception):
 
 class ScanImporter:
 
-    def __init__(self, xml_results, user_id):
+    def __init__(self, xml_results, scan_id, user_id):
         self.xml_results = xml_results
+        self.scan_id = scan_id
         self.user_id = user_id
 
     def process(self):
@@ -26,7 +27,7 @@ class ScanImporter:
             if session is None:
                 raise SessionError('Unable to read scan session')
 
-            ''' taken from pInsertScan sproc:
+            ''' taken from the original pInsertScan sproc:
             CREATE PROCEDURE pInsertScan(IN v_userid INT, IN v_version TEXT, IN v_args TEXT,
                IN v_startstr TEXT, IN v_endstr TEXT)
             BEGIN
@@ -35,12 +36,13 @@ class ScanImporter:
             SELECT @@identity;
             END '''
             logging.debug('building scan object')
-            scan = Scan()
+            try:
+                scan = Scan.objects.get(pk=self.scan_id)
+            except Scan.DoesNotExist:
+                scan = Scan()
             scan.user_id = User.objects.get(pk=int(self.user_id))
-            scan.subscription_level = 0
-            scan.version = session.nmap_version
+            scan.nmap_version = session.nmap_version
             scan.nmap_args = session.scan_args
-            scan.start_time = datetime.strptime(session.start_time, '%a %b %d %H:%M:%S %Y')
             scan.end_time = datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')
             scan.save()
             logging.debug('scanid is {0}'.format(scan.pk))
@@ -48,7 +50,7 @@ class ScanImporter:
             # save host information
             for h in self.results.all_hosts():
                 try:
-                    ''' taken from pInsertHost sproc:
+                    ''' taken from the original pInsertHost sproc:
                     CREATE PROCEDURE pInsertHost(, IN v_sid INT, IN v_ip4 TEXT, IN v_hostname TEXT,
                         IN v_status TEXT, IN v_mac TEXT, IN v_vendor TEXT, IN v_ip6 TEXT, IN v_distance INT,
                         IN v_uptime TEXT, IN v_upstr TEXT)
@@ -73,7 +75,7 @@ class ScanImporter:
                     logging.debug('hostid is {0}'.format(host.hid))
 
                     for os_node in h.get_OS():
-                        ''' taken from pInsertOS sproc:
+                        ''' taken from the original pInsertOS sproc:
                         CREATE PROCEDURE pInsertOS (IN v_hid INT, IN v_name TEXT, IN v_family TEXT,
                             IN v_generation TEXT, IN v_type TEXT, IN v_vendor TEXT, IN v_accuracy INT)
                         BEGIN
@@ -81,12 +83,14 @@ class ScanImporter:
                         VALUES ( v_hid, v_name, v_family, v_generation, v_type, v_vendor, v_accuracy);
                         END '''
                         os = OperatingSystem()
-                        os.host = host
                         os.name = os_node.name
                         os.family = os_node.family
                         os.generation = os_node.generation
                         os.os_type = os_node.os_type
                         os.vendor = os_node.vendor
+                        os.save()
+                        host.operating_system = os
+                        host.save()
 
                     # parse TCP and UDP ports
                     self.parse_ports(h, host, proto='tcp')
@@ -109,7 +113,7 @@ class ScanImporter:
 
     def parse_ports(self, h, host, proto='tcp'):
         '''
-        taken from pInsertPort sproc:
+        taken from the original pInsertPort sproc:
         CREATE PROCEDURE pInsertPort (IN v_hid INT, IN v_port INT, IN v_state TEXT, IN v_name TEXT,
            IN v_product TEXT, IN v_version TEXT, IN v_fingerprint TEXT, IN v_proto TEXT)
         BEGIN
@@ -119,12 +123,22 @@ class ScanImporter:
         logging.debug('number of open {0} ports {1}'.format(proto.upper(),
                                                             len(h.get_ports(proto, 'open'))))
         for p in h.get_ports(proto, 'open'):
-            service = h.get_service(proto, p)
-            port = Port()
+            try:
+                known_port = KnownPort.objects.get(protocol=proto, port_number=p.port)
+            except KnownPort.DoesNotExist:
+                known_port = KnownPort()
+                known_port.protocol = proto
+                known_port.port_number = p.port
+                known_port.risk_level = 3
+                known_port.description = 'This port is not in our database'
+                known_port.mitigation = 'This port is not in our database'
+                known_port.save()
+
+            port = FoundPort()
             port.host = host
-            port.state = 'open'
-            port.proto = proto
-            port.port_number = p.port
+            port.state = FoundPort.OPEN
+            port.known_port = known_port
+            service = h.get_service(proto, p)
             if service:
                 port.service_name = service.name
                 port.product = service.product

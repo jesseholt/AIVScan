@@ -7,6 +7,7 @@ from django.conf import settings
 import logging
 from celery.task import task
 
+from scanner.models import Scan
 from scanner.scan_parser import ScanImporter
 
 
@@ -29,14 +30,19 @@ def run_scan(user, safe_ip_address, subscription_level=0):
         'smb-check-vulns,vuln,exploit', # run these nse scripts
         safe_ip_address
         ]
-    #try:
-    std_out = tempfile.mkstemp() # generates a secure temp file with no race conditions
-    success = subprocess.check_call(nmap_args, stdout=std_out[0])
-    if success == 0:
-        f = open(std_out[1], 'r') # read the file-like back into memory.
-        xml_results = f.read()
-        f.close()
-        si = ScanImporter(xml_results, user.id)
-        si.process()
-    #except Exception as ex:
-    #    logging.error('Task failed to initiate\n'.format(ex))
+    try:
+        scan = Scan()
+        scan.user = user
+        scan.state = Scan.PENDING
+        scan.save()
+        scan_id = scan.pk
+        std_out = tempfile.mkstemp() # generates a secure temp file with no race conditions
+        success = subprocess.check_call(nmap_args, stdout=std_out[0])
+        if success == 0:
+            f = open(std_out[1], 'r') # read the file-like back into memory.
+            xml_results = f.read()
+            f.close()
+            si = ScanImporter(xml_results, scan_id, user.id)
+            si.process()
+    except Exception as ex:
+        logging.error('Task failed to initiate\n'.format(ex))

@@ -34,6 +34,7 @@
 	<thead>
 	  <tr>
 	    <th>Risk Level</th>
+        <th>ID</th>
         <th>Description</th>
         <th>Remediation</th>
           </tr>
@@ -65,7 +66,7 @@
 <tbody>
 {% for port in ports %}
 <tr>
-  <td class="span2">{{ port.proto }} / {{ port.port_number }}</td>
+  <td class="span2">{{ port.protocol }} / {{ port.port_number }}</td>
   <td class="span2">{{ port.state }}</td>
   <td>
     {% if port.product %} {{ port.product }} {{ product.version }}

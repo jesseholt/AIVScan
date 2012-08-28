@@ -1,0 +1,446 @@
+[
+    {
+        "pk": 46,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your Macintosh computer is vulnerable to a type of attack that could allow a remote attacker to gain access to sensitive information.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Following the following article to update your Macintosh.  You should always keep your computer up-to-date with security updates:\n\nhttp://support.apple.com/kb/HT1222",
+            "public_id": "",
+            "script_id": "afp-path-vuln "
+        }
+    },
+    {
+        "pk": 47,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "Your computer has been detected to be running an insecure version of Avahi DNS server that could allow attacks to remote take down your system.",
+            "match_string": "Hosts that seem down (vulnerable)",
+            "mitigation": "Apply the update from Avahi from the following website.  Alternately, disable the DNS service if you are not using it.\n\nhttp://avahi.org/ticket/325",
+            "public_id": "",
+            "script_id": "broadcast-avahi-dos"
+        }
+    },
+    {
+        "pk": 48,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "AIVScan has detected that your firewall device can be bypassed by intruders.  This could enable them to reach your computer and private information.",
+            "match_string": "Firewall vulnerable to bypass through ftp helper",
+            "mitigation": "Please contact the manufacturer of your firewall device.  They will provide your with a security update to remedy this vulnerability.",
+            "public_id": "",
+            "script_id": "firewall-bypass"
+        }
+    },
+    {
+        "pk": 49,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "Your computer is running a File Transfer Protocol service.  This software is vulnerable to a type of attack that could allow intruders to take over your computer.",
+            "match_string": "State: LIKELY VULNERABLE",
+            "mitigation": "Many different FTP programs are vulnerable to this type of attack.  Please contact the\u00a0software vendor\u00a0for a security update.",
+            "public_id": "",
+            "script_id": "ftp-libopie"
+        }
+    },
+    {
+        "pk": 50,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Attackers have managed to compromise the File Transfer Protocol (FTP) software running on your computer.  This is a particularly critical issue since AIVScan detected that your system has already been compromised.",
+            "match_string": "This installation has been backdoored",
+            "mitigation": "Please download and install and updated version of ProFTPD software from the vendor's website:\n\nhttp://www.proftpd.org/index.html",
+            "public_id": "",
+            "script_id": "ftp-proftpd-backdoor"
+        }
+    },
+    {
+        "pk": 51,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has detected that you are running a File Transfer Protocol (FTP) service that has an exploitable back-door.  Attackers can easily access data and compromise your computer through this vulnerability.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "If you are running a popular Linux distribution, use the automatic update feature to download and install a security patch for VSFTPD.  Alternately, download the update from the vendor's website:\n\nhttps://security.appspot.com/vsftpd.html",
+            "public_id": "",
+            "script_id": "ftp-vsftpd-backdoor"
+        }
+    },
+    {
+        "pk": 52,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is running a vulnerable version of proFTPD File Transfer Protocol software.  Your version of this program can allow attacks to take over your computer and gain access to your private data",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "Please download and install an updated version of ProFTPD software from the vendor's website:\n\nhttp://www.proftpd.org/index.html",
+            "public_id": "",
+            "script_id": "ftp-vuln-cve2010-4221"
+        }
+    },
+    {
+        "pk": 53,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has detected a\u00a0vulnerability in Apache Axis2 version 1.4.1.\u00a0The\u00a0vulnerability\u00a0will try\u00a0to\u00a0gain access to\u00a0the system usernames and passwords.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please upgrade to version Apache Axis2 version 1.5 or higher, as it will\u00a0resolve this vulnerability.\u00a0 The download can be found on the following vendor website:\u00a0http://axis.apache.org/axis2/java/core/",
+            "public_id": "",
+            "script_id": "http-axis2-dir-traversal"
+        }
+    },
+    {
+        "pk": 54,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "AIVScan has detected a vulnerability that could allow for an attempt to retrieve the configuration settings from a Barracuda Networks Spam & Virus Firewall device",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please apply the latest firmware for your Barracuda device by downloading it from the vendor website:\u00a0\u00a0http://seagatewtb.test3.cs3.force.com/",
+            "public_id": "",
+            "script_id": "http-barracuda-dir-traversal"
+        }
+    },
+    {
+        "pk": 45,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "AIVScan has matched your system to a Google malware entry. This means that you are likely infected with malware and your system is actively distributing malicous software to other systems without your knowledge. ",
+            "match_string": "Host is known for distributing malware",
+            "mitigation": "Ensure that you are running an up-to-date antivirus application which would detect the presence of any malware currently running on the system. Follow the instructions provided by the antivirus application to remove the malicious software.",
+            "public_id": "",
+            "script_id": "http-google-malware"
+        }
+    },
+    {
+        "pk": 55,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "AIVScan has detected a vulnerability that allows an attacker to detects Huawei modems models HG530x, HG520x, HG510x\u00a0and others.\u00a0The vulnerability will also compromise\u00a0login credentials.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please apply the latest firmware for you Huawei modem via the following vendor website:\u00a0 http://www.huaweidevice.com/worldwide/downloadCenter.do?method=index",
+            "public_id": "",
+            "script_id": "http-huawei-hg5xx-vuln"
+        }
+    },
+    {
+        "pk": 56,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has detected a vulnerability\u00a0that affects\u00a0Litespeed Web Servers and can compromise login credentials and other sensitive information.\u00a0 ",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please download and install the LiteSpeed Web Server 4.0.15 upgrade via the following vendor website:\u00a0 http://www.litespeedtech.com/latest/litespeed-web-server-4.0.15-released.html",
+            "public_id": "",
+            "script_id": "http-litespeed-sourcecode-download"
+        }
+    },
+    {
+        "pk": 57,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has detected a\u00a0vulnerability\u00a0existing in Majordomo2 that allows for the retrieval of remote files.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please follow the recommendations of Mozilla.org to remedy the vulnerability via the following vendor website:\u00a0 https://bug628064.bugzilla.mozilla.org/attachment.cgi?id=506481",
+            "public_id": "",
+            "script_id": "http-majordomo2-dir-traversal"
+        }
+    },
+    {
+        "pk": 61,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "AIVScan was able to traverse your network and obtain sensitive system information by exploiting your web server software.  ",
+            "match_string": "http-passwd: Directory traversal found.",
+            "mitigation": "Please download and install the latest version of your web server software and all available security patches. ",
+            "public_id": "",
+            "script_id": "http-passwd"
+        }
+    },
+    {
+        "pk": 58,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "AIVScan has detected a\u00a0vulnerability that exists in several TP-Link wireless routers. Attackers may exploit this vulnerability to gain access to the router.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please download and install the latest TP-Link wireless router firmware via the following vendor website:\u00a0 http://www.tp-link.com/en/support/download/",
+            "public_id": "",
+            "script_id": "http-tplink-dir-traversal"
+        }
+    },
+    {
+        "pk": 63,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has detected a path-traversal vulnerability in a version of VMware running on your computer. An attacker could potentially read files on your computer by exploiting this.",
+            "match_string": "VMWare path traversal (CVE-2009-3733): VULNERABLE",
+            "mitigation": "This vulnerability affects earlier versions of VMWare ESX, ESXi, and Server. It is recommended that you upgrade your VMware to the newest version to fix this problem. More info at http://www.vmware.com/security/advisories/VMSA-2009-0015.html",
+            "public_id": "",
+            "script_id": "http-vmware-path-vuln"
+        }
+    },
+    {
+        "pk": 59,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has detected that you are running a vulnerable version of BlazeDS, LifeCycle, Flex Data Servers, or ColdFusion web services.\u00a0 Attackers can gain access to sensitive data on your computer by exploiting these vulnerabilities.",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please download and install the latest security update via the vendor website:\u00a0 http://www.adobe.com/support/security/bulletins/apsb10-05.html",
+            "public_id": "",
+            "script_id": "http-vuln-cve2009-3960"
+        }
+    },
+    {
+        "pk": 43,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "You are running a version of Apache web server which is vulnerable to a Denial of Service (DoS) attack.  ",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "The best way to address this vulnerability is to upgrade to the latest version of Apache web server 2.4 which is available at http://httpd.apache.org/docs/2.4/",
+            "public_id": "",
+            "script_id": "http-vuln-cve2011-3192"
+        }
+    },
+    {
+        "pk": 42,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "AIVScan has detected a Reverse Proxy Bypass vulnerability related to Apache Web Server. This could potentially allow attackers to gain remote access to your internal network.",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "It is recommended that you update Apache Web Server to the latest version to fix this patch. You may also need to review your Reverse Proxy configurations. For more info: http://nmap.org/nsedoc/scripts/http-vuln-cve2011-3368.html",
+            "public_id": "",
+            "script_id": "http-vuln-cve2011-3368"
+        }
+    },
+    {
+        "pk": 41,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer has a vulnerability in a PHP-CGI installation that might allow attackers to execute code remotely. ",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "It is recommended that you update PHP to the latest version: http://www.php.net/downloads.php",
+            "public_id": "",
+            "script_id": "http-vuln-cve2012-1823"
+        }
+    },
+    {
+        "pk": 44,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan was able to exploit a vulnerability in your Wordpress blog installation that allowed the system to obtain user information. ",
+            "match_string": "Username found:",
+            "mitigation": "To address this vulnerability, upgrade to the latest version of Wordpress, v3.4.1. The download is available at  http://wordpress.org/download/",
+            "public_id": "",
+            "script_id": "http-wordpress-enum"
+        }
+    },
+    {
+        "pk": 60,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "AIVScan has detected a vulnerability that\u00a0affects IRC servers.\u00a0 An attacker can use this vulnerability to gain access to sensitive information.\u00a0",
+            "match_string": "State: VULNERABLE (Exploitable)",
+            "mitigation": "Please follow the instructions from the vendor via the following website to remedy the vulnerability:\u00a0 http://seclists.org/fulldisclosure/2010/Jun/277",
+            "public_id": "",
+            "script_id": "irc-unrealircd-backdoor"
+        }
+    },
+    {
+        "pk": 62,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan was able to exploit your NetBus server and bypass all forms of authentication to gain full access. ",
+            "match_string": "netbus-auth-bypass: Vulnerable",
+            "mitigation": "There is currently no remedy available for this vulnerability. It is recommended that you utilize a different vendor for this software that is not vulnerable to authentication bypass. For more information, please visit: http://xforce.iss.net/xforce/xfdb/11982",
+            "public_id": "",
+            "script_id": "netbus-auth-bypass"
+        }
+    },
+    {
+        "pk": 39,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "Your computer is vulnerable to a Denial of Service (DoS) attack caused by a flaw in the Remote Desktop Protocol.",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to let your copy of Windows automatically update itself.  You can do this by running Windows Update from your Start menu.  You can also choose to disable Remote Desktop if you are not using it or block it at your firewall / router.  To apply the update manually, please follow the article below:\n\nhttp://technet.microsoft.com/en-us/security/bulletin/ms12-020",
+            "public_id": "",
+            "script_id": "rdp-vuln-ms12-020"
+        }
+    },
+    {
+        "pk": 40,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "Your computer is running an infected version of Samba that could allow an attacker to run remote code with 'root' level privileges. ",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "The best way to address this vulnerability is to upgrade to the latest verion of Samba. Patching information and workarounds are also available at http://www.samba.org/samba/security/CVE-2012-1182",
+            "public_id": "",
+            "script_id": "samba-vuln-cve-2012-1182"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "AIVScan identified a very serious issue with your computer.  Attackers can gain access to your PC remotely and potentially access sensitive information.  For more informaiton, please see:\n\nhttp://technet.microsoft.com/en-us/security/bulletin/ms08-067",
+            "match_string": "MS08-067: VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to let your copy of Windows automatically update itself.  You can do this by running Windows Update from your Start menu.  To apply the update manually, please follow the article below:\n\nhttp://technet.microsoft.com/en-us/security/bulletin/ms08-067",
+            "public_id": "",
+            "script_id": "smb-check-vulns"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 3,
+            "description": "Your computer appears to be infected with a dangerous virus, called Conficker.",
+            "match_string": "Conficker: Likely INFECTED",
+            "mitigation": "To remove the virus, please ensure that you have a current copy of AntiVirus software installed and running.  You should also run Windows Update to ensure that your copy of Windows is up to date.  For specific instructions, please following the link below:\n\nhttp://www.microsoft.com/security/pc-security/conficker.aspx",
+            "public_id": "",
+            "script_id": "smb-check-vulns"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "Your computer may be vulnerable to a Denial of Service (DOS) attack.  Intruders can potentially cause a condition that would cause your computer to become inoperable.  ",
+            "match_string": "regsvc DoS: VULNERABLE",
+            "mitigation": "This vulnerability is only present in Microsoft Windows 2000.  This operating system is no longer supported by Microsoft.  Team Pwn Stars recommends that you upgrade your computer's operating system.",
+            "public_id": "",
+            "script_id": "smb-check-vulns"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is missing security patches that could enable intruders to gain complete control of your PC.  ",
+            "match_string": "SMBv2 DoS (CVE-2009-3103): VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to let your copy of Windows automatically update itself.  You can do this by running Windows Update from your Start menu.  To apply the update manually, please follow the article below:\n\nhttp://technet.microsoft.com/en-us/security/advisory/975497",
+            "public_id": "",
+            "script_id": "smb-check-vulns"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is is missing security patches that could enable intruders to gain complete control of your PC.  ",
+            "match_string": "MS06-025: VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to let your copy of Windows automatically update itself.  You can do this by running Windows Update from your Start menu.  To apply the update manually, please follow the article below:\n\nhttp://technet.microsoft.com/en-us/security/bulletin/ms06-025",
+            "public_id": "",
+            "script_id": "smb-check-vulns"
+        }
+    },
+    {
+        "pk": 32,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is missing security patches that could enable intruders to gain complete control of your PC.  ",
+            "match_string": "MS07-029: VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to let your copy of Windows automatically update itself.  You can do this by running Windows Update from your Start menu.  To apply the update manually, please follow the article below:\n\nhttp://technet.microsoft.com/en-us/security/bulletin/ms07-029",
+            "public_id": "",
+            "script_id": "smb-check-vulns"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is running a vulnerable version of Exim Email Server.  Attackers can potentially take control of your machine by exploiting this vulnerability.",
+            "match_string": "Exim (CVE-2010-4344): VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to run the automatic update feature in your operating system.  Most popular Linux distributions include this capability and it is enabled by default.  To update manually and for more information on this vulnerability consult the following article:\n\nhttp://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-4344",
+            "public_id": "",
+            "script_id": "smtp-vuln-cve2010-4344"
+        }
+    },
+    {
+        "pk": 34,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is running a vulnerable version of Exim Email Server.  Attackers can potentially take control of your machine by exploiting this vulnerability.",
+            "match_string": "Exim (CVE-2010-4345): VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to run the automatic update feature in your operating system.  Most popular Linux distributions include this capability and it is enabled by default.  To update manually and for more information on this vulnerability consult the following article:\n\nhttp://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-4345",
+            "public_id": "",
+            "script_id": "smtp-vuln-cve2010-4344"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is running a vulnerable version of Postfix Email Server.  Attackers can take advantage of this issue and gain access to your computer remotely.",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to run the automatic update feature in your operating system.  Most popular Linux distributions include this capability and it is enabled by default.  To update manually and for more information on this vulnerability consult the following article:\n\nhttp://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-1720",
+            "public_id": "",
+            "script_id": "smtp-vuln-cve2011-1720"
+        }
+    },
+    {
+        "pk": 36,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "Your computer is running a vulnerable version of Exim Email Server.  Attackers can potentially take control of your machine by exploiting this vulnerability.",
+            "match_string": "State: VULNERABLE",
+            "mitigation": "The easiest way to fix this issue is to run the automatic update feature in your operating system.  Most popular Linux distributions include this capability and it is enabled by default.  To update manually and for more information on this vulnerability consult the following article:\n\nhttp://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-1764",
+            "public_id": "",
+            "script_id": "smtp-vuln-cve2011-1764"
+        }
+    },
+    {
+        "pk": 37,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 1,
+            "description": "Your SSL key has been found to match a key in the database of weak SSL keys. Using a weak key could allow attackers to compromise your systems that depend on this key. ",
+            "match_string": "is in the database",
+            "mitigation": "Please follow the steps to regenerate your SSL key based on your specific system. Please see the link below for reference: http://ptspts.blogspot.com/2010/01/how-to-regenerate-apache-ssl-key-and.html",
+            "public_id": "",
+            "script_id": "ssl-known-key"
+        }
+    },
+    {
+        "pk": 38,
+        "model": "scanner.knownvulnerability",
+        "fields": {
+            "risk_level": 2,
+            "description": "AIVScan has identified a vulnerable version of VxWorks running on your computer. This vulnerability could allow an attacker to retrieve sensitive version information from your system. An attacker could also retrieve weak passwords which would lead to further system compromises. ",
+            "match_string": "VULNERABLE: Wind River",
+            "mitigation": "The solution to this vulnerability is to disable VxWorks from your WDB debug agent. This can be done by removing the INCLUDE_WDB and INCLUDE_DEBUG components as described in the following reference: http://www.kb.cert.org/vuls/id/362332",
+            "public_id": "",
+            "script_id": "wdb-version"
+        }
+    }
+]

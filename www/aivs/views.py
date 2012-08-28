@@ -39,14 +39,28 @@ def request_scan(request):
 
 @login_required(login_url='/login/')
 def profile(request):
-    user = request.user
-    scans = list(Scan.objects.filter(user_id=user).order_by('-end_time'))
+    return render_scans(request, 'profile.html')
+
+@login_required(login_url='/login/')
+def get_scans(request):
+    return render_scans(request, 'scans_table.html')
+
+def render_scans(request, template='profile.html'):
+    '''
+    Helper function for profile and get_scans views
+    '''
+    scans = list(Scan.objects.filter(user_id=request.user).order_by('-start_time'))
     for scan in scans:
-        host = Host.objects.get(scan=scan.pk)
-        scan.ip = host.ip4
-        scan.hostname = host.hostname
-    return render_to_response('profile.html', {'user':user, 'scans': scans},
+        try:
+            host = Host.objects.get(scan=scan.pk)
+            scan.ip = host.ip4
+            scan.hostname = host.hostname
+        except Host.DoesNotExist:
+            scan.ip = None
+            scan.hostname = 'pending...'
+    return render_to_response(template, {'user':request.user, 'scans': scans},
                               context_instance=RequestContext(request))
+
 
 
 @login_required(login_url='/login/')
@@ -59,11 +73,11 @@ def scan_report(request, id):
         report = Scan.objects.get(pk=id, user_id=user.id)
         host = Host.objects.get(scan=report.pk)
         try:
-            OS = OperatingSystem.objects.get(hid=host.pk)
+            OS = host.os
         except:
             OS = MockModel()
             OS.name = 'No OS information detected.'
-        ports = Port.objects.filter(host=host.pk)
+        ports = KnownPort.objects.filter(foundport__host=host.pk)
         vulns = KnownVulnerability.objects.filter(foundvulnerability__host=host.pk)
 
         return render_to_response('report.html',
