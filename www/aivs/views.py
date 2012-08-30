@@ -51,7 +51,12 @@ def profile_and_reports(request, template='profile.html'):
         except Host.DoesNotExist:
             scan.ip = None
             scan.hostname = 'pending...'
-    return render_to_response(template, {'user':request.user, 'scans': scans},
+    return render_to_response(template, {'scans': scans},
+                              context_instance=RequestContext(request))
+
+@login_required(login_url='/login/')
+def slideshow(request):
+    return render_to_response('slideshow.html',
                               context_instance=RequestContext(request))
 
 

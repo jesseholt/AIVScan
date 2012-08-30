@@ -22,9 +22,10 @@ urlpatterns = patterns(
     url(r'^profile/$', views.profile_and_reports, { 'template': 'profile.html' }, name='profile'),
     url(r'^reports/$', views.profile_and_reports, { 'template': 'profile_table.html' }, name='reports'),
 
-    # request starting a report or report details
-    url(r'^report/(?P<id>\d+)/$', views.scan_report, name='scan_report'),
+    # scan workflow urls
     url(r'^scan/$', views.request_scan, name='scan'),
+    url(r'^scan_running/$', views.slideshow, name='slideshow'),
+    url(r'^report/(?P<id>\d+)/$', views.scan_report, name='scan_report'),
 
     # included apps
     url(r'^admin/', include(admin.site.urls)),

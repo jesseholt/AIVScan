@@ -5,8 +5,8 @@
 </div>
 <ul class="nav nav-list">
   <li class="nav-header">Account Info</li>
-  <li style="padding: 3px 0px">{{ user.email }}</li>
-  <li style="padding: 3px 0px">Member since {{ user.date_joined|date:"Y M d" }}</li>
+  <li style="padding: 3px 0px">{{ request.user.email }}</li>
+  <li style="padding: 3px 0px">Member since {{ request.user.date_joined|date:"Y M d" }}</li>
   <li>
   <a href="{% url password_change %}" class="nav-to-modal"
   data-form="{% url password_change %}">

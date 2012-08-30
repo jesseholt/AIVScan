@@ -1,0 +1,8 @@
+{% for scan in scans %}
+<tr>
+  <td class="span3">
+    <a href="{% url scan_report scan.pk %}">{{ scan.end_time|date:"Y M d" }}</a>
+  </td>
+  <td>{{scan.ip}} {{scan.hostname}}</td>
+</tr>
+{% endfor %}

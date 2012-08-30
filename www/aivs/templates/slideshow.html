@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- note this page does not and the user profile are the only ones that do not extend base.html -->
+{% include "head_include.html" %}
+</head>
+
+<body>
+{% include "nav_include.html" %}
+
+<div class="container">
+  {% include "user_sidebar.html" %}
+<div class="span8">
+
+<div align="center" id="slideshow" class="carousel slide">
+  <!-- Carousel items -->
+    <div class="carousel-inner">
+    <div class="active item">
+      <img src="{{ STATIC_URL }}img/slide1.png" alt="slide 1" />
+    </div>
+    <div class="item">
+      <img src="{{ STATIC_URL }}img/slide2.png" alt="slide 2" />
+    </div>
+    <div class="item">
+      <img src="{{ STATIC_URL }}img/slide3.png" alt="slide 3" />
+    </div>
+    <div class="item">
+      <img src="{{ STATIC_URL }}img/slide4.png" alt="slide 4" />
+    </div>
+</div>
+<!-- Carousel nav -->
+<a class="carousel-control left" href="#slideshow" data-slide="prev">&lsaquo;</a>
+<a class="carousel-control right" href="#slideshow" data-slide="next">&rsaquo;</a>
+</div>
+<div style="text-align:right"><a href="{% url profile %}">Return to your profile</a></div>
+</div><!-- span8 -->
+</div> <!-- /container -->
+
+{% include "footer_and_scripts.html" %}
+
+  </body>
+</html>
