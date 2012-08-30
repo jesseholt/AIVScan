@@ -3,7 +3,7 @@
 
 import os, sys
 import logging
-from datetime import datetime
+import datetime
 
 from scanner.lib import Parser
 from scanner.script_parser import NmapScriptParser
@@ -43,7 +43,7 @@ class ScanImporter:
             scan.user = User.objects.get(pk=int(self.user_id))
             scan.nmap_version = session.nmap_version
             scan.nmap_args = session.scan_args
-            scan.end_time = datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')
+            scan.end_time = datetime.datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')
             scan.save()
             logging.debug('scanid is {0}'.format(scan.pk))
 
@@ -72,7 +72,7 @@ class ScanImporter:
                     host.uptime = h.uptime
                     host.last_boot = h.lastboot
                     host.save()
-                    logging.debug('hostid is {0}'.format(host.hid))
+                    logging.debug('hostid is {0}'.format(host.pk))
 
                     for os_node in h.get_OS():
                         ''' taken from the original pInsertOS sproc:
@@ -100,7 +100,7 @@ class ScanImporter:
                     try:
                         nsp = NmapScriptParser()
                         for scr in h.get_scripts():
-                            vulnId = nsp.parse_output(scr.scriptId, scr.output, host.hid)
+                            vulnId = nsp.parse_output(scr.scriptId, scr.output, host.pk)
                     except Exception as ex:
                         logging.error('Error parsing script output:\n{0}'.format(ex))
 
@@ -111,7 +111,7 @@ class ScanImporter:
             scan.save()
 
             from scanner.tasks import send_scan_report # importing here prevents a circular reference
-            send_scan_report.delay(scan.id)
+            send_scan_report.delay(scan.pk)
 
         except Exception as ex:
             logging.error('Error processing results:\n{0}'.format(ex))
@@ -130,11 +130,11 @@ class ScanImporter:
                                                             len(h.get_ports(proto, 'open'))))
         for p in h.get_ports(proto, 'open'):
             try:
-                known_port = KnownPort.objects.get(protocol=proto, port_number=p.port)
+                known_port = KnownPort.objects.get(protocol=proto, port_number=int(p))
             except KnownPort.DoesNotExist:
                 known_port = KnownPort()
                 known_port.protocol = proto
-                known_port.port_number = p.port
+                known_port.port_number = int(p)
                 known_port.risk_level = 3
                 known_port.description = 'This port is not in our database'
                 known_port.mitigation = 'This port is not in our database'

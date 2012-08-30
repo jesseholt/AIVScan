@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -29,7 +30,7 @@ def request_scan(request):
             # form.cleaned_data now contains only valid data
             user = request.user
             tasks.run_scan.delay(user, ip)
-            return HttpResponseRedirect('/profile/')
+            return HttpResponseRedirect(reverse('slideshow'))
     else:
         # form has not been submitted, so prepare an unbound form
         form = ScanRequestForm()
@@ -49,7 +50,6 @@ def profile_and_reports(request, template='profile.html'):
             scan.ip = host.ip4
             scan.hostname = host.hostname
         except Host.DoesNotExist:
-            scan.ip = None
             scan.hostname = 'pending...'
     return render_to_response(template, {'scans': scans},
                               context_instance=RequestContext(request))
@@ -72,7 +72,7 @@ def scan_report(request, id):
         return render_to_response('report.html',
                                   context_instance=RequestContext(request, report_contents))
     except Scan.DoesNotExist:
-        return HttpResponseRedirect('/profile/') # TODO: do some kind of proper error handling here
+        return HttpResponseRedirect(reverse('profile')) # TODO: do some kind of proper error handling here
 
 def get_report_contents(report):
     '''
