@@ -15,6 +15,9 @@
             <ul class="dropdown-menu">
               <li><a href="{% url profile %}">Profile</a></li>
               <li class="divider"></li>
+              {% if user.is_staff %}
+              <li><a href="{% url admin:index %}">Login to Admin</a></li>
+              {% endif %}
               <li><a href="{% url auth_logout %}">Sign Out</a></li>
             </ul>
           {% else %}
