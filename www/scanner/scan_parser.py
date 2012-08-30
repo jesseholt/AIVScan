@@ -40,7 +40,7 @@ class ScanImporter:
                 scan = Scan.objects.get(pk=self.scan_id)
             except Scan.DoesNotExist:
                 scan = Scan()
-            scan.user_id = User.objects.get(pk=int(self.user_id))
+            scan.user = User.objects.get(pk=int(self.user_id))
             scan.nmap_version = session.nmap_version
             scan.nmap_args = session.scan_args
             scan.end_time = datetime.strptime(session.finish_time, '%a %b %d %H:%M:%S %Y')

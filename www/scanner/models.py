@@ -153,7 +153,7 @@ class Scan(models.Model):
     Represents a user-initiated nmap scan.  Users can have multiple scans, scans can have
     multiple hosts in the database but are limited due to NAT to one for practical purposes.
     '''
-    user_id = models.ForeignKey(User, db_index=True)
+    user = models.ForeignKey(User, db_index=True)
     nmap_args = models.TextField()
     nmap_version = models.CharField(max_length=50, blank=True)
 

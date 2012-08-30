@@ -3,8 +3,11 @@
 
 import tempfile
 import subprocess
-from django.conf import settings
 import logging
+
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 from celery.task import task
 
 from scanner.models import Scan
@@ -59,11 +62,11 @@ def send_scan_report(scan_id):
     try:
         scan = Scan.objects.get(pk=scan_id)
         context = get_report_contents(scan)
-        return Template.render('report_email.html', Context(context))
+        email_body = render_to_string('report_email.html', context)
+        email_subject = 'Your AIVScan is complete!'
+        scan.user.email_user(email_subject, email_body, settings.DEFAULT_FROM_EMAIL)
     except Scan.DoesNotExist:
+        logging.error('Failed to send email.\n'.format(ex))
         return None
 
-    email_subject = 'Your AIVScan is comlete!'
-    email_body = scan_email_report(scan_id)
 
-    user.email_user(email_subject, email_body, settings.DEFAULT_FROM_EMAIL)
