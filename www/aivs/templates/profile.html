@@ -24,5 +24,9 @@
 $("#scan_table").load("{% url reports %}", function() {
   return false;
 });
+window.setInterval( function() {
+    $("#scan_table").load("{% url reports %}");
+    return false;
+}, 10000);
 </script>
 {% endblock %}
