@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<!-- note this page does not and the user profile are the only ones that do not extend base.html -->
-{% include "head_include.html" %}
-</head>
-
-<body>
-{% include "nav_include.html" %}
-
-<div class="container">
-     {% include "user_sidebar.html" %}
-     <div class="span8">
+{% extends "base.html" %}
+{% block content %}
 
      <div class="hero-unit">
        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
@@ -29,17 +18,11 @@
 <div style="text-align:right">
   <a href="{% url slideshow %}">I want to see the slideshow again!</a>
 </div>
-
-</div><!-- span8 -->
-</div> <!-- /container -->
-
-{% include "footer_and_scripts.html" %}
+{% endblock %}
+{% block scripts %}
 <script>
 $("#scan_table").load("{% url reports %}", function() {
   return false;
 });
 </script>
-
-  </body>
-</html>
-
+{% endblock %}

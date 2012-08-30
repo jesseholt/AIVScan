@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<!-- note this page does not and the user profile are the only ones that do not extend base.html -->
-{% include "head_include.html" %}
-</head>
+{% extends "base.html" %}
 
-<body>
-{% include "nav_include.html" %}
-
-<div class="container">
-     {% include "user_sidebar.html" %}
-     <div class="span8">
+{% block content %}
 
      <div class="hero-unit">
        <h1>Scan Complete!</h1>
@@ -82,10 +72,4 @@
 </table>
 
        </div><!-- span8 -->
-</div> <!-- /container -->
-
-{% include "footer_and_scripts.html" %}
-
-  </body>
-</html>
-
+{% endblock %}

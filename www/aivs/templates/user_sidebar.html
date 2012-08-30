@@ -3,6 +3,7 @@
 <div class="container-fluid">
   <img src="{{ STATIC_URL }}img/aivscan_logo.png"/>
 </div>
+{% if request.user.is_authenticated %}
 <ul class="nav nav-list">
   <li class="nav-header">Account Info</li>
   <li style="padding: 3px 0px">{{ request.user.email }}</li>
@@ -13,5 +14,6 @@
   Change Password
   </a>
 </ul>
+{% endif %}
 </div><!--/.well -->
 </div><!-- span3 -->

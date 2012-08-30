@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<!-- note this page does not and the user profile are the only ones that do not extend base.html -->
-{% include "head_include.html" %}
-</head>
-
-<body>
-{% include "nav_include.html" %}
-
-<div class="container">
-  {% include "user_sidebar.html" %}
-<div class="span8">
-
+{% extends "base.html" %}
+{% block content %}
 <div align="center" id="slideshow" class="carousel slide">
   <!-- Carousel items -->
     <div class="carousel-inner">
@@ -33,10 +21,4 @@
 <a class="carousel-control right" href="#slideshow" data-slide="next">&rsaquo;</a>
 </div>
 <div style="text-align:right"><a href="{% url profile %}">Return to your profile</a></div>
-</div><!-- span8 -->
-</div> <!-- /container -->
-
-{% include "footer_and_scripts.html" %}
-
-  </body>
-</html>
+{% endblock %}
