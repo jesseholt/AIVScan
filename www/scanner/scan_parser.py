@@ -107,6 +107,12 @@ class ScanImporter:
                 except Exception as ex:
                     logging.error('Error parsing host information.\n{0}'.format(ex))
 
+            scan.state = Scan.COMPLETE
+            scan.save()
+
+            from scanner.tasks import send_scan_report # importing here prevents a circular reference
+            send_scan_report.delay(scan.id)
+
         except Exception as ex:
             logging.error('Error processing results:\n{0}'.format(ex))
 

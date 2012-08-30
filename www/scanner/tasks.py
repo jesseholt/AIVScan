@@ -46,3 +46,24 @@ def run_scan(user, safe_ip_address, subscription_level=0):
             si.process()
     except Exception as ex:
         logging.error('Task failed to initiate\n'.format(ex))
+
+
+@task
+def send_scan_report(scan_id):
+    '''
+    Executes the tasks of rendering the email-based report and then sending the scan results back to
+    the user in an email.  If this function is called with send_scan_report.delay(scan_id), it will be
+    placed into the Celery queue for async.
+    '''
+    from aivs.views import get_report_contents
+    try:
+        scan = Scan.objects.get(pk=scan_id)
+        context = get_report_contents(scan)
+        return Template.render('report_email.html', Context(context))
+    except Scan.DoesNotExist:
+        return None
+
+    email_subject = 'Your AIVScan is comlete!'
+    email_body = scan_email_report(scan_id)
+
+    user.email_user(email_subject, email_body, settings.DEFAULT_FROM_EMAIL)

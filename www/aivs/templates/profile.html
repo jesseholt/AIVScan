@@ -22,15 +22,7 @@
      <h2>Previous Scans</h2>
      <table class="table table-striped">
        <thead><tr><th>Date</th><th>Host</th></tr></thead>
-       <tbody>
-     {% for scan in scans %}
-     <tr>
-       <td class="span3">
-         <a href="{% url scan_report scan.pk %}">{{ scan.end_time|date:"Y M d" }}</a>
-       </td>
-       <td>{{scan.ip}} {{scan.hostname}}</td>
-     </tr>
-     {% endfor %}
+       <tbody id="scan_table">
      </tbody>
      </table>
 
@@ -38,6 +30,11 @@
 </div> <!-- /container -->
 
 {% include "footer_and_scripts.html" %}
+<script>
+$("#scan_table").load("{% url reports %}", function() {
+  return false;
+});
+</script>
 
   </body>
 </html>

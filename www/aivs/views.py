@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.template import RequestContext, Context, Template
 
 import re
 import simplejson
@@ -29,7 +29,7 @@ def request_scan(request):
             # form.cleaned_data now contains only valid data
             user = request.user
             tasks.run_scan.delay(user, ip)
-            return HttpResponseRedirect('/profile/') # <- this should redirect to success page
+            return HttpResponseRedirect('/profile/')
     else:
         # form has not been submitted, so prepare an unbound form
         form = ScanRequestForm()
@@ -38,16 +38,9 @@ def request_scan(request):
 
 
 @login_required(login_url='/login/')
-def profile(request):
-    return render_scans(request, 'profile.html')
-
-@login_required(login_url='/login/')
-def get_scans(request):
-    return render_scans(request, 'scans_table.html')
-
-def render_scans(request, template='profile.html'):
+def profile_and_reports(request, template='profile.html'):
     '''
-    Helper function for profile and get_scans views
+    Gets the user profile and serves the Ajax call to get the table of scans.
     '''
     scans = list(Scan.objects.filter(user_id=request.user).order_by('-start_time'))
     for scan in scans:
@@ -62,35 +55,35 @@ def render_scans(request, template='profile.html'):
                               context_instance=RequestContext(request))
 
 
-
 @login_required(login_url='/login/')
 def scan_report(request, id):
     '''
-    Queries for a scan and its related objects.
+    Generates the in-browser report.
     '''
     user = request.user
     try:
         report = Scan.objects.get(pk=id, user_id=user.id)
-        host = Host.objects.get(scan=report.pk)
-        try:
-            OS = host.os
-        except:
-            OS = MockModel()
-            OS.name = 'No OS information detected.'
-        ports = KnownPort.objects.filter(foundport__host=host.pk)
-        vulns = KnownVulnerability.objects.filter(foundvulnerability__host=host.pk)
-
+        report_contents = get_report_contents(report)
         return render_to_response('report.html',
-                                  {'user': user,
-                                   'report': report,
-                                   'host': host,
-                                   'OS': OS,
-                                   'ports': ports,
-                                   'vulns': vulns,
-                                   },
-                                  context_instance=RequestContext(request))
+                                  context_instance=RequestContext(request, report_contents))
     except Scan.DoesNotExist:
         return HttpResponseRedirect('/profile/') # TODO: do some kind of proper error handling here
+
+def get_report_contents(report):
+    '''
+    Helper function to query a scan and gets its related objects to build a dict suitable to construct a
+    Context or RequestContext from for use in a template.  Get used by scan_report view and by
+    the scanner task that sends email reports.
+    '''
+    host = Host.objects.get(scan=report.pk)
+    ports = KnownPort.objects.filter(foundport__host=host.pk)
+    vulns = KnownVulnerability.objects.filter(foundvulnerability__host=host.pk)
+    try:
+        OS = host.os
+    except:
+        OS = MockModel()
+        OS.name = 'No OS information detected.'
+    return { 'report':report, 'host': host, 'ports': ports, 'vulns': vulns, 'OS': OS }
 
 
 def contact(request):
