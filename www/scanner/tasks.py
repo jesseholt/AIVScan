@@ -3,7 +3,7 @@
 
 import tempfile
 import subprocess
-import logging
+import logging, traceback
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -48,7 +48,7 @@ def run_scan(user, safe_ip_address, subscription_level=0):
             si = ScanImporter(xml_results, scan_id, user.id)
             si.process()
     except Exception as ex:
-        logging.error('Task failed to initiate\n'.format(ex))
+        logging.error('Task failed to initiate\n{0}'.format(''.join(traceback.format_stack())))
 
 
 @task
@@ -66,7 +66,7 @@ def send_scan_report(scan_id):
         email_subject = 'Your AIVScan is complete!'
         scan.user.email_user(email_subject, email_body, settings.DEFAULT_FROM_EMAIL)
     except Scan.DoesNotExist:
-        logging.error('Failed to send email.\n'.format(ex))
+        logging.error('Failed to send email.\n{0}'.format(''.join(traceback.format_stack())))
         return None
 
 
