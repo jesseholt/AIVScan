@@ -26,10 +26,11 @@ def run_scan(user, safe_ip_address, subscription_level=0):
     # Initialize the scan variables to pass to the subprocess call
     nmap_args = [
         '/usr/local/bin/nmap',
-        '-sT',
-        '-sV',
-        '-P0',
-        '-oX',
+        '-sT',  # TCP Connect scan
+        '-sV',  # get versions
+        '-T2',  # polite scan
+        '-P0',  # use IP protocol ping instead of ICMP
+        '-oX',  # XML output
         '-', # output the XML to stdout rather than a real file so we can capture it
         '--script',
         'smb-check-vulns,vuln,exploit', # run these nse scripts
