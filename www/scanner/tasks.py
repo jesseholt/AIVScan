@@ -69,7 +69,7 @@ def send_scan_report(scan_id):
         email_subject = 'Your AIVScan is complete!'
         msg = EmailMultiAlternatives(email_subject, text_email_body,
                                      settings.DEFAULT_FROM_EMAIL,
-                                     [user.email])
+                                     [scan.user.email])
         msg.attach_alternative(html_email_body, 'text/html')
         msg.send()
     except Scan.DoesNotExist:
