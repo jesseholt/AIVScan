@@ -9,7 +9,7 @@ https://69.139.19.170/{% url registration_activate activation_key %}
 
 If you did not request this scan, simply ignore the link.
 
-Thanks you, 
+Thank you, 
 
 Pwn Stars, Creators of AIVScan 
 
