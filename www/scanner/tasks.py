@@ -8,7 +8,7 @@ import logging, traceback
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
-from django.utils.mail import strip_tags
+from django.utils.html import strip_tags
 from django.template.loader import render_to_string
 from celery.task import task
 
