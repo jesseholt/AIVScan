@@ -7,10 +7,12 @@ import logging, traceback
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from django.utils.mail import strip_tags
 from django.template.loader import render_to_string
 from celery.task import task
 
-from scanner.models import Scan
+from scanner.models import Scan, KnownVulnerability
 from scanner.scan_parser import ScanImporter
 
 
@@ -21,6 +23,11 @@ def run_scan(user, safe_ip_address, subscription_level=0):
     it will be placed into the Celery queue for asynchronous processing.
     IMPORTANT: The caller is responsible for validating / cleaning the arguments passed to this task!
     '''
+
+    # get a list of Nmap scripts to pass to the
+    kvs = KnownVulnerability.objects.all()
+    nse_scripts = ','.join(list(set([ kv.script_id for kv in kvs ])))
+
     # Initialize the scan variables to pass to the subprocess call
     nmap_args = [
         'nmap',
@@ -30,7 +37,7 @@ def run_scan(user, safe_ip_address, subscription_level=0):
         '-oX',
         '-', # output the XML to stdout rather than a real file so we can capture it
         '--script',
-        'smb-check-vulns,vuln,exploit', # run these nse scripts
+        nse_scripts, # run these nse scripts
         safe_ip_address
         ]
     try:
@@ -48,7 +55,7 @@ def run_scan(user, safe_ip_address, subscription_level=0):
             si = ScanImporter(xml_results, scan_id, user.id)
             si.process()
     except Exception as ex:
-        logging.error('Task failed to initiate\n{0}'.format(''.join(traceback.format_stack())))
+        logging.error('Task failed to initiate\n{0}'.format(ex))
 
 
 @task
@@ -62,11 +69,16 @@ def send_scan_report(scan_id):
     try:
         scan = Scan.objects.get(pk=scan_id)
         context = get_report_contents(scan)
-        email_body = render_to_string('report_email.html', context)
+        html_email_body = render_to_string('report_email.html', context)
+        text_email_body = strip_tags(html_email_body)
         email_subject = 'Your AIVScan is complete!'
-        scan.user.email_user(email_subject, email_body, settings.DEFAULT_FROM_EMAIL)
+        msg = EmailMultiAlternatives(email_subject, text_email_body,
+                                     settings.DEFAULT_FROM_EMAIL,
+                                     [user.email])
+        msg.attach_alternative(html_email_body, 'text/html')
+        msg.send()
     except Scan.DoesNotExist:
-        logging.error('Failed to send email.\n{0}'.format(''.join(traceback.format_stack())))
+        logging.error('Failed to send email.\n{0}'.format(ex)
         return None
 
 
