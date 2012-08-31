@@ -26,6 +26,7 @@ class KnownPort(models.Model):
     port_number = models.IntegerField()
     description = models.TextField(blank=True)
     mitigation = models.TextField(blank=True)
+    risk_level = models.SmallIntegerField()
 
     def __unicode__(self):
         return u'{0}/{1}'.format(self.protocol, self.port_number)

@@ -81,7 +81,7 @@ def get_report_contents(report):
     the scanner task that sends email reports.
     '''
     host = Host.objects.get(scan=report.pk)
-    ports = KnownPort.objects.filter(foundport__host=host.pk)
+    ports = FoundPort.objects.select_related('KnownPort').filter(host=host.pk)
     vulns = KnownVulnerability.objects.filter(foundvulnerability__host=host.pk)
     try:
         OS = host.os
