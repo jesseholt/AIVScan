@@ -73,7 +73,7 @@ def send_scan_report(scan_id):
         msg.attach_alternative(html_email_body, 'text/html')
         msg.send()
     except Scan.DoesNotExist:
-        logging.error('Failed to send email.\n{0}'.format(ex)
+        logging.error('Failed to send email.\n{0}'.format(ex))
         return None
 
 
