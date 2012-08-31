@@ -12,7 +12,7 @@ from django.utils.mail import strip_tags
 from django.template.loader import render_to_string
 from celery.task import task
 
-from scanner.models import Scan, KnownVulnerability
+from scanner.models import Scan
 from scanner.scan_parser import ScanImporter
 
 
@@ -23,21 +23,16 @@ def run_scan(user, safe_ip_address, subscription_level=0):
     it will be placed into the Celery queue for asynchronous processing.
     IMPORTANT: The caller is responsible for validating / cleaning the arguments passed to this task!
     '''
-
-    # get a list of Nmap scripts to pass to the
-    kvs = KnownVulnerability.objects.all()
-    nse_scripts = ','.join(list(set([ kv.script_id for kv in kvs ])))
-
     # Initialize the scan variables to pass to the subprocess call
     nmap_args = [
-        'nmap',
+        '/usr/local/bin/nmap',
         '-sT',
         '-sV',
         '-P0',
         '-oX',
         '-', # output the XML to stdout rather than a real file so we can capture it
         '--script',
-        nse_scripts, # run these nse scripts
+        'smb-check-vulns,vuln,exploit', # run these nse scripts
         safe_ip_address
         ]
     try:
