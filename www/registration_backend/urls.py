@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 from django.contrib.auth import views as auth_views
 
 from registration.views import activate, register
@@ -59,12 +59,12 @@ urlpatterns = patterns('',
                        url(r'forgot-password/$',
                            auth_views.password_reset,
                            {'template_name': 'forgot_password.html',
-                            'post_reset_redirect': 'profile/'},
+                            'post_reset_redirect': 'home/'},
                            name='password_reset'),
                        url(r'change-password/$',
                            auth_views.password_change,
                            {'template_name': 'password_change.html',
-                            'post_change_redirect': 'profile/'},
+                            'post_change_redirect': redirect_to('profile/', False)},
                            name='password_change'),
                        (r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
                         'django.contrib.auth.views.password_reset_confirm',
