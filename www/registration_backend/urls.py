@@ -49,6 +49,6 @@ urlpatterns = patterns(
         direct_to_template,
         {'template': 'closed.html'},
         name='registration_disallowed'),
-    url(r'^login/$', auth_views.login, {'template_name':'login.html',
+    url(r'^login/$', auth_views.login, {'template_name':'registration/login.html',
                                         'authentication_form': forms.AivsAuthenticationForm}, name='auth_login'),
 )

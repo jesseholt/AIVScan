@@ -29,6 +29,6 @@ urlpatterns = patterns(
 
     # included apps
     url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('registration_backend.urls')),  # registration must be before auth to override login
     url(r'', include('django.contrib.auth.urls')),
-    url(r'', include('registration_backend.urls')),
 )
