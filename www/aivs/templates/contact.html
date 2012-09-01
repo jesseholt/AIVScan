@@ -10,19 +10,19 @@
   <p>Fill out and submit this handy form to contact us!</p>
   <hr>
 {% csrf_token %}
-{{ form.non_field_errors }}
+<span style="color:red">{{ form.non_field_errors }}</span>
 <div class="control-group">
-  {{ form.email_address.errors }}
+  <span style="color:red">{{ form.email_address.errors }}</span>
   <label for="id_email_address" class="regfields">Email Address</label>
   <div class="controls">{{ form.email_address }}</div>
 </div>
 <div class="control-group">
-  {{ form.email_verify.errors }}
+  <span style="color:red">{{ form.email_verify.errors }}</span>
   <label for="id_email_address_verify" class="regfields">Confirm Email</label>
   <div class="controls">{{ form.email_verify }}</div>
 </div>
 <div class="control-group">
-  {{ form.message.errors }}
+  <span style="color:red">{{ form.message.errors }}</span>
   <label for="id_message" class="regfields">Message</label>
   <div class="controls">{{ form.message }}</div>
 </div>
