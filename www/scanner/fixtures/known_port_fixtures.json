@@ -3,6 +3,7 @@
         "pk": 1,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 20,
             "mitigation": "Caution:  AIVScan identified that your computer may be running a File Transfer Protocol (FTP) program. FTP is commonly used to exchange files between computers.  It is also considered an insecure protocol because it sends data, usernames, and passwords without encrypting them.",
             "protocol": "tcp",
@@ -13,6 +14,7 @@
         "pk": 2,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 21,
             "mitigation": "Caution:  AIVScan identified that your computer may be running a File Transfer Protocol (FTP) program. FTP is commonly used to exchange files between computers.  It is also considered an insecure protocol because it sends data, usernames, and passwords without encrypting them.",
             "protocol": "tcp",
@@ -23,6 +25,7 @@
         "pk": 3,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 22,
             "mitigation": "Caution: AIVScan identified that your computer is open to SSH connections. SSH allows remote users to connect to your computer and execute commands with the privillages of the user account they are connected as",
             "protocol": "tcp",
@@ -33,6 +36,7 @@
         "pk": 4,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 23,
             "mitigation": "Caution: AIVScan identified that your computer may be using Telnet. This protocol allows remote users to connect to your computer and execute system commands. Communications through Telnet are unencrypted and put your data at risk. ",
             "protocol": "tcp",
@@ -43,6 +47,7 @@
         "pk": 5,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 25,
             "mitigation": "Caution: AIVScan identified that your computer is running an SMTP application. Mail servers are vulnerable to a wide range of security exploits that could compromise the integrity of your systems. See http://www.iss.net/security_center/advice/Exploits/Services/SMTP/default.htm ",
             "protocol": "tcp",
@@ -53,6 +58,7 @@
         "pk": 7,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 79,
             "mitigation": "Caution: AIVScan has detected that your computer is running the Finger Protocol. This protocol was originally developed to allow users to remotely ascertain the status of other computers or users on a given network. However, it is no longer considered safe to run this protocol due to concerns over privacy.",
             "protocol": "tcp",
@@ -63,6 +69,7 @@
         "pk": 8,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 137,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "tcp",
@@ -73,6 +80,7 @@
         "pk": 10,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 138,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "tcp",
@@ -83,6 +91,7 @@
         "pk": 12,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 139,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "tcp",
@@ -93,6 +102,7 @@
         "pk": 15,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 162,
             "mitigation": "AIVScan noticed that you are running Simple Network Management Protocol (SNMP).  This protocol provides information about your computer that may be sensitive in nature.  ",
             "protocol": "tcp",
@@ -103,6 +113,7 @@
         "pk": 17,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 445,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "tcp",
@@ -113,6 +124,7 @@
         "pk": 18,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 512,
             "mitigation": "AIVScan detected that you are running Rexec services as part of the R* suite.  These services are insecure and have been superseded with more secure protocols such as SSH.",
             "protocol": "tcp",
@@ -123,6 +135,7 @@
         "pk": 20,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 513,
             "mitigation": "AIVScan detected that you are running the Rlogin service as part of the R* suite.  These services are insecure and have been superseded with more secure protocols such as SSH.",
             "protocol": "tcp",
@@ -133,6 +146,7 @@
         "pk": 21,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 550,
             "mitigation": "AIVScan detected that you are running the Rwho service as part of the R* suite.  These services are insecure and have been superseded with more secure protocols such as SSH.",
             "protocol": "tcp",
@@ -143,6 +157,7 @@
         "pk": 23,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 556,
             "mitigation": "AIVScan detected that you are running Remote File System (RFS) services.  These services are inherently insecure and could allow intruders to gain access to senstive information.",
             "protocol": "tcp",
@@ -150,9 +165,21 @@
         }
     },
     {
+        "pk": 47,
+        "model": "scanner.knownport",
+        "fields": {
+            "risk_level": 3,
+            "port_number": 631,
+            "mitigation": "This port is not in our database",
+            "protocol": "tcp",
+            "description": "This port is not in our database"
+        }
+    },
+    {
         "pk": 25,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 1025,
             "mitigation": "Caution: AIVScan has detected that Internet Information Services (IIS) is running on your system.\u00a0 IIS is\u00a0used\u00a0for web servers.\u00a0 IIS can be compromised and allow viruses to infect your system.",
             "protocol": "tcp",
@@ -163,6 +190,7 @@
         "pk": 26,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 1026,
             "mitigation": "AIVScan has detected you are running Microsoft DCOM services which are externally accessible.  Microsoft DCOM is used to execute instructions on remote computers and could enable attackers to compromise a system.",
             "protocol": "tcp",
@@ -173,6 +201,7 @@
         "pk": 27,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 1029,
             "mitigation": "AIVScan has detected you are running Microsoft DCOM services which are externally accessible.  Microsoft DCOM is used to execute instructions on remote computers and could enable attackers to compromise a system.",
             "protocol": "tcp",
@@ -183,6 +212,7 @@
         "pk": 28,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 1080,
             "mitigation": "AIVScan has detected that your computer is possibly running a SOCKS proxy service on port TCP 1080.  Proxy can allow external users to route to Internet resources through your computer.  Remote users can potentially access dangerous and illegal content on the Internet through your computer.",
             "protocol": "tcp",
@@ -193,6 +223,7 @@
         "pk": 29,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 1194,
             "mitigation": "AIVScan detected that you have a Virtual Private Network services running on your computer, using OpenVPN.  While not a security issue on its, it can be a concern if improperly configured to allow unauthorized users to access your computer.",
             "protocol": "tcp",
@@ -203,6 +234,7 @@
         "pk": 31,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 1214,
             "mitigation": "AIVScan detected that you are running a Kazaa-base file sharing service on your computer. The Kazaa application allows external users to access files on your computer.  This can lead to a security compromise. ",
             "protocol": "tcp",
@@ -213,6 +245,7 @@
         "pk": 32,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 1433,
             "mitigation": "Caution: AIVScan has detected that your system is running Microsoft SQL Server (MSSQL).\u00a0 MSSQL is a database system that is used to store, organize and retrieve data.\u00a0 Although this system is useful it has been found to allow viruses to infect system.",
             "protocol": "tcp",
@@ -223,6 +256,7 @@
         "pk": 33,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 1434,
             "mitigation": "Caution: AIVScan has detected that your system is running Microsoft SQL Server (MSSQL).\u00a0 MSSQL is a database system that is used to store, organize and retrieve data.\u00a0 Although this system is useful it has been found to allow viruses to infect system.",
             "protocol": "tcp",
@@ -233,6 +267,7 @@
         "pk": 35,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 1526,
             "mitigation": "AIVScan detected that you have an instance of Oracle database accessible from the Internet.  This could allow attackers to gain access to potentially sensitive information stored in the database.",
             "protocol": "tcp",
@@ -243,6 +278,7 @@
         "pk": 37,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 1723,
             "mitigation": "AIVScan detected that you have a Virtual Private Network services running on your computer, using the Microsoft Point-to-Point Tunneling Protocol (PPTP).  While not a security issue on its, it can be a concern if improperly configured to allow unauthorized users to access your computer.",
             "protocol": "tcp",
@@ -253,6 +289,7 @@
         "pk": 39,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 2484,
             "mitigation": "AIVScan detected that you have an instance of Oracle database accessible from the Internet.  This could allow attackers to gain access to potentially sensitive information stored in the database.",
             "protocol": "tcp",
@@ -263,6 +300,7 @@
         "pk": 41,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 3306,
             "mitigation": "AIVScan detected that you have an instance of MySQL database accessible from the Internet.  This could allow attackers to gain access to potentially sensitive information stored in the database.",
             "protocol": "tcp",
@@ -270,9 +308,21 @@
         }
     },
     {
+        "pk": 48,
+        "model": "scanner.knownport",
+        "fields": {
+            "risk_level": 3,
+            "port_number": 8000,
+            "mitigation": "This port is not in our database",
+            "protocol": "tcp",
+            "description": "This port is not in our database"
+        }
+    },
+    {
         "pk": 43,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 12345,
             "mitigation": "AIVScan detected that your computer may have a known back door or Trojoan horse application installed.  This is a particularly dangerous vulnerability since it could indicate that your computer may have already been compromised",
             "protocol": "tcp",
@@ -283,6 +333,7 @@
         "pk": 44,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 25565,
             "mitigation": "AIVScan detected that you have an instance of MySQL database accessible from the Internet.  This could allow attackers to gain access to potentially sensitive information stored in the database.",
             "protocol": "tcp",
@@ -293,6 +344,7 @@
         "pk": 45,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 30301,
             "mitigation": "AIVScan detected that you are running a BitTorrent-base file sharing service on your computer. The BitTorrent application allows external users to access files on your computer.  This can lead to a security compromise. ",
             "protocol": "tcp",
@@ -303,6 +355,7 @@
         "pk": 46,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 31337,
             "mitigation": "AIVScan detected that your computer may have a known back door or Trojoan horse application installed.  This is a particularly dangerous vulnerability since it could indicate that your computer may have already been compromised",
             "protocol": "tcp",
@@ -313,6 +366,7 @@
         "pk": 6,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 69,
             "mitigation": "Caution: AIVScan has detected that your computer is running the Trivial File Transfer Protocol.\u00a0 This protocol is used to transfer configuration files between computers locally.\u00a0 Having this protocol enabled when it is not being used has been shown to open your system up to vulnerabilities.",
             "protocol": "udp",
@@ -323,6 +377,7 @@
         "pk": 9,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 137,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "udp",
@@ -333,6 +388,7 @@
         "pk": 11,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 138,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "udp",
@@ -343,6 +399,7 @@
         "pk": 13,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 139,
             "mitigation": "AIVScan has detected that you are likely running a Windows-based computer that has file and print sharing accessible from the Internet.  This is extremely dangerous and could allow intruders to access sensitive information on your computer or completely take it over.",
             "protocol": "udp",
@@ -353,6 +410,7 @@
         "pk": 14,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 161,
             "mitigation": "AIVScan noticed that you are running Simple Network Management Protocol (SNMP).  This protocol provides information about your computer that may be sensitive in nature.  ",
             "protocol": "udp",
@@ -363,6 +421,7 @@
         "pk": 16,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 162,
             "mitigation": "AIVScan noticed that you are running Simple Network Management Protocol (SNMP).  This protocol provides information about your computer that may be sensitive in nature.  ",
             "protocol": "udp",
@@ -373,6 +432,7 @@
         "pk": 19,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 512,
             "mitigation": "AIVScan detected that you are running the Rlogin service as part of the R* suite.  These services are insecure and have been superseded with more secure protocols such as SSH.",
             "protocol": "udp",
@@ -383,6 +443,7 @@
         "pk": 22,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 550,
             "mitigation": "AIVScan detected that you are running the Rwho service as part of the R* suite.  These services are insecure and have been superseded with more secure protocols such as SSH.",
             "protocol": "udp",
@@ -393,6 +454,7 @@
         "pk": 24,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 944,
             "mitigation": "AIVScan detectec that you are running the Network File System (NFS) on your computer.  This service is not meant to be externally accessible over the Internet and was not built with the necessary security in mind.  Attackers can potentially gain access to sensitive informaiton stored on your computer.",
             "protocol": "udp",
@@ -403,6 +465,7 @@
         "pk": 30,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 1194,
             "mitigation": "AIVScan detected that you have a Virtual Private Network services running on your computer, using OpenVPN.  While not a security issue on its, it can be a concern if improperly configured to allow unauthorized users to access your computer.",
             "protocol": "udp",
@@ -413,6 +476,7 @@
         "pk": 34,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 1434,
             "mitigation": "Caution: AIVScan has detected that your system is running Microsoft SQL Server (MSSQL).\u00a0 MSSQL is a database system that is used to store, organize and retrieve data.\u00a0 Although this system is useful it has been found to allow viruses to infect system.",
             "protocol": "udp",
@@ -423,6 +487,7 @@
         "pk": 36,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 3,
             "port_number": 1707,
             "mitigation": "AIVScan detected that you have a Virtual Private Network services running on your computer, using the Layer 2 Tunneling Protocol (L2TP).  While not a security issue on its, it can be a concern if improperly configured to allow unauthorized users to access your computer.",
             "protocol": "udp",
@@ -433,6 +498,7 @@
         "pk": 38,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 1,
             "port_number": 1723,
             "mitigation": "AIVScan detected that you have a Virtual Private Network services running on your computer, using the Microsoft Point-to-Point Tunneling Protocol (PPTP).  While not a security issue on its, it can be a concern if improperly configured to allow unauthorized users to access your computer.",
             "protocol": "udp",
@@ -443,6 +509,7 @@
         "pk": 40,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 2484,
             "mitigation": "AIVScan detected that you have an instance of Oracle database accessible from the Internet.  This could allow attackers to gain access to potentially sensitive information stored in the database.",
             "protocol": "udp",
@@ -453,6 +520,7 @@
         "pk": 42,
         "model": "scanner.knownport",
         "fields": {
+            "risk_level": 2,
             "port_number": 3306,
             "mitigation": "AIVScan detected that you have an instance of MySQL database accessible from the Internet.  This could allow attackers to gain access to potentially sensitive information stored in the database.",
             "protocol": "udp",
