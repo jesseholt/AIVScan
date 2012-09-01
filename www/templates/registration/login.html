@@ -8,15 +8,14 @@
 
 <div class="modal-body">
 {% csrf_token %}
-{{ form.errors }}
-{{ form.non_field_errors }}
+<span style="color:red">{{ form.non_field_errors }}</span>
 <div class="control-group">
-  {{ form.username.errors }}
+  <span style="color:red">{{ form.username.errors }}</span>
   <label for="id_username" class="regfields">Email Address</label>
   <div class="controls">{{ form.username }}</div>
 </div>
 <div class="control-group">
-  {{ form.password.errors }}
+  <span style="color:red">{{ form.password.errors }}</span>
   <label for="id_password" class="regfields">Password</label>
   <div class="controls">{{ form.password }}</div>
 </div>

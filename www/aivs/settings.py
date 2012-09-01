@@ -77,7 +77,11 @@ STATICFILES_FINDERS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+)
+
+# List of absolute paths to templates that are used to override third-party apps
+TEMPLATE_DIRS = (
+    os.path.join(ROOTDIR, 'templates/'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -103,10 +107,6 @@ APPEND_SLASH = True
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'aivs.wsgi.application'
-
-TEMPLATE_DIRS = (
-    os.path.join(BASEDIR, 'templates/'),
-)
 
 INSTALLED_APPS = (
     'monkey_patch', # this has to be first to override the auth model

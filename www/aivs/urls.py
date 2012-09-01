@@ -29,5 +29,6 @@ urlpatterns = patterns(
 
     # included apps
     url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('django.contrib.auth.urls')),
     url(r'', include('registration_backend.urls')),
 )
