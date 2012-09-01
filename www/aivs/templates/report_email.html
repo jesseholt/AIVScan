@@ -86,20 +86,30 @@ table {
               <thead>
                 <tr>
                   <th>Vulnerability</th>
+                  <th>Risk Level</th>
                   <th>ID</th>
                   <th>Description</th>
                   <th>Remediation</th>
-                  <th>Risk Level</th>
                 </tr>
                 </thead>
               <tbody>
                 {% for vuln in vulns %}
                 <tr>
                   <td>{{ vuln.script_id }}</td>
+                  <td>
+                    {% if vuln.risk_level == 1 %}
+                    <span style="font-weight:bold;color:crimson;">Critical</span>
+                    {% endif %}
+                    {% if vuln.risk_level == 2 %}
+                    <span style="font-weight:bold;color:orange;">High</span>
+                    {% endif %}
+                    {% if vuln.risk_level == 3 %}
+                    <span style="color:orange;">Medium</span>
+                    {% endif %}
+                  </td>
                   <td>{{ vuln.public_id }}</td>
                   <td>{{ vuln.description }}</td>
                   <td>{{ vuln.mitigation }}</td>
-                  <td>{{ vuln.risk_level }}</td>
                 </tr>
                 {% endfor %}
               </tbody>

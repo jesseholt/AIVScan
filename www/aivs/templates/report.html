@@ -23,6 +23,7 @@
 <table class="table table-striped">
 	<thead>
 	  <tr>
+        <th>Threat</th>
 	    <th>Risk Level</th>
         <th>ID</th>
         <th>Description</th>
@@ -32,8 +33,19 @@
 <tbody>
 {% for vuln in vulns %}
 <tr>
-  <td class="span3">{{ vuln.risk_level }}</td>
   <td>{{ vuln.script_id }}</td>
+  <td class="span1">
+    {% if vuln.risk_level == 1 %}
+    <span style="font-weight:bold;color:crimson;">Critical</span>
+    {% endif %}
+    {% if vuln.risk_level == 2 %}
+    <span style="font-weight:bold;color:orange;">High</span>
+    {% endif %}
+    {% if vuln.risk_level == 3 %}
+    <span style="color:orange;">Medium</span>
+    {% endif %}
+  </td>
+  <td class="span1">{{ vuln.public_id }}</td>
   <td>{{ vuln.description }}</td>
   <td>{{ vuln.mitigation }}</td>
 </tr>
@@ -48,16 +60,27 @@
 	<thead>
           <tr>
             <th>Port</th>
+            <th>Risk Level</th>
             <th>Status</th>
             <th>Description</th>
             <th>Feedback</th>
-            <th>Risk Level</th>
           </tr>
         </thead>
 <tbody>
 {% for port in ports %}
 <tr>
   <td class="span2">{{ port.known_port.protocol }} / {{ port.known_port.port_number }}</td>
+  <td>
+    {% if port.known_port.risk_level == 1 %}
+    <span style="font-weight:bold;color:crimson;">Critical</span>
+    {% endif %}
+    {% if port.known_port.risk_level == 2 %}
+    <span style="font-weight:bold;color:orange;">High</span>
+    {% endif %}
+    {% if port.known_port.risk_level == 3 %}
+    <span style="color:orange;">Medium</span>
+    {% endif %}
+  </td>
   <td class="span2">{{ port.state }}</td>
   <td>
     {% if port.known_port.description %}
@@ -70,7 +93,6 @@
     {% endif %}
   </td>
   <td>{{ port.known_port.mitigation }}</td>
-  <td>{{ port.known_port.risk_level }}</td>
 </tr>
 {% endfor %}
 
