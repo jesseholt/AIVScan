@@ -66,4 +66,8 @@ urlpatterns = patterns('',
                            {'template_name': 'password_change.html',
                             'post_change_redirect': 'profile/'},
                            name='password_change'),
+                       (r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+                        'django.contrib.auth.views.password_reset_confirm',
+                        {'template_name' : 'password_reset.html',
+                         'post_reset_redirect': '/logout/' }),
 )
