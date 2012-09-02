@@ -6,7 +6,7 @@ from scanner.models import KnownVulnerability, FoundVulnerability
 
 class NmapScriptParser:
 
-    def parse_output(self, script_id, script_output, host_id):
+    def parse_output(self, script_id, script_output, host):
         '''
         Returns a Vulns object if there is a match on the script output.
         taken from the original pGetTextVulnRef sproc
@@ -23,8 +23,8 @@ class NmapScriptParser:
                     if vulnerability.match_string in script_output:
                         logging.debug('vuln id: {0}'.format(vulnerability.pk))
                         vuln = FoundVulnerability()
-                        vuln.host = host_id
-                        vuln.known_vuln = vulnerability.pk
+                        vuln.host = host
+                        vuln.known_vuln = vulnerability
                         vuln.save()
                         return vuln
             return None             # either no listing or no matchstring
