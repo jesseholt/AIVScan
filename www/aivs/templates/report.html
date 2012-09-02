@@ -35,13 +35,13 @@
 <tr>
   <td>{{ vuln.script_id }}</td>
   <td class="span1">
-    {% if vuln.risk_level == 1 %}
+    {% if vuln.risk_level == 3 %}
     <span style="font-weight:bold;color:crimson;">Critical</span>
     {% endif %}
     {% if vuln.risk_level == 2 %}
     <span style="font-weight:bold;color:orange;">High</span>
     {% endif %}
-    {% if vuln.risk_level == 3 %}
+    {% if vuln.risk_level == 1 %}
     <span style="color:orange;">Medium</span>
     {% endif %}
   </td>
