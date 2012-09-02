@@ -100,7 +100,7 @@ class ScanImporter:
                     try:
                         nsp = NmapScriptParser()
                         for scr in h.get_scripts():
-                            vulnId = nsp.parse_output(scr.scriptId, scr.output, host.pk)
+                            vulnId = nsp.parse_output(scr.scriptId, scr.output, host)
                     except Exception as ex:
                         logging.error('Error parsing script output:\n{0}'.format(ex))
 
