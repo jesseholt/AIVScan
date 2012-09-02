@@ -67,6 +67,8 @@ def send_scan_report(scan_id):
     try:
         scan = Scan.objects.get(pk=scan_id)
         context = get_report_contents(scan)
+        context['site_name'] = Site.objects.get_current().domain  # gives us absolute URL for email
+
         html_email_body = render_to_string('report_email.html', context)
         text_email_body = strip_tags(html_email_body)
         email_subject = 'Your AIVScan is complete!'
