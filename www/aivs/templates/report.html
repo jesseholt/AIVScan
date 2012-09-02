@@ -71,13 +71,13 @@
 <tr>
   <td class="span2">{{ port.known_port.protocol }} / {{ port.known_port.port_number }}</td>
   <td>
-    {% if port.known_port.risk_level == 1 %}
+    {% if port.known_port.risk_level == 3 %}
     <span style="font-weight:bold;color:crimson;">Critical</span>
     {% endif %}
     {% if port.known_port.risk_level == 2 %}
     <span style="font-weight:bold;color:orange;">High</span>
     {% endif %}
-    {% if port.known_port.risk_level == 3 %}
+    {% if port.known_port.risk_level == 1 %}
     <span style="color:orange;">Medium</span>
     {% endif %}
   </td>
