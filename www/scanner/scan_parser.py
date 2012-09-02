@@ -135,7 +135,7 @@ class ScanImporter:
                 known_port = KnownPort()
                 known_port.protocol = proto
                 known_port.port_number = int(p)
-                known_port.risk_level = 3
+                known_port.risk_level = 1
                 known_port.description = 'This port is not in our database'
                 known_port.mitigation = 'This port is not in our database'
                 known_port.save()
