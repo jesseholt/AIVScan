@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2012 Team Pwn Stars
 
+import datetime
 import tempfile
 import subprocess
 import logging, traceback
@@ -39,6 +40,7 @@ def run_scan(user, safe_ip_address, subscription_level=0):
     try:
         scan = Scan()
         scan.user = user
+        scan.start_time = datetime.datetime.now()
         scan.state = Scan.PENDING
         scan.save()
         scan_id = scan.pk
